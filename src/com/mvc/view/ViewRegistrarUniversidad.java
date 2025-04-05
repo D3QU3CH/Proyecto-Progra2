@@ -25,7 +25,7 @@ public class ViewRegistrarUniversidad extends JFrame {
 	//private JButton btnRegisterSchool;
 
 	public ViewRegistrarUniversidad() {
-		setTitle("Registrar Universidad");
+		setTitle("Dequch y moises");
 		setSize(400, 160);
 		setLocationRelativeTo(null); 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -37,12 +37,13 @@ public class ViewRegistrarUniversidad extends JFrame {
         txtName = new JTextField();
         add(txtName);
 
-        lblAdress = new JLabel("Dirección GEOVANY AHOGANDO:");
+        lblAdress = new JLabel("Dirección:");
         lblAdress.setFont(new Font("Courier New", Font.BOLD, 12));
         add(lblAdress);
         txtAdress = new JTextField();
         add(txtAdress);
 
+        
         lblPhoneNumber = new JLabel("Número de Telefono:");
         lblPhoneNumber.setFont(new Font("Courier New", Font.BOLD, 12));
         add(lblPhoneNumber);
