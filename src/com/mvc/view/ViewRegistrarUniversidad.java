@@ -25,7 +25,7 @@ public class ViewRegistrarUniversidad extends JFrame {
 	//private JButton btnRegisterSchool;
 
 	public ViewRegistrarUniversidad() {
-		setTitle("Registrar Universidad");
+		setTitle("Registrar Junior Barriales");
 		setSize(400, 160);
 		setLocationRelativeTo(null); 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
