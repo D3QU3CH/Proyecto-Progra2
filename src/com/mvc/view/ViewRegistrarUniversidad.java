@@ -37,13 +37,13 @@ public class ViewRegistrarUniversidad extends JFrame {
         txtName = new JTextField();
         add(txtName);
 
-        lblAdress = new JLabel("Dirección GEOVANY AHOGANDO:");
+        lblAdress = new JLabel("Dirección:");
         lblAdress.setFont(new Font("Courier New", Font.BOLD, 12));
         add(lblAdress);
         txtAdress = new JTextField();
         add(txtAdress);
 
-        lblPhoneNumber = new JLabel("Número de Telefono:");
+        lblPhoneNumber = new JLabel("Número de Telefono ANDREA:");
         lblPhoneNumber.setFont(new Font("Courier New", Font.BOLD, 12));
         add(lblPhoneNumber);
         txtPhoneNumber = new JTextField();
