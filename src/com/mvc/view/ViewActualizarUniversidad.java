@@ -35,7 +35,7 @@ public class ViewActualizarUniversidad extends JFrame {
 		lblNewAdrees = new JLabel ("Nueva Direccion");
 		txtNewAdrees = new JTextField(20);
 		
-		lblNewPhone = new JLabel ("Nuevo Telefono");
+		lblNewPhone = new JLabel ("Nuevo celularo");
 		txtNewPhone = new JTextField(20);
 		
 		btnUpdateUniversity = new JButton("Actualizar datos de la universidad");
