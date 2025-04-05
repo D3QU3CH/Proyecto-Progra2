@@ -49,7 +49,7 @@ public class ViewRegistrarUniversidad extends JFrame {
         txtPhoneNumber = new JTextField();
         add(txtPhoneNumber);
 
-        btnRegisterUniversity = new JButton("Registrar Universidad Siervos");
+        btnRegisterUniversity = new JButton("Registrar Universidad");
         btnRegisterUniversity.setFont(new Font("Times New Roman", Font.PLAIN, 14));
         add(btnRegisterUniversity);
         
