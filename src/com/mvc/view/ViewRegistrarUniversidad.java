@@ -25,7 +25,7 @@ public class ViewRegistrarUniversidad extends JFrame {
 	//private JButton btnRegisterSchool;
 
 	public ViewRegistrarUniversidad() {
-		setTitle("Registrar Junior Barriales");
+		setTitle("Registrar Universidad");
 		setSize(400, 160);
 		setLocationRelativeTo(null); 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -37,7 +37,7 @@ public class ViewRegistrarUniversidad extends JFrame {
         txtName = new JTextField();
         add(txtName);
 
-        lblAdress = new JLabel("Dirección:");
+        lblAdress = new JLabel("Dirección GEOVANY AHOGANDO:");
         lblAdress.setFont(new Font("Courier New", Font.BOLD, 12));
         add(lblAdress);
         txtAdress = new JTextField();
