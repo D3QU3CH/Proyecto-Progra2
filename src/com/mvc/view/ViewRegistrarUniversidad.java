@@ -43,13 +43,13 @@ public class ViewRegistrarUniversidad extends JFrame {
         txtAdress = new JTextField();
         add(txtAdress);
 
-        lblPhoneNumber = new JLabel("Número de Telefono ANDREA:");
+        lblPhoneNumber = new JLabel("Número de Telefono:");
         lblPhoneNumber.setFont(new Font("Courier New", Font.BOLD, 12));
         add(lblPhoneNumber);
         txtPhoneNumber = new JTextField();
         add(txtPhoneNumber);
 
-        btnRegisterUniversity = new JButton("Registrar Universidad");
+        btnRegisterUniversity = new JButton("Registrar Universidad JUNIOR");
         btnRegisterUniversity.setFont(new Font("Times New Roman", Font.PLAIN, 14));
         add(btnRegisterUniversity);
         
