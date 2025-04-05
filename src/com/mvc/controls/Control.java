@@ -8,7 +8,7 @@ public class Control {
 	 public Control(ViewRegistrarUniversidad pRegistrarUniversidad) {
 		 this.vRegistrarUniversidad=pRegistrarUniversidad;
 		 
-		 vRegistrarUniversidad.setVisible(true);
+		 //vRegistrarUniversidad.setVisible(true);
 		 
 	 }
 }
