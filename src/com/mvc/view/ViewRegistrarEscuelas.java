@@ -13,10 +13,10 @@ public class ViewRegistrarEscuelas extends JFrame {
 	private static final long serialVersionUID = 1L;
 	
 	
-	private JLabel lblUniversityName;
-	private JLabel lblNameSchool;
-	private JTextField txtNameSchool;
-	private JButton btnRegisterSchool;
+	public JLabel lblUniversityName;
+	public JLabel lblNameSchool;
+	public JTextField txtNameSchool;
+	public JButton btnRegisterSchool;
 
 	public ViewRegistrarEscuelas(String universityName) {
 		setTitle("Registrar Escuelas");

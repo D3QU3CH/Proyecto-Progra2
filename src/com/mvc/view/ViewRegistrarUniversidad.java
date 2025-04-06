@@ -16,11 +16,11 @@ public class ViewRegistrarUniversidad extends JFrame {
 	private JLabel lblAdress;
 	private JLabel lblPhoneNumber;
 	
-	private JTextField txtName;
-	private JTextField txtAdress;
-	private JTextField txtPhoneNumber;
+	public JTextField txtName;
+	public JTextField txtAdress;
+	public JTextField txtPhoneNumber;
 
-	private JButton btnRegisterUniversity;
+	public JButton btnRegisterUniversity;
 
 	public ViewRegistrarUniversidad() {
 		setTitle("Registrar Universidad");
@@ -55,17 +55,6 @@ public class ViewRegistrarUniversidad extends JFrame {
         
         getRootPane().setBorder(new EmptyBorder(10, 10, 10, 10));
         
-        btnRegisterUniversity.addActionListener(e -> {
-            String name = txtName.getText();
-            String adress = txtAdress.getText();
-            String phone = txtPhoneNumber.getText();
-
-            dispose();
-
-            new ViewActualizarUniversidad(name, adress, phone);
-            new ViewRegistrarEscuelas(name);
-           
-        });
 	}
 	
 }

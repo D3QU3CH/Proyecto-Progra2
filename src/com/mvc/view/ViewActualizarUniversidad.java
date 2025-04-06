@@ -17,10 +17,10 @@ public class ViewActualizarUniversidad extends JFrame {
 	private JLabel lblNewAdress;
 	private JLabel lblNewPhone;
 
-	private JTextField txtNewAdress;
-	private JTextField txtNewPhone;
+	public JTextField txtNewAdress;
+	public JTextField txtNewPhone;
 
-	private JButton btnUpdateUniversity;
+	public JButton btnUpdateUniversity;
 
 	public ViewActualizarUniversidad(String universityName, String currentAdress, String currentPhone) {
 		

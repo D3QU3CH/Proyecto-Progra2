@@ -20,9 +20,8 @@ public class Escuela {
 		this.varName = varName;
 	}
 
-	@Override
 	public String toString() {
-		return "Escuela" + varName;
+		return "Escuela: " + varName;
 	}
 	
 	
