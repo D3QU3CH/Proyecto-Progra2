@@ -1,63 +1,64 @@
 package com.mvc.view;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
+import java.awt.Font;
+import java.awt.GridLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
+
 
 public class ViewActualizarUniversidad extends JFrame {
-	
-	
+
 	private static final long serialVersionUID = 1L;
 
-	private JPanel pUpdateUniversity; 
-	
-	private JLabel lblNewAdrees;
+	private JLabel lblUniversityName;
+	private JLabel lblNewAdress;
 	private JLabel lblNewPhone;
-	
-	private JTextField txtNewAdrees;
-	private JTextField txtNewPhone;
-	
-	private JButton btnUpdateUniversity;
-	
-	public ViewActualizarUniversidad() {
-		pUpdateUniversity = new JPanel();
-		pUpdateUniversity.setLayout(new BoxLayout(pUpdateUniversity,BoxLayout.Y_AXIS));
-		pUpdateUniversity.setPreferredSize(new Dimension(200,getHeight()));
-		pUpdateUniversity.setBorder(BorderFactory.createTitledBorder("Actualizar Universidad"));
-		
-		lblNewAdrees = new JLabel ("Nueva Direccion");
-		txtNewAdrees = new JTextField(20);
-		
-		lblNewPhone = new JLabel ("Nuevo celular");
-		txtNewPhone = new JTextField(20);
-		
-		btnUpdateUniversity = new JButton("Actualizar datos de la universidad");
-		
-		pUpdateUniversity.add(lblNewAdrees);
-		pUpdateUniversity.add(txtNewAdrees);
-		pUpdateUniversity.add(lblNewPhone);
-		pUpdateUniversity.add(txtNewPhone);
-		pUpdateUniversity.add(btnUpdateUniversity);
-		
-		// Agregar el panel al JFrame
-		add(pUpdateUniversity, BorderLayout.WEST);
-		
-		// Ajustar configuración del JFrame
-		setTitle("Actualizar Universidad");
-		setSize(400, 300);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setVisible(true);
-		
 
+	private JTextField txtNewAdress;
+	private JTextField txtNewPhone;
+
+	private JButton btnUpdateUniversity;
+
+	public ViewActualizarUniversidad(String universityName, String currentAdress, String currentPhone) {
+		
+		setTitle("Actualizar Universidad (Opcional)");
+        setSize(400, 160);  
+        setLocationRelativeTo(null); 
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        
+        setLayout(new GridLayout(4, 2, 10, 10));  
+
+        lblUniversityName = new JLabel("Universidad: " + universityName);
+        lblUniversityName.setFont(new Font("Arial", Font.BOLD, 14));
+
+        add(lblUniversityName);  
+        add(new JLabel()); 
+
+        lblNewAdress = new JLabel("Dirección:");
+        lblNewAdress.setFont(new Font("Courier New", Font.BOLD, 12));
+        add(lblNewAdress);  
+        
+        txtNewAdress = new JTextField(currentAdress);  
+        add(txtNewAdress); 
+
+        lblNewPhone = new JLabel("Número de Teléfono:");
+        lblNewPhone.setFont(new Font("Courier New", Font.BOLD, 12));
+        add(lblNewPhone);  
+        
+        txtNewPhone = new JTextField(currentPhone); 
+        add(txtNewPhone); 
+
+        btnUpdateUniversity = new JButton("Actualizar Universidad");
+        btnUpdateUniversity.setFont(new Font("Times New Roman", Font.PLAIN, 14));
+        add(btnUpdateUniversity);
+        
+        getRootPane().setBorder(new EmptyBorder(10, 10, 10, 10));
+        
+        setVisible(true);
+        
 	}
-	
-	
 
 }

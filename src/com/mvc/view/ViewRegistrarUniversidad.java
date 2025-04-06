@@ -2,11 +2,11 @@ package com.mvc.view;
 
 import java.awt.Font;
 import java.awt.GridLayout;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
 
 public class ViewRegistrarUniversidad extends JFrame {
 
@@ -19,24 +19,23 @@ public class ViewRegistrarUniversidad extends JFrame {
 	private JTextField txtName;
 	private JTextField txtAdress;
 	private JTextField txtPhoneNumber;
-	//private JTextField txtNameSchool;
 
 	private JButton btnRegisterUniversity;
-	//private JButton btnRegisterSchool;
 
 	public ViewRegistrarUniversidad() {
 		setTitle("Registrar Universidad");
 		setSize(400, 160);
 		setLocationRelativeTo(null); 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setLayout(new GridLayout(4, 1, 1, 1));
+        
+        setLayout(new GridLayout(4, 4, 1, 1));
 
         lblName = new JLabel("Nombre de la Universidad:");
         lblName.setFont(new Font("Courier New", Font.BOLD, 12));
         add(lblName);
         txtName = new JTextField();
         add(txtName);
-
+        
         lblAdress = new JLabel("Dirección:");
         lblAdress.setFont(new Font("Courier New", Font.BOLD, 12));
         add(lblAdress);
@@ -51,7 +50,21 @@ public class ViewRegistrarUniversidad extends JFrame {
 
         btnRegisterUniversity = new JButton("Registrar Universidad");
         btnRegisterUniversity.setFont(new Font("Times New Roman", Font.PLAIN, 14));
+        
         add(btnRegisterUniversity);
         
+        getRootPane().setBorder(new EmptyBorder(10, 10, 10, 10));
+        
+        btnRegisterUniversity.addActionListener(e -> {
+            String name = txtName.getText();
+            String adress = txtAdress.getText();
+            String phone = txtPhoneNumber.getText();
+
+            dispose();
+
+            new ViewActualizarUniversidad(name, adress, phone); // abrir la nueva
+        });
+        
 	}
+	
 }
