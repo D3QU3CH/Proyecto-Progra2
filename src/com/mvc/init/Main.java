@@ -6,8 +6,8 @@ public class Main {
 
 	public static void main(String[] args) {
 		ViewRegistrarUniversidad varRegistrarU = new ViewRegistrarUniversidad();
-		
 		new Control(varRegistrarU);
+		new ViewRegistrarUniversidad();
 	}
 
 }

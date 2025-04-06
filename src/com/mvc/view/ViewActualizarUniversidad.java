@@ -26,10 +26,10 @@ public class ViewActualizarUniversidad extends JFrame {
 		
 		setTitle("Actualizar Universidad (Opcional)");
         setSize(400, 160);  
-        setLocationRelativeTo(null); 
+        setLocation(200,100); 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         
-        setLayout(new GridLayout(4, 2, 10, 10));  
+        setLayout(new GridLayout(4, 2, 5, 5));  
 
         lblUniversityName = new JLabel("Universidad: " + universityName);
         lblUniversityName.setFont(new Font("Arial", Font.BOLD, 14));

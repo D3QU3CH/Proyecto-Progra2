@@ -62,9 +62,10 @@ public class ViewRegistrarUniversidad extends JFrame {
 
             dispose();
 
-            new ViewActualizarUniversidad(name, adress, phone); // abrir la nueva
+            new ViewActualizarUniversidad(name, adress, phone);
+            new ViewRegistrarEscuelas(name);
+           
         });
-        
 	}
 	
 }
