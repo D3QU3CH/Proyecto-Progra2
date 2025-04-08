@@ -3,12 +3,16 @@ package com.mvc.controls;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
+
+import com.mvc.models.Cursos;
 import com.mvc.models.Escuela;
 import com.mvc.models.University;
 import com.mvc.view.ViewActualizarUniversidad;
+import com.mvc.view.ViewConsultarCursosDeEscuelas;
 import com.mvc.view.ViewConsultarEscuelas;
 import com.mvc.view.ViewRegistrarEscuelas;
 import com.mvc.view.ViewRegistrarUniversidad;
+import com.mvc.view.ViewRegistroDeCursos;
 
 public class Control {
 
@@ -17,11 +21,20 @@ public class Control {
 	private ViewActualizarUniversidad vActualizarUniversidad;
 	private ViewConsultarEscuelas vConsultarEscuelas;
 	private University varUniversidadRegistrada;
+	private Cursos varCursosRegistrar;
 
+	// lo hecho por jeferson 
+	private ViewConsultarCursosDeEscuelas varConsultasCursos;
+	private ViewRegistroDeCursos varRegistroCursos;
+	
 	public Control(ViewRegistrarUniversidad pRegistrarUniversidad) {
 		this.vRegistrarUniversidad = pRegistrarUniversidad;
 		vRegistrarUniversidad.setVisible(true);
-
+		
+		 this.varRegistroCursos= new ViewRegistroDeCursos();
+		 this.varConsultasCursos = new ViewConsultarCursosDeEscuelas(); // Una sola instancia
+		 varConsultasCursos.setVisible(false); // No visible al inicio
+		 agregarCursosActionListener();
 		agregarControladorUniversidad();
 	}
 
@@ -33,7 +46,72 @@ public class Control {
 			}
 		});
 	}
+	private void agregarCursosActionListener() {
+		//reinicio de listeners
+		varRegistroCursos.varBotonRegistrar.removeActionListener(null);
+		
+		varRegistroCursos.varBotonRegistrar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				agregarCursos();
+			}
+		});
+	}
+	public void agregarCursos() {
+		
+		String varSiglasCurso = varRegistroCursos.varSigla.getText().trim();
+		String varDescipcionDeCursos = varRegistroCursos.varDescripcion.getText().trim();
+		String varNombreEscuelas =varRegistroCursos.varEscuelaNombres.getText().trim();
+		
+		if(!varSiglasCurso.isEmpty()&&!varDescipcionDeCursos.isEmpty()&&!varNombreEscuelas.isEmpty()) {
+			
+			String contenido = varNombreEscuelas.toLowerCase().trim();
+			System.out.println("Contenido del JTextArea: " + contenido);
+		    String[] lineas = contenido.split("\n");
 
+		  
+		    for (String linea : lineas) {
+		        // Eliminamos el número y los dos puntos al inicio de la línea (por ejemplo, "1:")
+		        String nombreEscuelaEnLinea = linea.replaceAll("^[0-9]+:", "").trim();
+
+		        if (nombreEscuelaEnLinea.equalsIgnoreCase(varNombreEscuelas)) {
+		        	varCursosRegistrar = new Cursos(varSiglasCurso,varDescipcionDeCursos,varNombreEscuelas);
+		        	Object[][] datos = {
+		                    {varNombreEscuelas, varSiglasCurso,varDescipcionDeCursos }
+		                
+		                };
+		        	varConsultasCursos.setVisible(true);
+		        	varConsultasCursos.agregarDatosTabla(datos);
+		        	
+		         JOptionPane.showMessageDialog(varRegistroCursos, "Curso registrado exitosamente", "Éxito",  JOptionPane.INFORMATION_MESSAGE);
+		         break;
+		        
+		        }else {
+		        	JOptionPane.showMessageDialog(varRegistroCursos, "Nose encontro la Escuela",  "Advertencia", JOptionPane.WARNING_MESSAGE);
+		        	return;
+		        
+		        }
+		        
+		    }
+		    
+		}else {
+		
+			JOptionPane.showMessageDialog( varRegistroCursos, "Todos los campos son obligatorios",  "Advertencia", JOptionPane.WARNING_MESSAGE);
+		}
+		
+
+	  
+		
+		
+	}
+	void limpiarPanelCurso() {
+		if (varRegistroCursos != null) {
+			varRegistroCursos.varSigla.setText("");
+			varRegistroCursos.varDescripcion.setText("");
+			varRegistroCursos.varEscuelaNombres.setText("");
+		}
+
+	}
 	private void agregarUniversidad() {
 		String varNombre = vRegistrarUniversidad.txtName.getText().trim();
 		String varDireccion = vRegistrarUniversidad.txtAdress.getText().trim();
@@ -92,6 +170,10 @@ public class Control {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				agregarEscuela();
+				
+	            varRegistroCursos.setVisible(true);
+	            // Agregar el controlador para el botón de registro de cursos
+	            
 			}
 		});
 	}
@@ -144,5 +226,7 @@ public class Control {
 		if (vRegistrarEscuela != null) {
 			vRegistrarEscuela.txtNameSchool.setText("");
 		}
+		 limpiarPanelCurso();
+		
 	}
 }

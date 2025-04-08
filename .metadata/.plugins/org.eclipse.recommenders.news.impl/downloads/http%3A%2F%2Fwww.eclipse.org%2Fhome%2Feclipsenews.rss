@@ -1,0 +1,430 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0" xml:base="https://newsroom.eclipse.org/">
+  <channel>
+    <title>Eclipse Announcements</title>
+    <link>https://newsroom.eclipse.org/</link>
+    <description/>
+    <language>en</language>
+    
+    <item>
+  <title>Empowering digital sovereignty through open source. Read the new positioning paper</title>
+  <link>https://newsroom.eclipse.org/news/announcements/empowering-digital-sovereignty-through-open-source-read-new-positioning-paper</link>
+  <description>
+&lt;span&gt;Empowering digital sovereignty through open source. Read the new positioning paper&lt;/span&gt;
+
+&lt;span&gt;&lt;span&gt;Jacob Harris&lt;/span&gt;&lt;/span&gt;
+
+&lt;span&gt;&lt;time datetime="2025-04-01T08:54:29-04:00" title="Tuesday, April 1, 2025 - 08:54"&gt;Tue, 2025-04-01 08:54&lt;/time&gt;
+&lt;/span&gt;
+
+            &lt;div class="field field--name-body field--type-text-with-summary field--label-hidden field--item"&gt;&lt;p&gt;The Eclipse Foundation is paving the way for a thriving, data-driven economy. In our new positioning paper,&amp;nbsp;&lt;a href="https://outreach.eclipse.foundation/dataspaces-digital-sovereignty" rel="nofollow"&gt;&lt;em&gt;Building a Future of Digital Sovereignty and Innovation at the Eclipse Foundation&lt;/em&gt;&lt;/a&gt;, we dive into the different ways we are making this vision a reality.&amp;nbsp;&lt;/p&gt;&lt;/div&gt;
+      
+  &lt;div class="field field--name-field-news-image field--type-image field--label-above"&gt;
+    &lt;div class="field--label"&gt;Image&lt;/div&gt;
+          &lt;div class="field--items"&gt;
+              &lt;div class="field--item"&gt;  &lt;img loading="lazy" src="https://newsroom.eclipse.org/sites/default/files/news/Dataspace%20positioning%20paper%201.png" width="1400" height="788" alt class="img-responsive"&gt;
+
+&lt;/div&gt;
+              &lt;/div&gt;
+      &lt;/div&gt;
+
+  &lt;div class="field field--name-field-news-url field--type-link field--label-above"&gt;
+    &lt;div class="field--label"&gt;URL&lt;/div&gt;
+              &lt;div class="field--item"&gt;&lt;a href="https://blogs.eclipse.org/post/javier-vali%C3%B1o/empowering-digital-sovereignty-through-open-source-read-new-positioning-paper"&gt;https://blogs.eclipse.org/post/javier-vali%C3%B1o/empowering-digital-sovereignt…&lt;/a&gt;&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Tue, 01 Apr 2025 12:54:29 +0000</pubDate>
+    <dc:creator>Jacob Harris</dc:creator>
+    <guid isPermaLink="false">41872 at https://newsroom.eclipse.org</guid>
+    </item>
+<item>
+  <title>New Eclipse Foundation Research Examines Key Challenges Shaping Open Source Software Adoption in the Automotive Industry </title>
+  <link>https://newsroom.eclipse.org/news/announcements/new-eclipse-foundation-research-examines-key-challenges-shaping-open-source</link>
+  <description>
+&lt;span&gt;New Eclipse Foundation Research Examines Key Challenges Shaping Open Source Software Adoption in the Automotive Industry &lt;/span&gt;
+
+&lt;span&gt;&lt;span&gt;Jacob Harris&lt;/span&gt;&lt;/span&gt;
+
+&lt;span&gt;&lt;time datetime="2025-03-27T06:45:00-04:00" title="Thursday, March 27, 2025 - 06:45"&gt;Thu, 2025-03-27 06:45&lt;/time&gt;
+&lt;/span&gt;
+
+            &lt;div class="field field--name-body field--type-text-with-summary field--label-hidden field--item"&gt;&lt;p dir="ltr"&gt;&lt;strong&gt;BRUSSELS – 27 March 2025 –&amp;nbsp;&lt;/strong&gt;&lt;a href="http://www.eclipse.org" rel="nofollow"&gt;&lt;u&gt;The Eclipse Foundation&lt;/u&gt;&lt;/a&gt;, one of the world’s largest open source software foundations, today published the final report in its landmark three-part research series on the use of open source software in the automotive ecosystem. Titled&amp;nbsp;&lt;a href="https://outreach.eclipse.foundation/auto-sdv-oss-challenges" rel="nofollow"&gt;&lt;em&gt;&lt;u&gt;Challenges Facing Open Source Software in the Automotive Ecosystem&lt;/u&gt;&lt;/em&gt;&lt;/a&gt;, the report explores the unique challenges developers and decision-makers encounter when leveraging open source software in today’s software-defined vehicle (SDV) landscape.&amp;nbsp;&lt;/p&gt;
+&lt;p dir="ltr"&gt;“Open source has emerged as one of the most transformative forces in modern vehicle design,” said Mike Milinkovich, executive director of the Eclipse Foundation. “But any significant paradigm shift is bound to introduce some challenges. Our goal with this report is to shine a light on these challenges so the community can address them collaboratively, smoothing the path forward for SDV innovation.”&lt;/p&gt;
+&lt;h3&gt;Key Findings:&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li dir="ltr"&gt;&lt;strong&gt;Performance, security, and customisability are core open source benefits:&lt;/strong&gt; Both decision-makers and developers agree that improved performance, stronger security, and customisability are the top advantages of OSS.&amp;nbsp;&lt;/li&gt;
+&lt;li dir="ltr"&gt;&lt;strong&gt;Integration Challenges and Sustained Performance Improvements Require Ongoing Investment:&amp;nbsp;&lt;/strong&gt;&amp;nbsp;These same stakeholders view integration complexity, continual real-time performance improvements, and scalability as potential “technical blockers” that demand strategic investment.&amp;nbsp;&lt;/li&gt;
+&lt;li dir="ltr"&gt;&lt;strong&gt;Management Demands and Predictability Remain Concerns:&lt;/strong&gt; Long-term planning, compliance, and dependency management were flagged—especially by decision-makers—as critical areas needing careful oversight.&lt;/li&gt;
+&lt;li dir="ltr"&gt;&lt;strong&gt;Cost Savings Drive Business Value, While Standardisation and Interoperability Drive Engineering Value:&lt;/strong&gt; Both of these benefits help to justify and alleviate business and technical challenges.&amp;nbsp;&lt;/li&gt;
+&lt;li dir="ltr"&gt;&lt;strong&gt;Foundation Support Strengthens Trust and Confidence in OSS Projects:&lt;/strong&gt; Respondents overwhelmingly agree that foundation stewardship is critical as a source of credibility, stability, sustainability, and guidance for open source projects.&amp;nbsp;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+&lt;h3&gt;Recommendations for Developers, Business Leaders, and Policy Makers&lt;/h3&gt;
+&lt;p dir="ltr"&gt;&lt;br&gt;In addition to presenting key findings, the report outlines actionable insights for key stakeholders:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li dir="ltr"&gt;&lt;strong&gt;For Software Developers:&lt;/strong&gt; Advocate for streamlined OSS integration through improved tooling, documentation, and processes. Engaging with foundations and open source communities is key to accessing resources and ensuring long-term project viability.&amp;nbsp;&lt;/li&gt;
+&lt;li dir="ltr"&gt;&lt;strong&gt;For Business Leaders:&lt;/strong&gt; Recognise that while OSS offers clear benefits, realizing its full value requires strategic investment in integration, maintenance, governance, and management resources.&lt;/li&gt;
+&lt;li dir="ltr"&gt;&lt;strong&gt;For Policymakers:&lt;/strong&gt; Support policies that strengthen the role of OSS foundations in fostering project stability, security audits, and transparent governance frameworks.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p dir="ltr"&gt;&amp;nbsp;&lt;/p&gt;
+&lt;p dir="ltr"&gt;This report follows two prior publications:&amp;nbsp;&lt;/p&gt;
+&lt;p dir="ltr"&gt;1.&amp;nbsp;&lt;a href="https://outreach.eclipse.foundation/auto-sdv-survey-open-innovation" rel="nofollow"&gt;&lt;em&gt;&lt;u&gt;Driving Innovation &amp;amp; Building Safer Cars with Open Source Software&lt;/u&gt;&lt;/em&gt;&lt;/a&gt;, focused on the application of functional safety in software-defined vehicle design.&amp;nbsp;&lt;/p&gt;
+&lt;p dir="ltr"&gt;2.&amp;nbsp;&lt;a href="https://outreach.eclipse.foundation/auto-sdv-business-value-oss" rel="nofollow"&gt;&lt;em&gt;&lt;u&gt;Driving Efficiency and Sustainability: The Business Value of Open Source Software in the Automotive Industry&lt;/u&gt;&lt;/em&gt;&lt;/a&gt;, showcasing the transformative business impact of OSS in the automotive sector.&amp;nbsp;&lt;/p&gt;
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+&lt;p dir="ltr"&gt;Commissioned by the Eclipse Foundation’s&amp;nbsp;&lt;a href="https://sdv.eclipse.org/" rel="nofollow"&gt;&lt;u&gt;Software Defined Vehicle (SDV) Working Group&lt;/u&gt;&lt;/a&gt;, the study surveyed 300 automotive developers and business leaders from leading OEMs and Tier-1 suppliers. The findings underscore the critical role of OSS in driving flexibility, innovation, and efficiency within the industry.&amp;nbsp;&lt;/p&gt;
+&lt;p dir="ltr"&gt;&amp;nbsp;&lt;/p&gt;
+&lt;h3&gt;Join the Eclipse SDV Community&lt;/h3&gt;
+&lt;p dir="ltr"&gt;Explore opportunities to contribute to the global hub for software-defined vehicle innovation and collaboration. Our diverse membership of industry leaders is driving real-world innovation that is shaping the future of the automotive industry. We provide an inclusive platform where companies of all sizes can engage and contribute on equal footing. Find more details about joining us at&amp;nbsp;&lt;a href="http://sdv.eclipse.org/membership" rel="nofollow"&gt;&lt;u&gt;sdv.eclipse.org/membership&lt;/u&gt;&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+&lt;p dir="ltr"&gt;&lt;strong&gt;About Eclipse Software Defined Vehicle&lt;/strong&gt;&lt;/p&gt;
+&lt;p dir="ltr"&gt;&lt;a href="https://sdv.eclipse.org/" rel="nofollow"&gt;&lt;u&gt;Eclipse Software Defined Vehicle (SDV)&lt;/u&gt;&lt;/a&gt;, a working group within the Eclipse Foundation, supports the open source development of cutting-edge automotive technologies that power the programmable vehicles of the future where software defines features, functionality, and operations. With over 50 members, including leading automotive manufacturers, global cloud providers, technology innovators, and key supply chain partners, the initiative has strong industry backing. The working group's mission is to provide a collaborative forum for developing and promoting open source solutions tailored to the global automotive industry. Adopting a “code first” approach, Eclipse SDV focuses on building the industry's first open source software stacks and associated tools that will support the core functionalities of next-generation vehicles.&lt;/p&gt;
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+&lt;p dir="ltr"&gt;&lt;strong&gt;About the Eclipse Foundation&lt;/strong&gt;&lt;/p&gt;
+&lt;p dir="ltr"&gt;The Eclipse Foundation provides our global community of individuals and organisations with a business-friendly environment for open source software collaboration and innovation. We host the Eclipse IDE, Adoptium, Software Defined Vehicle, Jakarta EE, and over 420 open source projects, including runtimes, tools, specifications, and frameworks for cloud and edge applications, IoT, AI, automotive, systems engineering, open processor designs, and many others. Headquartered in Brussels, Belgium, the Eclipse Foundation is an international non-profit association supported by over 300 members. To learn more, follow us on social media&amp;nbsp;&lt;a href="https://twitter.com/EclipseFdn" rel="nofollow"&gt;&lt;u&gt;@EclipseFdn&lt;/u&gt;&lt;/a&gt;,&amp;nbsp;&lt;a href="https://www.linkedin.com/company/34093/" rel="nofollow"&gt;&lt;u&gt;LinkedIn&lt;/u&gt;&lt;/a&gt;, or visit&amp;nbsp;&lt;a href="http://eclipse.org" rel="nofollow"&gt;&lt;u&gt;eclipse.org&lt;/u&gt;&lt;/a&gt;.&lt;/p&gt;
+&lt;p dir="ltr"&gt;Third-party trademarks mentioned are the property of their respective owners.&lt;/p&gt;
+&lt;p class="text-align-center" dir="ltr"&gt;###&lt;/p&gt;
+&lt;p dir="ltr"&gt;&lt;strong&gt;Media contacts:&lt;/strong&gt;&lt;/p&gt;
+&lt;p dir="ltr"&gt;&lt;u&gt;Schwartz Public Relations (Germany)&lt;/u&gt;&lt;/p&gt;
+&lt;p dir="ltr"&gt;Gloria Huppert/Marita Bäumer&lt;/p&gt;
+&lt;p dir="ltr"&gt;Sendlinger Straße 42A&lt;/p&gt;
+&lt;p dir="ltr"&gt;80331 Munich&lt;/p&gt;
+&lt;p dir="ltr"&gt;&lt;a href="mailto:EclipseFoundation@schwartzpr.de" rel="nofollow"&gt;EclipseFoundation@schwartzpr.de&lt;/a&gt;&lt;/p&gt;
+&lt;p dir="ltr"&gt;+49 (89) 211 871 -70/ -62&lt;/p&gt;
+&lt;p dir="ltr"&gt;&amp;nbsp;&lt;/p&gt;
+&lt;p dir="ltr"&gt;&lt;u&gt;514 Media Ltd&amp;nbsp;(France, Italy, Spain)&lt;/u&gt;&lt;/p&gt;
+&lt;p dir="ltr"&gt;Benoit Simoneau&lt;/p&gt;
+&lt;p dir="ltr"&gt;&lt;a href="mailto:benoit@514-media.com" rel="nofollow"&gt;&lt;u&gt;benoit@514-media.com&lt;/u&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p dir="ltr"&gt;M:&amp;nbsp;+44 (0) 7891 920 370&lt;/p&gt;
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+&lt;p dir="ltr"&gt;&lt;u&gt;Nichols Communications (Global Press Contact)&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;/u&gt;&lt;/p&gt;
+&lt;p dir="ltr"&gt;Jay Nichols&lt;/p&gt;
+&lt;p dir="ltr"&gt;&lt;a href="mailto:jay@nicholscomm.com" rel="nofollow"&gt;&lt;u&gt;jay@nicholscomm.com&lt;/u&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p dir="ltr"&gt;+1 408-772-1551&lt;/p&gt;&lt;/div&gt;
+      
+  &lt;div class="field field--name-field-news-image field--type-image field--label-above"&gt;
+    &lt;div class="field--label"&gt;Image&lt;/div&gt;
+          &lt;div class="field--items"&gt;
+              &lt;div class="field--item"&gt;  &lt;img loading="lazy" src="https://newsroom.eclipse.org/sites/default/files/news/1.png" width="1600" height="900" alt class="img-responsive"&gt;
+
+&lt;/div&gt;
+              &lt;/div&gt;
+      &lt;/div&gt;
+
+  &lt;div class="field field--name-field-tags field--type-entity-reference field--label-above"&gt;
+    &lt;div class="field--label"&gt;Tags&lt;/div&gt;
+          &lt;div class="field--items"&gt;
+              &lt;div class="field--item"&gt;&lt;a href="https://newsroom.eclipse.org/tags/software-defined-vehicle" hreflang="en"&gt;software defined vehicle&lt;/a&gt;&lt;/div&gt;
+          &lt;div class="field--item"&gt;&lt;a href="https://newsroom.eclipse.org/tags/automotive" hreflang="en"&gt;automotive&lt;/a&gt;&lt;/div&gt;
+          &lt;div class="field--item"&gt;&lt;a href="https://newsroom.eclipse.org/tags/sdv" hreflang="en"&gt;sdv&lt;/a&gt;&lt;/div&gt;
+              &lt;/div&gt;
+      &lt;/div&gt;
+</description>
+  <pubDate>Thu, 27 Mar 2025 10:45:00 +0000</pubDate>
+    <dc:creator>Jacob Harris</dc:creator>
+    <guid isPermaLink="false">41830 at https://newsroom.eclipse.org</guid>
+    </item>
+<item>
+  <title>Jakarta NoSQL 1.0 Final Released: Bridging Java and NoSQL With Standards</title>
+  <link>https://newsroom.eclipse.org/news/announcements/jakarta-nosql-10-final-released-bridging-java-and-nosql-standards</link>
+  <description>
+&lt;span&gt;Jakarta NoSQL 1.0 Final Released: Bridging Java and NoSQL With Standards&lt;/span&gt;
+
+&lt;span&gt;&lt;span&gt;Otavio Santana&lt;/span&gt;&lt;/span&gt;
+
+&lt;span&gt;&lt;time datetime="2025-03-26T11:00:03-04:00" title="Wednesday, March 26, 2025 - 11:00"&gt;Wed, 2025-03-26 11:00&lt;/time&gt;
+&lt;/span&gt;
+
+            &lt;div class="field field--name-body field--type-text-with-summary field--label-hidden field--item"&gt;&lt;p&gt;We’re thrilled to announce the &lt;strong&gt;final release of Jakarta NoSQL 1.0&lt;/strong&gt;, a brand-new specification designed to bring standardization, productivity, and portability to NoSQL integration in the Java ecosystem.&lt;/p&gt;
+&lt;p&gt;This release marks a significant step in the Jakarta EE platform by introducing the &lt;strong&gt;first-ever NoSQL specification&lt;/strong&gt;. Whether you’re working with document, key-value, column, or graph databases, Jakarta NoSQL is built to streamline your development experience.&lt;/p&gt;&lt;/div&gt;
+      
+  &lt;div class="field field--name-field-news-url field--type-link field--label-above"&gt;
+    &lt;div class="field--label"&gt;URL&lt;/div&gt;
+              &lt;div class="field--item"&gt;&lt;a href="https://jakarta.ee/blogs/jakarta-nosql-1-0/"&gt;https://jakarta.ee/blogs/jakarta-nosql-1-0/&lt;/a&gt;&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-tags field--type-entity-reference field--label-above"&gt;
+    &lt;div class="field--label"&gt;Tags&lt;/div&gt;
+          &lt;div class="field--items"&gt;
+              &lt;div class="field--item"&gt;&lt;a href="https://newsroom.eclipse.org/tags/jakartaee" hreflang="en"&gt;#JakartaEE&lt;/a&gt;&lt;/div&gt;
+              &lt;/div&gt;
+      &lt;/div&gt;
+</description>
+  <pubDate>Wed, 26 Mar 2025 15:00:03 +0000</pubDate>
+    <dc:creator>Otavio Santana</dc:creator>
+    <guid isPermaLink="false">41827 at https://newsroom.eclipse.org</guid>
+    </item>
+<item>
+  <title>ORC Monthly: Cyber Resilience Spec Project, Deliverables Plan and Feedback for the European Commission</title>
+  <link>https://newsroom.eclipse.org/news/announcements/orc-monthly-cyber-resilience-spec-project-deliverables-plan-and-feedback</link>
+  <description>
+&lt;span&gt;ORC Monthly: Cyber Resilience Spec Project, Deliverables Plan and Feedback for the European Commission&lt;/span&gt;
+
+&lt;span&gt;&lt;span&gt;Shanda Giacomoni&lt;/span&gt;&lt;/span&gt;
+
+&lt;span&gt;&lt;time datetime="2025-03-25T15:33:56-04:00" title="Tuesday, March 25, 2025 - 15:33"&gt;Tue, 2025-03-25 15:33&lt;/time&gt;
+&lt;/span&gt;
+
+            &lt;div class="field field--name-body field--type-text-with-summary field--label-hidden field--item"&gt;&lt;p&gt;The Cyber Resilience SIG reached a critical milestone by defining a scope of work for 2025. The Cyber Resilience Practices Spec project has also launched, with project proposal and feedback open for review and contribution.&amp;nbsp;&lt;/p&gt;&lt;/div&gt;
+      
+  &lt;div class="field field--name-field-news-url field--type-link field--label-above"&gt;
+    &lt;div class="field--label"&gt;URL&lt;/div&gt;
+              &lt;div class="field--item"&gt;&lt;a href="https://blogs.eclipse.org/post/juan-rico/orc-monthly-cyber-resilience-spec-project-deliverables-plan-and-feedback-european"&gt;https://blogs.eclipse.org/post/juan-rico/orc-monthly-cyber-resilience-spec-proj…&lt;/a&gt;&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Tue, 25 Mar 2025 19:33:56 +0000</pubDate>
+    <dc:creator>Shanda Giacomoni</dc:creator>
+    <guid isPermaLink="false">41812 at https://newsroom.eclipse.org</guid>
+    </item>
+<item>
+  <title>The Eclipse Foundation Unveils Theia AI: Advanced Open Source AI Innovations for Developers and Tool Builders</title>
+  <link>https://newsroom.eclipse.org/news/announcements/eclipse-foundation-unveils-theia-ai-advanced-open-source-ai-innovations</link>
+  <description>
+&lt;span&gt;The Eclipse Foundation Unveils Theia AI: Advanced Open Source AI Innovations for Developers and Tool Builders&lt;/span&gt;
+
+&lt;span&gt;&lt;span&gt;Jacob Harris&lt;/span&gt;&lt;/span&gt;
+
+&lt;span&gt;&lt;time datetime="2025-03-13T06:00:00-04:00" title="Thursday, March 13, 2025 - 06:00"&gt;Thu, 2025-03-13 06:00&lt;/time&gt;
+&lt;/span&gt;
+
+            &lt;div class="field field--name-body field--type-text-with-summary field--label-hidden field--item"&gt;&lt;p dir="ltr"&gt;&lt;strong&gt;BRUSSELS – 13 March 2025 –&amp;nbsp;&lt;/strong&gt;&lt;a href="http://www.eclipse.org" rel="nofollow"&gt;&lt;u&gt;The Eclipse Foundation&lt;/u&gt;&lt;/a&gt;, one of the world’s largest open source software foundations, today announced two major advancements in AI-powered open source development platforms and Integrated Development Environments (IDEs).&amp;nbsp;Contributed by&amp;nbsp;&lt;a href="https://eclipsesource.com/" rel="nofollow"&gt;&lt;u&gt;EclipseSource&lt;/u&gt;&lt;/a&gt;, a leader in AI-native tool development, these innovations include:&amp;nbsp;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li dir="ltr"&gt;&lt;strong&gt;Theia AI (public release)&amp;nbsp;&lt;/strong&gt;– an open framework that allows tool builders to seamlessly integrate Large Language Models (LLMs) of their choice into custom tools and IDEs, enabling agentic workflows, context-aware AI suggestions, and intelligent assistance tailored to their unique needs.&lt;/li&gt;
+&lt;li dir="ltr"&gt;&lt;strong&gt;AI-Powered Theia IDE (alpha release)&lt;/strong&gt; – An open source software development environment built on the Theia AI framework, delivering advanced AI capabilities designed to enhance developer productivity with full control.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p dir="ltr"&gt;“Proprietary AI development platforms are locking developers and tool builders into inflexible,&amp;nbsp; opaque, and single vendor ecosystems,” said Mike Milinkovich, executive director of the Eclipse Foundation. “With Theia AI, we are putting control back in the hands of developers, enabling them to integrate AI on their own terms—fully open, extensible, and adaptable to their needs. Whether building custom AI-driven tools or leveraging the Theia IDE with built-in AI support, Theia AI ensures that developers remain in control of their data, workflows, and strategic direction.”&lt;/p&gt;
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+&lt;h3&gt;Theia AI Open Framework: AI Integration on Your Terms&lt;/h3&gt;
+&lt;p dir="ltr"&gt;As part of the Eclipse Theia tool platform, Theia AI is an open source framework that gives tool builders full control over how AI is integrated into their tool products. It empowers developers to manage every aspect of AI capabilities, from selecting the most suitable Large Language Model (LLM)—whether it’s cloud-based, self-hosted, or fully local—to orchestrating the entire prompt engineering flow, defining agentic behaviours, and determining which data and knowledge sources are used. This level of customisation ensures full transparency and adaptability, enabling developers to fine-tune AI interactions to perfectly align with their strategic needs.&amp;nbsp;&lt;/p&gt;
+&lt;p dir="ltr"&gt;Tool developers have complete freedom to design their tool’s AI-driven user experience exactly as they envision it. Whether it’s through creating interactive chat interfaces, integrating AI into code editors, or crafting fully customised UI elements, Theia AI provides the flexibility to bring these ideas to life. By streamlining complex AI integration challenges, Theia AI enables tool builders to develop advanced, tailor-made AI capabilities that go beyond the current state of the art, perfectly aligning with the unique demands of their domain.&amp;nbsp;&lt;/p&gt;
+&lt;p dir="ltr"&gt;After extensive beta testing and adoption in real-world applications, Theia AI is now publicly available, empowering developers and tool builders to create state-of-the-art capabilities tailored to their domain-specific needs. Learn more in the&amp;nbsp;&lt;a href="https://eclipsesource.com/blogs/2025/03/13/introducing-theia-ai/" rel="nofollow"&gt;&lt;u&gt;Theia AI release announcement&lt;/u&gt;&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+&lt;h3&gt;AI-Powered Theia IDE: Revolutionising Developer Workflows with AI&lt;/h3&gt;
+&lt;p dir="ltr"&gt;Built on the Theia AI framework, the AI-powered Theia IDE demonstrates the potential of AI-enhanced development workflows, while maintaining user control and transparency. Now available in Alpha, Theia IDE introduces powerful AI-driven features to:&lt;/p&gt;
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li dir="ltr"&gt;&lt;strong&gt;Boost Developer Productivity –&amp;nbsp;&lt;/strong&gt;Intelligent coding agents, AI-powered terminal support, and context-sensitive assistants streamline coding tasks while giving developers full control over AI interactions.&lt;/li&gt;
+&lt;li dir="ltr"&gt;&lt;strong&gt;Enable Flexible LLM Selection –&lt;/strong&gt; Connect to any AI model—cloud-hosted, self-hosted, or fully local—allowing developers to maintain full control, flexibility, and adaptability to emerging models without vendor constraints.&lt;/li&gt;
+&lt;li dir="ltr"&gt;&lt;strong&gt;Integrate with External Tools and Contextual Data –&amp;nbsp;&lt;/strong&gt;Through&amp;nbsp;&lt;strong&gt;Model Contextual Protocol (MCP)&lt;/strong&gt; integration, developers can connect AI-driven workflows with external tools, services, and contextual data, enhancing automation and interoperability within the development environment.&lt;/li&gt;
+&lt;li dir="ltr"&gt;&lt;strong&gt;Ensure Open Source Licence Compliance –&amp;nbsp;&lt;/strong&gt;The&lt;strong&gt; SCANOSS&amp;nbsp;&lt;/strong&gt;integration analyses AI-generated code for open source licencing compliance, helping developers mitigate legal and operational risks when incorporating AI-generated code.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+&lt;h3&gt;Empowering Developers with Full Control and Transparency&lt;/h3&gt;
+&lt;p dir="ltr"&gt;Unlike proprietary solutions, the AI-powered Theia IDE gives developers full transparency and control over AI interactions. They can easily tweak and adapt AI behaviour, while maintaining full visibility into AI processes and interactions. With powerful features like customisable prompts, flexible LLM selection, and transparent data exchange, Theia IDE redefines AI-assisted software development by putting developers firmly in control. This level of customisation not only empowers developers to tailor AI to their unique needs but also encourages collaborative innovation. By working in the open, developers can refine, extend, and actively contribute to the evolution of AI-driven development environments, ensuring continuous improvement and adaptability.&lt;/p&gt;
+&lt;p dir="ltr"&gt;Learn more in the&amp;nbsp;&lt;a href="https://eclipsesource.com/blogs/2025/03/13/introducing-the-ai-powered-theia-ide/" rel="nofollow"&gt;&lt;u&gt;AI-powered Theia IDE alpha release announcement&lt;/u&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p dir="ltr"&gt;&amp;nbsp;&lt;/p&gt;
+&lt;h3 dir="ltr"&gt;Why Theia AI and Theia IDE Matter&lt;/h3&gt;
+&lt;p dir="ltr"&gt;With the rise of proprietary AI solutions, the need for open, adaptable, and transparent AI development tools is more critical than ever. Theia AI and Theia IDE not only provide powerful AI capabilities but also champion the values of openness, control, and community-driven innovation.&lt;/p&gt;
+&lt;p dir="ltr"&gt;These advancements position the Eclipse Foundation at the forefront of the next generation of AI development tools, offering a powerful alternative to closed ecosystems.&lt;/p&gt;
+&lt;p dir="ltr"&gt;&lt;strong&gt;Get Started with Theia AI and Theia IDE&lt;/strong&gt;&lt;/p&gt;
+&lt;p dir="ltr"&gt;Both Theia AI and the AI-powered Theia IDE are now available. Developers, tool builders, and organisations interested in exploring these next-generation AI capabilities can learn more by visiting the&amp;nbsp;&lt;a href="https://theia-ide.org/" rel="nofollow"&gt;&lt;u&gt;Eclipse Theia&lt;/u&gt;&lt;/a&gt; project page.&lt;/p&gt;
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+&lt;p dir="ltr"&gt;&lt;strong&gt;About the Eclipse Foundation&lt;/strong&gt;&lt;/p&gt;
+&lt;p dir="ltr"&gt;The Eclipse Foundation provides our global community of individuals and organisations with a business-friendly environment for open source software collaboration and innovation. We host the Eclipse IDE, Adoptium, Software Defined Vehicle, Jakarta EE, and over 420 open source projects, including runtimes, tools, specifications, and frameworks for cloud and edge applications, IoT, AI, automotive, systems engineering, open processor designs, and many others. Headquartered in Brussels, Belgium, the Eclipse Foundation is an international non-profit association supported by over 300 members. To learn more, follow us on social media&amp;nbsp;&lt;a href="https://twitter.com/EclipseFdn" rel="nofollow"&gt;&lt;u&gt;@EclipseFdn&lt;/u&gt;&lt;/a&gt;,&amp;nbsp;&lt;a href="https://www.linkedin.com/company/34093/" rel="nofollow"&gt;&lt;u&gt;LinkedIn&lt;/u&gt;&lt;/a&gt;, or visit&amp;nbsp;&lt;a href="http://eclipse.org" rel="nofollow"&gt;&lt;u&gt;eclipse.org&lt;/u&gt;&lt;/a&gt;.&lt;/p&gt;
+&lt;p dir="ltr"&gt;Third-party trademarks mentioned are the property of their respective owners.&lt;/p&gt;
+&lt;p class="text-align-center" dir="ltr"&gt;###&lt;/p&gt;
+&lt;p dir="ltr"&gt;&lt;strong&gt;Media contacts:&lt;/strong&gt;&lt;/p&gt;
+&lt;p dir="ltr"&gt;&lt;u&gt;Schwartz Public Relations (Germany)&lt;/u&gt;&lt;/p&gt;
+&lt;p dir="ltr"&gt;Gloria Huppert/Marita Bäumer&lt;/p&gt;
+&lt;p dir="ltr"&gt;Sendlinger Straße 42A&lt;/p&gt;
+&lt;p dir="ltr"&gt;80331 Munich&lt;/p&gt;
+&lt;p dir="ltr"&gt;&lt;a href="mailto:EclipseFoundation@schwartzpr.de" rel="nofollow"&gt;EclipseFoundation@schwartzpr.de&lt;/a&gt;&lt;/p&gt;
+&lt;p dir="ltr"&gt;+49 (89) 211 871 -70/ -62&lt;/p&gt;
+&lt;p dir="ltr"&gt;&amp;nbsp;&lt;/p&gt;
+&lt;p dir="ltr"&gt;&lt;u&gt;514 Media Ltd&amp;nbsp;(France, Italy, Spain)&lt;/u&gt;&lt;/p&gt;
+&lt;p dir="ltr"&gt;Benoit Simoneau&lt;/p&gt;
+&lt;p dir="ltr"&gt;&lt;a href="mailto:benoit@514-media.com" rel="nofollow"&gt;&lt;u&gt;benoit@514-media.com&lt;/u&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p dir="ltr"&gt;M:&amp;nbsp;+44 (0) 7891 920 370&lt;/p&gt;
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+&lt;p dir="ltr"&gt;&lt;u&gt;Nichols Communications (Global Press Contact)&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;/u&gt;&lt;/p&gt;
+&lt;p dir="ltr"&gt;Jay Nichols&lt;/p&gt;
+&lt;p dir="ltr"&gt;&lt;a href="mailto:jay@nicholscomm.com" rel="nofollow"&gt;&lt;u&gt;jay@nicholscomm.com&lt;/u&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p dir="ltr"&gt;+1 408-772-1551&lt;/p&gt;&lt;/div&gt;
+      
+  &lt;div class="field field--name-field-news-image field--type-image field--label-above"&gt;
+    &lt;div class="field--label"&gt;Image&lt;/div&gt;
+          &lt;div class="field--items"&gt;
+              &lt;div class="field--item"&gt;  &lt;img loading="lazy" src="https://newsroom.eclipse.org/sites/default/files/news/THEIA%20AI%20PR.png" width="1024" height="512" alt class="img-responsive"&gt;
+
+&lt;/div&gt;
+              &lt;/div&gt;
+      &lt;/div&gt;
+
+  &lt;div class="field field--name-field-tags field--type-entity-reference field--label-above"&gt;
+    &lt;div class="field--label"&gt;Tags&lt;/div&gt;
+          &lt;div class="field--items"&gt;
+              &lt;div class="field--item"&gt;&lt;a href="https://newsroom.eclipse.org/tags/cloud-ide" hreflang="en"&gt;cloud ide&lt;/a&gt;&lt;/div&gt;
+          &lt;div class="field--item"&gt;&lt;a href="https://newsroom.eclipse.org/tags/ai" hreflang="en"&gt;AI&lt;/a&gt;&lt;/div&gt;
+          &lt;div class="field--item"&gt;&lt;a href="https://newsroom.eclipse.org/tags/eclipse-theia" hreflang="en"&gt;Eclipse Theia&lt;/a&gt;&lt;/div&gt;
+          &lt;div class="field--item"&gt;&lt;a href="https://newsroom.eclipse.org/tags/cloud-devtools" hreflang="en"&gt;cloud devtools&lt;/a&gt;&lt;/div&gt;
+              &lt;/div&gt;
+      &lt;/div&gt;
+</description>
+  <pubDate>Thu, 13 Mar 2025 10:00:00 +0000</pubDate>
+    <dc:creator>Jacob Harris</dc:creator>
+    <guid isPermaLink="false">41704 at https://newsroom.eclipse.org</guid>
+    </item>
+<item>
+  <title>The Eclipse Foundation to Showcase Advanced, Industry-Ready Open Source Embedded Technologies at embedded world 2025</title>
+  <link>https://newsroom.eclipse.org/news/announcements/eclipse-foundation-showcase-advanced-industry-ready-open-source-embedded</link>
+  <description>
+&lt;span&gt;The Eclipse Foundation to Showcase Advanced, Industry-Ready Open Source Embedded Technologies at embedded world 2025&lt;/span&gt;
+
+&lt;span&gt;&lt;span&gt;Jacob Harris&lt;/span&gt;&lt;/span&gt;
+
+&lt;span&gt;&lt;time datetime="2025-03-04T05:00:00-05:00" title="Tuesday, March 4, 2025 - 05:00"&gt;Tue, 2025-03-04 05:00&lt;/time&gt;
+&lt;/span&gt;
+
+            &lt;div class="field field--name-body field--type-text-with-summary field--label-hidden field--item"&gt;&lt;p dir="ltr"&gt;&lt;strong&gt;BRUSSELS – 4 March 2025 –&amp;nbsp;&lt;/strong&gt;&lt;a href="http://www.eclipse.org" rel="nofollow"&gt;&lt;u&gt;The Eclipse Foundation&lt;/u&gt;&lt;/a&gt;, one of the world’s largest open source software foundations, today announced its participation at&amp;nbsp;&lt;a href="https://www.embedded-world.de/" rel="nofollow"&gt;&lt;u&gt;embedded world 2025&lt;/u&gt;&lt;/a&gt;. Located in Hall 4, booth #4-554, the Eclipse Foundation booth will showcase a wide array of open source embedded projects, including the latest advancements from Eclipse ThreadX, the OpenHW Foundation, Eclipse Development Tools and IDEs, and cutting-edge solutions from the Software Defined Vehicle (SDV) Working Group.&lt;/p&gt;
+&lt;p dir="ltr"&gt;“We’re excited to once again engage with the developer community at embedded world 2025,” said Mike Milinkovich, executive director of the Eclipse Foundation. “Open source is at the forefront of embedded innovation, including increasing relevance in sectors requiring functional safety, driving growth across diverse use cases. Our expanding ecosystem reflects this momentum, with new members, groundbreaking projects, and continuous technological evolution.”&lt;/p&gt;
+&lt;h2&gt;Featured Innovations at embedded world 2025&lt;/h2&gt;
+&lt;p dir="ltr"&gt;The Eclipse Foundation will showcase a comprehensive portfolio of open source solutions spanning industrial IoT, automotive, robotics, AI, and embedded software development tools. Key highlights include:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li dir="ltr"&gt;
+&lt;p&gt;&lt;strong&gt;Eclipse ThreadX: The World’s First Safety-Certified Open Source RTOS&amp;nbsp;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://threadx.io/" rel="nofollow"&gt;&lt;u&gt;Eclipse ThreadX&lt;/u&gt;&lt;/a&gt; is the industry’s first and only safety-certified open source Real-Time Operating System (RTOS), setting new benchmarks for reliability and security in embedded systems. Supported by the&amp;nbsp;&lt;a href="https://threadxalliance.org/" rel="nofollow"&gt;&lt;u&gt;ThreadX Alliance&lt;/u&gt;&lt;/a&gt;, it fosters a vibrant ecosystem focused on long-term sustainability, industry collaboration, and safety certification resources. As a powerful open source alternative to proprietary RTOS solutions, Eclipse ThreadX meets the rigorous demands of automotive, medical, aerospace, industrial, and other safety-critical applications, enabling organizations to innovate without vendor lock-in.&lt;/p&gt;
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li dir="ltr"&gt;
+&lt;p&gt;&lt;strong&gt;OpenHW Foundation: High-Performance Open Source Cores and Processor IP&lt;/strong&gt;&amp;nbsp;&lt;/p&gt;
+&lt;p&gt;The&amp;nbsp;&lt;a href="https://openhwfoundation.org/" rel="nofollow"&gt;&lt;u&gt;OpenHW Foundation&lt;/u&gt;&lt;/a&gt; is the world’s only non-profit organization dedicated to delivering verified, industrial-grade open source processor cores. At embedded world, OpenHW will showcase its latest RISC-V–based processor IP, with live demonstrations of production-ready cores optimized for high-performance, embedded, and AI-driven applications.&lt;/p&gt;
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li dir="ltr"&gt;
+&lt;p&gt;&lt;strong&gt;Eclipse Tools: Empowering Embedded Development with Open Tools and Platforms.&lt;/strong&gt;&amp;nbsp;&lt;/p&gt;
+&lt;p&gt;The Eclipse Foundation will also feature its powerful open source IDEs and cloud-based development platforms, including&amp;nbsp;&lt;a href="https://open-vsx.org/" rel="nofollow"&gt;&lt;u&gt;Open VSX&lt;/u&gt;&lt;/a&gt;,&amp;nbsp;&lt;a href="https://theia-ide.org/" rel="nofollow"&gt;&lt;u&gt;Eclipse Theia&lt;/u&gt;&lt;/a&gt;, and the&amp;nbsp;&lt;a href="https://eclipseide.org/" rel="nofollow"&gt;&lt;u&gt;Eclipse IDE&lt;/u&gt;&lt;/a&gt;. These platforms provide flexible, scalable solutions for embedded programming, enhancing productivity, and fostering collaboration within the global developer community.&lt;/p&gt;
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li dir="ltr"&gt;
+&lt;p&gt;&lt;strong&gt;Software Defined Vehicle (SDV): Shaping the Future of Automotive Software&lt;/strong&gt;&amp;nbsp;&amp;nbsp;&lt;/p&gt;
+&lt;p&gt;The&lt;a href="https://sdv.eclipse.org/" rel="nofollow"&gt;&lt;u&gt; Eclipse SDV Working Group&lt;/u&gt;&lt;/a&gt; is driving innovation in automotive software with a comprehensive open source ecosystem. Attendees can explore an extensive suite of protocols, libraries, tools, and frameworks designed to accelerate the development of Software Defined Vehicles, enabling next-generation automotive features, connectivity, and functionality.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li dir="ltr"&gt;
+&lt;p&gt;&lt;strong&gt;Open Regulatory Compliance: Navigating Complex Regulations&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;The&amp;nbsp;&lt;a href="https://orcwg.org/" rel="nofollow"&gt;&lt;u&gt;Open Regulatory Compliance Working Group&lt;/u&gt;&lt;/a&gt; plays a pivotal role in helping embedded technology providers navigate the evolving regulatory landscape. This initiative is focused on ensuring compliance with global standards and emerging regulations, such as the Cyber Resilience Act (CRA), empowering organizations to innovate confidently while meeting industry requirements, safeguarding both product integrity and market access.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+&lt;h2&gt;Join us at embedded world 2025&lt;/h2&gt;
+&lt;p dir="ltr"&gt;Discover the future of open source embedded technology at embedded world 2025, taking place from March 11-13 at the Exhibition Centre Nuremberg. Meet with Eclipse Foundation representatives in Hall 4, Booth #4-554 to explore our cutting-edge solutions and learn how to get involved with our dynamic community.&lt;/p&gt;
+&lt;p dir="ltr"&gt;For more information on membership and participation, visit our&amp;nbsp;&lt;a href="https://www.eclipse.org/membership/" rel="nofollow"&gt;&lt;u&gt;membership page&lt;/u&gt;&lt;/a&gt;.&lt;/p&gt;
+&lt;p dir="ltr"&gt;&amp;nbsp;&lt;/p&gt;
+&lt;p dir="ltr"&gt;&lt;strong&gt;About the Eclipse Foundation&lt;/strong&gt;&lt;/p&gt;
+&lt;p dir="ltr"&gt;The Eclipse Foundation provides our global community of individuals and organisations with a business-friendly environment for open source software collaboration and innovation. We host the Eclipse IDE, Adoptium, Software Defined Vehicle, Jakarta EE, and over 420 open source projects, including runtimes, tools, specifications, and frameworks for cloud and embedded applications, IoT, AI, automotive, systems engineering, open processor designs, and many others. Headquartered in Brussels, Belgium, the Eclipse Foundation is an international non-profit association supported by over 300 members. To learn more, follow us on social media&amp;nbsp;&lt;a href="https://twitter.com/EclipseFdn" rel="nofollow"&gt;&lt;u&gt;@EclipseFdn&lt;/u&gt;&lt;/a&gt;,&amp;nbsp;&lt;a href="https://www.linkedin.com/company/34093/" rel="nofollow"&gt;&lt;u&gt;LinkedIn&lt;/u&gt;&lt;/a&gt;, or visit&amp;nbsp;&lt;a href="http://eclipse.org" rel="nofollow"&gt;&lt;u&gt;eclipse.org&lt;/u&gt;&lt;/a&gt;.&lt;/p&gt;
+&lt;p dir="ltr"&gt;Third-party trademarks mentioned are the property of their respective owners.&lt;/p&gt;
+&lt;p class="text-align-center" dir="ltr"&gt;###&lt;/p&gt;
+&lt;p dir="ltr"&gt;&lt;strong&gt;Media contacts:&lt;/strong&gt;&lt;/p&gt;
+&lt;p dir="ltr"&gt;&lt;u&gt;Schwartz Public Relations (Germany)&lt;/u&gt;&lt;/p&gt;
+&lt;p dir="ltr"&gt;Gloria Huppert/Marita Bäumer&lt;/p&gt;
+&lt;p dir="ltr"&gt;Sendlinger Straße 42A&lt;/p&gt;
+&lt;p dir="ltr"&gt;80331 Munich&lt;/p&gt;
+&lt;p dir="ltr"&gt;&lt;a href="mailto:EclipseFoundation@schwartzpr.de" rel="nofollow"&gt;EclipseFoundation@schwartzpr.de&lt;/a&gt;&lt;/p&gt;
+&lt;p dir="ltr"&gt;+49 (89) 211 871 -70/ -62&lt;/p&gt;
+&lt;p dir="ltr"&gt;&amp;nbsp;&lt;/p&gt;
+&lt;p dir="ltr"&gt;&lt;u&gt;514 Media Ltd&amp;nbsp;(France, Italy, Spain)&lt;/u&gt;&lt;/p&gt;
+&lt;p dir="ltr"&gt;Benoit Simoneau&lt;/p&gt;
+&lt;p dir="ltr"&gt;&lt;a href="mailto:benoit@514-media.com" rel="nofollow"&gt;&lt;u&gt;benoit@514-media.com&lt;/u&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p dir="ltr"&gt;M:&amp;nbsp;+44 (0) 7891 920 370&lt;/p&gt;
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+&lt;p dir="ltr"&gt;&lt;u&gt;Nichols Communications (Global Press Contact)&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;/u&gt;&lt;/p&gt;
+&lt;p dir="ltr"&gt;Jay Nichols&lt;/p&gt;
+&lt;p dir="ltr"&gt;&lt;a href="mailto:jay@nicholscomm.com" rel="nofollow"&gt;&lt;u&gt;jay@nicholscomm.com&lt;/u&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p dir="ltr"&gt;+1 408-772-1551&lt;/p&gt;
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;/div&gt;
+      </description>
+  <pubDate>Tue, 04 Mar 2025 10:00:00 +0000</pubDate>
+    <dc:creator>Jacob Harris</dc:creator>
+    <guid isPermaLink="false">41665 at https://newsroom.eclipse.org</guid>
+    </item>
+<item>
+  <title>2025 Eclipse Foundation Board Election Results</title>
+  <link>https://newsroom.eclipse.org/news/announcements/2025-eclipse-foundation-board-election-results</link>
+  <description>
+&lt;span&gt;2025 Eclipse Foundation Board Election Results&lt;/span&gt;
+
+&lt;span&gt;&lt;span&gt;Gesine Freund&lt;/span&gt;&lt;/span&gt;
+
+&lt;span&gt;&lt;time datetime="2025-03-03T08:50:57-05:00" title="Monday, March 3, 2025 - 08:50"&gt;Mon, 2025-03-03 08:50&lt;/time&gt;
+&lt;/span&gt;
+
+            &lt;div class="field field--name-body field--type-text-with-summary field--label-hidden field--item"&gt;&lt;p dir="ltr"&gt;The Eclipse Foundation would like to thank everyone who participated in this year’s election process and is pleased to announce the results of the 2025 Eclipse Foundation Contributing Member and Committer Member elections for representatives to the Foundation’s Board. These positions are a vitally important part of the Eclipse Foundation's governance.&lt;/p&gt;
+&lt;p dir="ltr"&gt;Hendrik Ebbers, Johannes Matheis, and Angelo Corsaro will be returning as the Contributing Member representatives. Ed Merks, Matthew Khouzam, and Shelley Lambert will be returning as the Committer Member representatives. Congratulations! We're looking forward to working with them on the Board, effective 1 April 2025.&amp;nbsp;&lt;/p&gt;
+&lt;p dir="ltr"&gt;We thank Thomas Königseder and Carlo Piana for running in this year’s election.&amp;nbsp;&lt;/p&gt;&lt;/div&gt;
+      </description>
+  <pubDate>Mon, 03 Mar 2025 13:50:57 +0000</pubDate>
+    <dc:creator>Gesine Freund</dc:creator>
+    <guid isPermaLink="false">41647 at https://newsroom.eclipse.org</guid>
+    </item>
+<item>
+  <title>Strengthening Open Source Security: Eclipse Foundation Selected by the Sovereign Tech Agency for a New Service Agreement</title>
+  <link>https://newsroom.eclipse.org/news/announcements/strengthening-open-source-security-eclipse-foundation-selected-sovereign-tech</link>
+  <description>
+&lt;span&gt;Strengthening Open Source Security: Eclipse Foundation Selected by the Sovereign Tech Agency for a New Service Agreement&lt;/span&gt;
+
+&lt;span&gt;&lt;span&gt;Jacob Harris&lt;/span&gt;&lt;/span&gt;
+
+&lt;span&gt;&lt;time datetime="2025-02-28T14:33:17-05:00" title="Friday, February 28, 2025 - 14:33"&gt;Fri, 2025-02-28 14:33&lt;/time&gt;
+&lt;/span&gt;
+
+            &lt;div class="field field--name-body field--type-text-with-summary field--label-hidden field--item"&gt;&lt;p&gt;Through this collaboration, the &lt;a href="https://www.sovereign.tech/programs/fund" rel="nofollow"&gt;Sovereign Tech Fund&lt;/a&gt;—a program of the Sovereign Tech Agency—will invest in the development, improvement, and maintenance of open digital base technologies worldwide, driving significant security enhancements across Eclipse Foundation projects.&lt;/p&gt;&lt;/div&gt;
+      
+  &lt;div class="field field--name-field-news-url field--type-link field--label-above"&gt;
+    &lt;div class="field--label"&gt;URL&lt;/div&gt;
+              &lt;div class="field--item"&gt;&lt;a href="https://blogs.eclipse.org/post/mika%C3%ABl-barbero/strengthening-open-source-security-eclipse-foundation-selected-sovereign-tech"&gt;https://blogs.eclipse.org/post/mika%C3%ABl-barbero/strengthening-open-source-se…&lt;/a&gt;&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Fri, 28 Feb 2025 19:33:17 +0000</pubDate>
+    <dc:creator>Jacob Harris</dc:creator>
+    <guid isPermaLink="false">41641 at https://newsroom.eclipse.org</guid>
+    </item>
+<item>
+  <title>Eclipse Foundation Security Statement: JARsigner Abuse by Malicious Actors</title>
+  <link>https://newsroom.eclipse.org/news/announcements/eclipse-foundation-security-statement-jarsigner-abuse-malicious-actors</link>
+  <description>
+&lt;span&gt;Eclipse Foundation Security Statement: JARsigner Abuse by Malicious Actors&lt;/span&gt;
+
+&lt;span&gt;&lt;span&gt;Natalia Loungou&lt;/span&gt;&lt;/span&gt;
+
+&lt;span&gt;&lt;time datetime="2025-02-21T04:41:05-05:00" title="Friday, February 21, 2025 - 04:41"&gt;Fri, 2025-02-21 04:41&lt;/time&gt;
+&lt;/span&gt;
+
+            &lt;div class="field field--name-body field--type-text-with-summary field--label-hidden field--item"&gt;&lt;p&gt;As the &lt;strong&gt;Head of Security at the Eclipse Foundation&lt;/strong&gt;, I want to clarify the situation, explain DLL side-loading, and reaffirm our commitment to security and collaboration with the community. My goal is to provide a clear understanding of both the technical aspects of this misuse and our approach to maintaining a secure ecosystem.&lt;/p&gt;&lt;/div&gt;
+      
+  &lt;div class="field field--name-field-news-url field--type-link field--label-above"&gt;
+    &lt;div class="field--label"&gt;URL&lt;/div&gt;
+              &lt;div class="field--item"&gt;&lt;a href="https://blogs.eclipse.org/post/mika%C3%ABl-barbero/eclipse-foundation-security-statement-jarsigner-abuse-malicious-actors"&gt;https://blogs.eclipse.org/post/mika%C3%ABl-barbero/eclipse-foundation-security-…&lt;/a&gt;&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-tags field--type-entity-reference field--label-above"&gt;
+    &lt;div class="field--label"&gt;Tags&lt;/div&gt;
+          &lt;div class="field--items"&gt;
+              &lt;div class="field--item"&gt;&lt;a href="https://newsroom.eclipse.org/tags/security" hreflang="en"&gt;Security&lt;/a&gt;&lt;/div&gt;
+              &lt;/div&gt;
+      &lt;/div&gt;
+</description>
+  <pubDate>Fri, 21 Feb 2025 09:41:05 +0000</pubDate>
+    <dc:creator>Natalia Loungou</dc:creator>
+    <guid isPermaLink="false">41596 at https://newsroom.eclipse.org</guid>
+    </item>
+<item>
+  <title>Stay Connected: Follow ORC on Socials</title>
+  <link>https://newsroom.eclipse.org/news/announcements/stay-connected-follow-orc-socials</link>
+  <description>
+&lt;span&gt;Stay Connected: Follow ORC on Socials&lt;/span&gt;
+
+&lt;span&gt;&lt;span&gt;Shanda Giacomoni&lt;/span&gt;&lt;/span&gt;
+
+&lt;span&gt;&lt;time datetime="2025-02-18T08:26:27-05:00" title="Tuesday, February 18, 2025 - 08:26"&gt;Tue, 2025-02-18 08:26&lt;/time&gt;
+&lt;/span&gt;
+
+            &lt;div class="field field--name-body field--type-text-with-summary field--label-hidden field--item"&gt;&lt;p&gt;ORC has expanded our social channels! Follow us on &amp;nbsp;&lt;a href="https://www.linkedin.com/showcase/open-regulatory-compliance/" rel="nofollow"&gt;LinkedIn&lt;/a&gt;, &lt;a href="https://fosstodon.org/@orcwg" rel="nofollow"&gt;Mastodon&lt;/a&gt;, and &lt;a href="https://bsky.app/profile/orcwg.bsky.social" rel="nofollow"&gt;Bluesky&lt;/a&gt; to stay connected.&amp;nbsp;&lt;/p&gt;&lt;/div&gt;
+      </description>
+  <pubDate>Tue, 18 Feb 2025 13:26:27 +0000</pubDate>
+    <dc:creator>Shanda Giacomoni</dc:creator>
+    <guid isPermaLink="false">41584 at https://newsroom.eclipse.org</guid>
+    </item>
+
+  </channel>
+</rss>
