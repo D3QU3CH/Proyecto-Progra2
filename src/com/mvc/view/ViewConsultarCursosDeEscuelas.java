@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -63,31 +64,52 @@ public class ViewConsultarCursosDeEscuelas extends JFrame {
     public void agregarDatosTabla(Object[][] datos) {
         DefaultTableModel modeloTabla = (DefaultTableModel) tablaEscuelas.getModel();
 
-        // Iterar sobre los datos que queremos agregar
+        
         for (Object[] nuevaFila : datos) {
             boolean existe = false;
 
-            // Verificar si la fila ya existe en la tabla
+            
             for (int i = 0; i < modeloTabla.getRowCount(); i++) {
                 Object[] filaExistente = new Object[modeloTabla.getColumnCount()];
                 for (int j = 0; j < modeloTabla.getColumnCount(); j++) {
                     filaExistente[j] = modeloTabla.getValueAt(i, j);
                 }
 
-                // Comparar la nueva fila con la fila existente
+               
                 if (Arrays.equals(filaExistente, nuevaFila)) {
                     existe = true;
-                    break; // Si ya existe, no es necesario seguir buscando
+                    break; 
                 }
             }
 
-            // Si la fila no existe, agregarla a la tabla
+           
             if (!existe) {
                 modeloTabla.addRow(nuevaFila);
             }
         }
+        
     }
 	
+    public void eliminarCurso(String pDato) {
+    	DefaultTableModel modeloTabla =(DefaultTableModel) tablaEscuelas.getModel();
+    	
+    	for (int i=0; i<modeloTabla.getRowCount();i++) {
+    		Object  valorCelda = modeloTabla.getValueAt(i, 1);
+    		if(valorCelda!=null&&valorCelda.toString().equalsIgnoreCase(pDato)) {
+    			modeloTabla.removeRow(i);
+    			JOptionPane.showMessageDialog(null,"se encontro el curso y se elimino");
+    		}
+    	}
+    	JOptionPane.showMessageDialog(null,"nose encontro el curso");
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    }
 	
 	
 	

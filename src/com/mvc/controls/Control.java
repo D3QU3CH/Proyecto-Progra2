@@ -36,6 +36,7 @@ public class Control {
 		 varConsultasCursos.setVisible(false); // No visible al inicio
 		 agregarCursosActionListener();
 		agregarControladorUniversidad();
+		eliminarCursoActionListener();
 	}
 
 	private void agregarControladorUniversidad() {
@@ -56,6 +57,26 @@ public class Control {
 				agregarCursos();
 			}
 		});
+	}
+	private void eliminarCursoActionListener() {
+		varRegistroCursos.varBotonEliminar.setEnabled(true);
+		varRegistroCursos.varBotonEliminar.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				eliminarCurso();
+				System.out.println("se dio click");
+			}
+			
+		});
+	}
+	public void eliminarCurso() {
+		String varSiglasCurso = varRegistroCursos.varSigla.getText().trim();
+		varConsultasCursos.eliminarCurso(varSiglasCurso);
+		
+	
+		
 	}
 	public void agregarCursos() {
 		
@@ -84,6 +105,7 @@ public class Control {
 		        	varConsultasCursos.agregarDatosTabla(datos);
 		        	
 		         JOptionPane.showMessageDialog(varRegistroCursos, "Curso registrado exitosamente", "Éxito",  JOptionPane.INFORMATION_MESSAGE);
+		         limpiarPanelCurso();
 		         break;
 		        
 		        }else {
