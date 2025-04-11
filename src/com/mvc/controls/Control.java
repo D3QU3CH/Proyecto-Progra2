@@ -8,247 +8,222 @@ import com.mvc.models.Cursos;
 import com.mvc.models.Escuela;
 import com.mvc.models.University;
 import com.mvc.view.ViewActualizarUniversidad;
-import com.mvc.view.ViewConsultarCursosDeEscuelas;
-import com.mvc.view.ViewConsultarEscuelas;
-import com.mvc.view.ViewRegistrarEscuelas;
+import com.mvc.view.ViewCursos;  // Nueva clase combinada
+import com.mvc.view.ViewEscuelas;
 import com.mvc.view.ViewRegistrarUniversidad;
-import com.mvc.view.ViewRegistroDeCursos;
 
 public class Control {
 
-	private ViewRegistrarUniversidad vRegistrarUniversidad;
-	private ViewRegistrarEscuelas vRegistrarEscuela;
-	private ViewActualizarUniversidad vActualizarUniversidad;
-	private ViewConsultarEscuelas vConsultarEscuelas;
-	private University varUniversidadRegistrada;
-	private Cursos varCursosRegistrar;
+    private ViewRegistrarUniversidad vRegistrarUniversidad;
+    private ViewEscuelas vEscuelas;
+    private ViewActualizarUniversidad vActualizarUniversidad;
+    private ViewCursos vCursos; 
+    private University varUniversidadRegistrada;
+    private Cursos varCursosRegistrar;
 
-	// lo hecho por jeferson 
-	private ViewConsultarCursosDeEscuelas varConsultasCursos;
-	private ViewRegistroDeCursos varRegistroCursos;
-	
-	public Control(ViewRegistrarUniversidad pRegistrarUniversidad) {
-		this.vRegistrarUniversidad = pRegistrarUniversidad;
-		vRegistrarUniversidad.setVisible(true);
-		
-		 this.varRegistroCursos= new ViewRegistroDeCursos();
-		 this.varConsultasCursos = new ViewConsultarCursosDeEscuelas(); // Una sola instancia
-		 varConsultasCursos.setVisible(false); // No visible al inicio
-		 agregarCursosActionListener();
-		agregarControladorUniversidad();
-		eliminarCursoActionListener();
-	}
+    public Control(ViewRegistrarUniversidad pRegistrarUniversidad) {
+        this.vRegistrarUniversidad = pRegistrarUniversidad;
+        vRegistrarUniversidad.setVisible(true);
 
-	private void agregarControladorUniversidad() {
-		vRegistrarUniversidad.btnRegisterUniversity.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				agregarUniversidad();
-			}
-		});
-	}
-	private void agregarCursosActionListener() {
-		//reinicio de listeners
-		varRegistroCursos.varBotonRegistrar.removeActionListener(null);
-		
-		varRegistroCursos.varBotonRegistrar.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				agregarCursos();
-			}
-		});
-	}
-	private void eliminarCursoActionListener() {
-		varRegistroCursos.varBotonEliminar.setEnabled(true);
-		varRegistroCursos.varBotonEliminar.addActionListener(new ActionListener() {
+        this.vCursos = new ViewCursos();  // Inicializa la vista combinada
+        vCursos.setVisible(false);  // No visible al inicio
+        
+        agregarCursosActionListener();
+        agregarControladorUniversidad();
+        eliminarCursoActionListener();
+    }
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				eliminarCurso();
-				System.out.println("se dio click");
-			}
-			
-		});
-	}
-	public void eliminarCurso() {
-		String varSiglasCurso = varRegistroCursos.varSigla.getText().trim();
-		varConsultasCursos.eliminarCurso(varSiglasCurso);
-		
-	
-		
-	}
-	public void agregarCursos() {
-		
-		String varSiglasCurso = varRegistroCursos.varSigla.getText().trim();
-		String varDescipcionDeCursos = varRegistroCursos.varDescripcion.getText().trim();
-		String varNombreEscuelas =varRegistroCursos.varEscuelaNombres.getText().trim();
-		
-		if(!varSiglasCurso.isEmpty()&&!varDescipcionDeCursos.isEmpty()&&!varNombreEscuelas.isEmpty()) {
-			
-			String contenido = varNombreEscuelas.toLowerCase().trim();
-			System.out.println("Contenido del JTextArea: " + contenido);
-		    String[] lineas = contenido.split("\n");
+    private void agregarControladorUniversidad() {
+        vRegistrarUniversidad.btnRegisterUniversity.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                agregarUniversidad();
+            }
+        });
+    }
 
-		  
-		    for (String linea : lineas) {
-		        // Eliminamos el número y los dos puntos al inicio de la línea (por ejemplo, "1:")
-		        String nombreEscuelaEnLinea = linea.replaceAll("^[0-9]+:", "").trim();
+    private void agregarCursosActionListener() {
+        // Añadir el ActionListener al botón de registrar curso
+        vCursos.varBtnRegistrar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                agregarCursos();
+            }
+        });
+    }
 
-		        if (nombreEscuelaEnLinea.equalsIgnoreCase(varNombreEscuelas)) {
-		        	varCursosRegistrar = new Cursos(varSiglasCurso,varDescipcionDeCursos,varNombreEscuelas);
-		        	Object[][] datos = {
-		                    {varNombreEscuelas, varSiglasCurso,varDescipcionDeCursos }
-		                
-		                };
-		        	varConsultasCursos.setVisible(true);
-		        	varConsultasCursos.agregarDatosTabla(datos);
-		        	
-		         JOptionPane.showMessageDialog(varRegistroCursos, "Curso registrado exitosamente", "Éxito",  JOptionPane.INFORMATION_MESSAGE);
-		         limpiarPanelCurso();
-		         break;
-		        
-		        }else {
-		        	JOptionPane.showMessageDialog(varRegistroCursos, "Nose encontro la Escuela",  "Advertencia", JOptionPane.WARNING_MESSAGE);
-		        	return;
-		        
-		        }
-		        
-		    }
-		    
-		}else {
-		
-			JOptionPane.showMessageDialog( varRegistroCursos, "Todos los campos son obligatorios",  "Advertencia", JOptionPane.WARNING_MESSAGE);
-		}
-		
+    private void eliminarCursoActionListener() {
+        vCursos.varBtnEliminar.setEnabled(true);
+        vCursos.varBtnEliminar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                eliminarCurso();
+                System.out.println("se dio click");
+            }
+        });
+    }
 
-	  
-		
-		
-	}
-	void limpiarPanelCurso() {
-		if (varRegistroCursos != null) {
-			varRegistroCursos.varSigla.setText("");
-			varRegistroCursos.varDescripcion.setText("");
-			varRegistroCursos.varEscuelaNombres.setText("");
-		}
+    public void eliminarCurso() {
+        String varSiglasCurso = vCursos.varTxtSigla.getText().trim();
+        vCursos.eliminarCurso(varSiglasCurso);
+    }
 
-	}
-	private void agregarUniversidad() {
-		String varNombre = vRegistrarUniversidad.txtName.getText().trim();
-		String varDireccion = vRegistrarUniversidad.txtAdress.getText().trim();
-		String varTelefono = vRegistrarUniversidad.txtPhoneNumber.getText().trim();
+    public void agregarCursos() {
+        String varSiglasCurso = vCursos.varTxtSigla.getText().trim();
+        String varDescipcionDeCursos = vCursos.varTxtDescripcion.getText().trim();
+        String varNombreEscuelas = vCursos.varTxtEscuelaNombres.getText().trim();
 
-		if (!varNombre.isEmpty() && !varDireccion.isEmpty() && !varTelefono.isEmpty()) {
-			varUniversidadRegistrada = new University(varNombre, varDireccion, varTelefono);
+        if (!varSiglasCurso.isEmpty() && !varDescipcionDeCursos.isEmpty() && !varNombreEscuelas.isEmpty()) {
+            String contenido = varNombreEscuelas.toLowerCase().trim();
+            System.out.println("Contenido del JTextArea: " + contenido);
+            String[] lineas = contenido.split("\n");
 
-			JOptionPane.showMessageDialog(vRegistrarUniversidad, "Universidad registrada: " + varNombre, "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            for (String linea : lineas) {
+                // Eliminamos el número y los dos puntos al inicio de la línea (por ejemplo,
+                // "1:")
+                String nombreEscuelaEnLinea = linea.replaceAll("^[0-9]+:", "").trim();
 
-			vRegistrarUniversidad.dispose();
+                if (nombreEscuelaEnLinea.equalsIgnoreCase(varNombreEscuelas)) {
+                    varCursosRegistrar = new Cursos(varSiglasCurso, varDescipcionDeCursos, varNombreEscuelas);
+                    Object[][] datos = { { varNombreEscuelas, varSiglasCurso, varDescipcionDeCursos } };
+                    vCursos.agregarDatosTabla(datos);
 
-			vActualizarUniversidad = new ViewActualizarUniversidad(varNombre, varDireccion, varTelefono);
-			vRegistrarEscuela = new ViewRegistrarEscuelas(varNombre);
-			vConsultarEscuelas = new ViewConsultarEscuelas(varNombre);
+                    JOptionPane.showMessageDialog(vCursos, "Curso registrado exitosamente", "Éxito",
+                            JOptionPane.INFORMATION_MESSAGE);
+                    limpiarPanelCurso();
+                    break;
+                } else {
+                    JOptionPane.showMessageDialog(vCursos, "No se encontró la Escuela", "Advertencia",
+                            JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(vCursos, "Todos los campos son obligatorios", "Advertencia",
+                    JOptionPane.WARNING_MESSAGE);
+        }
+    }
 
-			agregarControladorActualizar();
-			agregarControladorEscuela();
+    void limpiarPanelCurso() {
+        if (vCursos != null) {
+            vCursos.varTxtSigla.setText("");
+            vCursos.varTxtDescripcion.setText("");
+            vCursos.varTxtEscuelaNombres.setText("");
+        }
+    }
 
-		} else {
-			JOptionPane.showMessageDialog(vRegistrarUniversidad, "Todos los campos son obligatorios", "Error", JOptionPane.WARNING_MESSAGE);
-		}
-	}
+    private void agregarUniversidad() {
+        String varNombre = vRegistrarUniversidad.txtName.getText().trim();
+        String varDireccion = vRegistrarUniversidad.txtAdress.getText().trim();
+        String varTelefono = vRegistrarUniversidad.txtPhoneNumber.getText().trim();
 
-	private void agregarControladorActualizar() {
-		vActualizarUniversidad.btnUpdateUniversity.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				actualizarUniversidad();
-			}
-		});
-	}
+        if (!varNombre.isEmpty() && !varDireccion.isEmpty() && !varTelefono.isEmpty()) {
+            varUniversidadRegistrada = new University(varNombre, varDireccion, varTelefono);
 
-	private void actualizarUniversidad() {
-		if (varUniversidadRegistrada != null) {
-			String nuevaDireccion = vActualizarUniversidad.txtNewAdress.getText().trim();
-			String nuevoTelefono = vActualizarUniversidad.txtNewPhone.getText().trim();
+            JOptionPane.showMessageDialog(vRegistrarUniversidad, "Universidad registrada: " + varNombre, "Éxito",
+                    JOptionPane.INFORMATION_MESSAGE);
 
-			if (!nuevaDireccion.isEmpty() && !nuevoTelefono.isEmpty()) {
-				varUniversidadRegistrada.actualizarDatos(nuevaDireccion, nuevoTelefono);
+            vRegistrarUniversidad.dispose();
 
-				JOptionPane.showMessageDialog(vActualizarUniversidad, "Datos actualizados correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            vActualizarUniversidad = new ViewActualizarUniversidad(varNombre, varDireccion, varTelefono);
+            vEscuelas = new ViewEscuelas(varNombre);
 
-				limpiarCampos();
+            agregarControladorActualizar();
+            agregarControladorEscuela();
+        } else {
+            JOptionPane.showMessageDialog(vRegistrarUniversidad, "Todos los campos son obligatorios", "Error",
+                    JOptionPane.WARNING_MESSAGE);
+        }
+    }
 
-			} else {
-				JOptionPane.showMessageDialog(vActualizarUniversidad, "Todos los campos deben estar completos", "Error", JOptionPane.WARNING_MESSAGE);
-			}
-		} else {
-			JOptionPane.showMessageDialog(vActualizarUniversidad, "Primero se debe registrar una universidad", "Error", JOptionPane.WARNING_MESSAGE);
-		}
-	}
+    private void agregarControladorActualizar() {
+        vActualizarUniversidad.btnUpdateUniversity.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                actualizarUniversidad();
+            }
+        });
+    }
 
-	private void agregarControladorEscuela() {
-		vRegistrarEscuela.btnRegisterSchool.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				agregarEscuela();
-				
-	            varRegistroCursos.setVisible(true);
-	            // Agregar el controlador para el botón de registro de cursos
-	            
-			}
-		});
-	}
+    private void actualizarUniversidad() {
+        if (varUniversidadRegistrada != null) {
+            String nuevaDireccion = vActualizarUniversidad.txtNewAdress.getText().trim();
+            String nuevoTelefono = vActualizarUniversidad.txtNewPhone.getText().trim();
 
-	private void agregarEscuela() {
-		if (varUniversidadRegistrada != null) {
-			String nombreEscuela = vRegistrarEscuela.txtNameSchool.getText().trim();
+            if (!nuevaDireccion.isEmpty() && !nuevoTelefono.isEmpty()) {
+                varUniversidadRegistrada.actualizarDatos(nuevaDireccion, nuevoTelefono);
 
-			if (!nombreEscuela.isEmpty()) {
-				Escuela nuevaEscuela = new Escuela(nombreEscuela);
-				varUniversidadRegistrada.agregarEscuela(nuevaEscuela);
+                JOptionPane.showMessageDialog(vActualizarUniversidad, "Datos actualizados correctamente", "Éxito",
+                        JOptionPane.INFORMATION_MESSAGE);
 
-				if (vConsultarEscuelas != null) {
-					agregarEscuelasTxtArea();
-				}
+                limpiarCampos();
+            } else {
+                JOptionPane.showMessageDialog(vActualizarUniversidad, "Todos los campos deben estar completos", "Error",
+                        JOptionPane.WARNING_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(vActualizarUniversidad, "Primero se debe registrar una universidad", "Error",
+                    JOptionPane.WARNING_MESSAGE);
+        }
+    }
 
-				limpiarCampos();
+    private void agregarControladorEscuela() {
+        vEscuelas.btnRegisterSchool.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                agregarEscuela();
 
-			} else {
-				JOptionPane.showMessageDialog(vRegistrarEscuela, "El nombre de la escuela es obligatorio", "Error", JOptionPane.WARNING_MESSAGE);
-			}
-		}
-	}
+                vCursos.setVisible(true);  // Mostramos la vista de cursos
+            }
+        });
+    }
 
-	private void agregarEscuelasTxtArea() {
-		if (varUniversidadRegistrada != null && varUniversidadRegistrada.getEscuelas() != null) {
-			
-			StringBuilder lista = new StringBuilder();
-			int contador = 0;
-			for (Escuela esc : varUniversidadRegistrada.getEscuelas()) {
-				contador++;
-				lista.append(contador+":").append(esc.getVarName()).append("\n");
-			}
-			vConsultarEscuelas.txtAreaEscuelas.setText(lista.toString());
-		}
-	}
+    private void agregarEscuela() {
+        if (varUniversidadRegistrada != null) {
+            String nombreEscuela = vEscuelas.txtNameSchool.getText().trim();
 
-	private void limpiarCampos() {
-		if (vRegistrarUniversidad != null) {
-			vRegistrarUniversidad.txtName.setText("");
-			vRegistrarUniversidad.txtAdress.setText("");
-			vRegistrarUniversidad.txtPhoneNumber.setText("");
-		}
+            if (!nombreEscuela.isEmpty()) {
+                Escuela nuevaEscuela = new Escuela(nombreEscuela);
+                varUniversidadRegistrada.agregarEscuela(nuevaEscuela);
 
-		if (vActualizarUniversidad != null) {
-			vActualizarUniversidad.txtNewAdress.setText("");
-			vActualizarUniversidad.txtNewPhone.setText("");
-		}
+                agregarEscuelasTxtArea();
 
-		if (vRegistrarEscuela != null) {
-			vRegistrarEscuela.txtNameSchool.setText("");
-		}
-		 limpiarPanelCurso();
-		
-	}
+                vEscuelas.txtNameSchool.setText("");
+            } else {
+                JOptionPane.showMessageDialog(vEscuelas, "El nombre de la escuela es obligatorio", "Error",
+                        JOptionPane.WARNING_MESSAGE);
+            }
+        }
+    }
+
+    private void agregarEscuelasTxtArea() {
+        if (varUniversidadRegistrada != null && varUniversidadRegistrada.getEscuelas() != null) {
+            StringBuilder lista = new StringBuilder();
+            int contador = 0;
+            for (Escuela esc : varUniversidadRegistrada.getEscuelas()) {
+                contador++;
+                lista.append(contador + ":").append(esc.getVarName()).append("\n");
+            }
+            vEscuelas.txtAreaEscuelas.setText(lista.toString());
+        }
+    }
+
+    private void limpiarCampos() {
+        if (vRegistrarUniversidad != null) {
+            vRegistrarUniversidad.txtName.setText("");
+            vRegistrarUniversidad.txtAdress.setText("");
+            vRegistrarUniversidad.txtPhoneNumber.setText("");
+        }
+
+        if (vActualizarUniversidad != null) {
+            vActualizarUniversidad.txtNewAdress.setText("");
+            vActualizarUniversidad.txtNewPhone.setText("");
+        }
+
+        if (vEscuelas != null) {
+            vEscuelas.txtNameSchool.setText("");
+        }
+        
+        limpiarPanelCurso();
+    }
 }
