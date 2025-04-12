@@ -2,79 +2,40 @@ package com.mvc.controls;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.JOptionPane;
-
-import com.mvc.models.University;
-import com.mvc.view.ViewMenu;
+import com.mvc.view.MainView;
 
 public class MenuController {
-    private ViewMenu vMenu;
-    private UniversityController universityController;
-    private SchoolController schoolController;
-    private CourseController courseController;
-    //private University currentUniversity;
     
-    public MenuController(ViewMenu pMenu) {
-        this.vMenu = pMenu;
-        
-        this.universityController = new UniversityController();
-        this.schoolController = new SchoolController();
-        this.courseController = new CourseController();
-        
-        configurarMenuListeners();
+    private MainView mainView;
+    
+    public MenuController(MainView mainView) {
+        this.mainView = mainView;
+        setupMenuListeners();
     }
     
-    private void configurarMenuListeners() {
-        vMenu.btnUniversidad.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                universityController.abrirVistaUniversidad();
-            }
-        });
-        
-        vMenu.btnEscuela.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (universityController.getUniversidadRegistrada() == null) {
-                    JOptionPane.showMessageDialog(vMenu, 
-                        "Primero debe registrar una universidad", 
-                        "Advertencia", 
-                        JOptionPane.WARNING_MESSAGE);
-                    return;
+    private void setupMenuListeners() {
+        mainView.setupMenuListeners(
+            // Listener para el botón Universidad
+            new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    mainView.showPanel("UNIVERSIDAD");
                 }
-                schoolController.abrirVistaEscuelas(universityController.getUniversidadRegistrada());
-            }
-        });
-        
-        vMenu.btnCurso.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                University universidad = universityController.getUniversidadRegistrada();
-                if (universidad == null || 
-                    universidad.getEscuelas() == null || 
-                    universidad.getEscuelas().isEmpty()) {
-                    
-                    JOptionPane.showMessageDialog(vMenu, 
-                        "Primero debe registrar una universidad y al menos una escuela", 
-                        "Advertencia", 
-                        JOptionPane.WARNING_MESSAGE);
-                    return;
+            },
+            // Listener para el botón Escuelas
+            new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    mainView.showPanel("ESCUELAS");
                 }
-                
-                courseController.abrirVistaCursos(schoolController.getViewEscuelas());
+            },
+            // Listener para el botón Cursos
+            new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    mainView.showPanel("CURSOS");
+                }
             }
-        });
-    }
-    
-    public void setUniversityController(UniversityController controller) {
-        this.universityController = controller;
-    }
-    
-    public void setSchoolController(SchoolController controller) {
-        this.schoolController = controller;
-    }
-    
-    public void setCourseController(CourseController controller) {
-        this.courseController = controller;
+        );
     }
 }
