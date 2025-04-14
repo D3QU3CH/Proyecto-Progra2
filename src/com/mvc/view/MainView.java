@@ -18,64 +18,7 @@ public class MainView extends JFrame {
     
     // Panel para mostrar el contenido según la selección
     private JPanel contentPanel;
-    
-    // Botones del menú
-    public JButton btnUniversidad;
-    public JButton btnEscuelas;
-    public JButton btnCursos;
-    
-    // Paneles de contenido
-    private JPanel universidadPanel;
-    private JPanel escuelasPanel;
-    private JPanel cursosPanel;
-    
-    // Componentes de Universidad (Registrar y Actualizar)
-    // Registrar Universidad
-    private JLabel lblName;
-    private JLabel lblAdress;
-    private JLabel lblPhoneNumber;
-    public JTextField txtName;
-    public JTextField txtAdress;
-    public JTextField txtPhoneNumber;
-    public JButton btnRegisterUniversity;
-    
-    private JLabel lblUniversityName;
-    private JLabel lblNewAdress;
-    private JLabel lblNewPhone;
-    public JTextField txtNewAdress;
-    public JTextField txtNewPhone;
-    public JButton btnUpdateUniversity;
-    
-    // Componentes de Escuelas
-    public JLabel lblEscuelasTitle;
-    public JLabel lblNameSchool;
-    public JTextField txtNameSchool;
-    public JButton btnRegisterSchool;
-    private JLabel lblTituloEscuelas;
-    public JTextArea txtAreaEscuelas;
-    private JScrollPane scrollPaneEscuelas;
-    
-    // Componentes de Cursos
-    private JPanel panelRegistroCursos;
-    private JPanel panelConsultaCursos;
-    private JPanel panelOpcionesCursos;
-    
-    private JLabel varLblSiglasNom;
-    private JLabel varLblDescripcionNom;
-    private JLabel varLblNombreEscuela;
-    public JTextField varTxtSigla;
-    public JTextField varTxtDescripcion;
-    public JTextField varTxtEscuelaNombres;
-    
-    public JButton varBtnRegistrar;
-    public JButton varBtnEliminar;
-    public JButton varBtnModificar;
-    public JButton varBtnBuscarPorEscuela;
-    
-    private JLabel lblTituloCursos;
-    public JTable tablaEscuelas;
-    private JScrollPane scrollPaneCursos;
-    
+
     public MainView() {
         setTitle("Sistema de Gestión Universitaria");
         setSize(1000, 600);
@@ -111,6 +54,11 @@ public class MainView extends JFrame {
         add(mainPanel);
     
     }
+    
+     // Botones del menú
+    public JButton btnUniversidad;
+    public JButton btnEscuelas;
+    public JButton btnCursos;
  
     private void MenuPanel() {
         menuPanel = new JPanel();
@@ -147,6 +95,25 @@ public class MainView extends JFrame {
         menuPanel.add(Box.createVerticalStrut(10));
         menuPanel.add(btnCursos);
     }
+    
+    // Componentes de Universidad (Registrar y Actualizar)
+    // Registrar Universidad
+    private JLabel lblName;
+    private JLabel lblAdress;
+    private JLabel lblPhoneNumber;
+    public JTextField txtName;
+    public JTextField txtAdress;
+    public JTextField txtPhoneNumber;
+    public JButton btnRegisterUniversity;
+    
+    private JLabel lblUniversityName;
+    private JLabel lblNewAdress;
+    private JLabel lblNewPhone;
+    public JTextField txtNewAdress;
+    public JTextField txtNewPhone;
+    public JButton btnUpdateUniversity;
+    
+    private JPanel universidadPanel;
     
     private void UniversidadPanel() {
         universidadPanel = new JPanel(new BorderLayout(10, 10));
@@ -220,6 +187,17 @@ public class MainView extends JFrame {
         universidadPanel.add(contentUniversidad, BorderLayout.CENTER);
     }
     
+    // Componentes de Escuelas
+    public JLabel lblEscuelasTitle;
+    public JLabel lblNameSchool;
+    public JTextField txtNameSchool;
+    public JButton btnRegisterSchool;
+    private JLabel lblTituloEscuelas;
+    public JTextArea txtAreaEscuelas;
+    private JScrollPane scrollPaneEscuelas;
+    
+    private JPanel escuelasPanel;
+    
     private void EscuelasPanel() {
         escuelasPanel = new JPanel(new BorderLayout(10, 10));
         escuelasPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
@@ -270,6 +248,29 @@ public class MainView extends JFrame {
         
         escuelasPanel.add(contentEscuelas, BorderLayout.CENTER);
     }
+ 
+    // Componentes de Cursos
+    private JPanel panelRegistroCursos;
+    private JPanel panelConsultaCursos;
+    private JPanel panelOpcionesCursos;
+    
+    private JLabel varLblSiglasNom;
+    private JLabel varLblDescripcionNom;
+    private JLabel varLblNombreEscuela;
+    public JTextField varTxtSigla;
+    public JTextField varTxtDescripcion;
+    public JTextField varTxtEscuelaNombres;
+    
+    public JButton varBtnRegistrar;
+    public JButton varBtnEliminar;
+    public JButton varBtnModificar;
+    public JButton varBtnBuscarPorEscuela;
+    
+    private JLabel lblTituloCursos;
+    public JTable tablaEscuelas;
+    private JScrollPane scrollPaneCursos;
+    
+    private JPanel cursosPanel;
     
     private void CursosPanel() {
         cursosPanel = new JPanel(new BorderLayout(10, 10));
