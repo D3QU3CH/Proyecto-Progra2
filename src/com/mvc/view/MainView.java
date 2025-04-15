@@ -1,4 +1,4 @@
-package com.mvc.view;
+ package com.mvc.view;
 import com.formdev.flatlaf.intellijthemes.FlatDraculaIJTheme;
 
 
@@ -43,11 +43,13 @@ public class MainView extends JFrame {
         UniversidadPanel();
         EscuelasPanel();
         CursosPanel();
+        BusquedaPanel();
         
         //Añadir paneles al contenido
         contentPanel.add(universidadPanel, "UNIVERSIDAD");
         contentPanel.add(escuelasPanel, "ESCUELAS");
         contentPanel.add(cursosPanel, "CURSOS");
+        contentPanel.add(panelBusqueda, "BUSQUEDA");
         
         //Añadir componentes al panel principal
         mainPanel.add(menuPanel, BorderLayout.WEST);
@@ -62,7 +64,7 @@ public class MainView extends JFrame {
     public JButton M_btnUniversidad;
     public JButton M_btnEscuelas;
     public JButton M_btnCursos;
- 
+    public JButton M_btnBusqueda;
     private void MenuPanel() {
         menuPanel = new JPanel();
         menuPanel.setLayout(new BoxLayout(menuPanel, BoxLayout.Y_AXIS));
@@ -353,6 +355,42 @@ public class MainView extends JFrame {
         cursosPanel.add(contentCursos, BorderLayout.CENTER);
     }
     
+    //panel de busqueda por curso (Escuela)
+    //jeferson
+    public JPanel panelBusqueda;
+    public JTextField imputBuscar;
+    public JTextArea showTexteArea;
+    
+    private void BusquedaPanel() {
+        panelBusqueda = new JPanel(new BorderLayout(10, 10));
+        panelBusqueda.setBorder(new EmptyBorder(10, 10, 10, 10));
+        panelBusqueda.setPreferredSize(new Dimension(130, 500)); // Tamaño reducido
+
+        JLabel lblBusquedaTitle = new JLabel("Buscar Escuela", JLabel.CENTER);
+        lblBusquedaTitle.setFont(new Font("Arial", Font.BOLD, 16));
+        panelBusqueda.add(lblBusquedaTitle, BorderLayout.NORTH);
+
+        JPanel panelBusquedaForm = new JPanel(new BorderLayout(5, 5));
+        panelBusquedaForm.setBorder(BorderFactory.createTitledBorder("Consulta"));
+
+        imputBuscar = new JTextField();
+        imputBuscar.setFont(new Font("Arial", Font.PLAIN, 14));
+        imputBuscar.setBorder(BorderFactory.createTitledBorder("Nombre de Escuela"));
+        panelBusquedaForm.add(imputBuscar, BorderLayout.NORTH);
+
+        showTexteArea = new JTextArea();
+        showTexteArea.setEditable(false);
+        showTexteArea.setFont(new Font("Arial", Font.PLAIN, 12));
+        showTexteArea.setBorder(BorderFactory.createEtchedBorder());
+
+        JScrollPane scrollBusqueda = new JScrollPane(showTexteArea);
+        panelBusquedaForm.add(scrollBusqueda, BorderLayout.CENTER);
+
+        panelBusqueda.add(panelBusquedaForm, BorderLayout.CENTER);
+    }
+
+    
+    
     public void showPanel(String panelName) {
         CardLayout cl = (CardLayout) contentPanel.getLayout();
         cl.show(contentPanel, panelName);
@@ -371,9 +409,11 @@ public class MainView extends JFrame {
     }
     
     //Metodo para configurar listeners de los botones del menu
-    public void setupMenuListeners(ActionListener universidadListener, ActionListener escuelasListener, ActionListener cursosListener) {
+    public void setupMenuListeners(ActionListener universidadListener, ActionListener escuelasListener, ActionListener cursosListener,ActionListener busquedaPorEscuela) {
         M_btnUniversidad.addActionListener(universidadListener);
         M_btnEscuelas.addActionListener(escuelasListener);
-        M_btnCursos.addActionListener(cursosListener);
+        M_btnCursos.addActionListener(cursosListener); 
+        M_btnBusqueda.addActionListener(busquedaPorEscuela);
+        
     }
 }

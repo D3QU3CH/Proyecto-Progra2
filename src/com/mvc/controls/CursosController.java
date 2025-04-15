@@ -20,7 +20,8 @@ public class CursosController {
         agregarCursosActionListener();
         eliminarCursoActionListener();
         setupTableSelectionListener(); // Nuevo método para configurar el listener de selección
-        modificarCursoActionListener(); //MODIFICAR CURSO
+        modificarCursoActionListener();//MODIFICAR CURSO
+        verPanelBusqueda();
     }
     
     //AGREGAR CURSO
@@ -177,6 +178,7 @@ public class CursosController {
                     JOptionPane.WARNING_MESSAGE);
         }
     }
+   
     
     void limpiarPanelCurso() {
         mainView.varTxtSigla.setText("");
@@ -192,4 +194,7 @@ public class CursosController {
         mainView.varBtnModificar.setEnabled(false);
 
     }
+    //ver panel de busqueda por escuela
+  
+    
 }

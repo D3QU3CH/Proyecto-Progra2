@@ -35,7 +35,16 @@ public class MenuController {
                 public void actionPerformed(ActionEvent e) {
                     mainView.showPanel("CURSOS");
                 }
-            }
+            },
+                
+             new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        mainView.showPanel("BUSQUEDA");
+                    }
+                    
+                
+                }
         );
     }
 }
