@@ -43,12 +43,10 @@ public class EscuelaController {
 
                 mainView.txtNameSchool.setText("");
             } else {
-                JOptionPane.showMessageDialog(mainView, "El nombre de la escuela es obligatorio", "Error",
-                        JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(mainView, "¡El nombre de la escuela es obligatorio!", "¡Error!", JOptionPane.WARNING_MESSAGE);
             }
         } else {
-            JOptionPane.showMessageDialog(mainView, "Primero se debe registrar una universidad", "Error",
-                    JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(mainView, "¡Primero se debe registrar una universidad!", "¡Error!",JOptionPane.WARNING_MESSAGE);
         }
     }
     

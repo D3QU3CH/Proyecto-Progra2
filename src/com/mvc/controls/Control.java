@@ -13,13 +13,13 @@ public class Control {
     public Control(MainView mainView) {
         this.mainView = mainView;
         
-        // Inicializar los controladores específicos
+        //Inicializar los controladores específicos
         menuController = new MenuController(mainView);
         universidadController = new UniversidadController(mainView);
         escuelaController = new EscuelaController(mainView, universidadController);
         cursosController = new CursosController(mainView);
         
-        // Mostrar la vista
+        //Mostrar la vista
         mainView.setVisible(true);
     }
 }

@@ -15,21 +15,21 @@ public class MenuController {
     
     private void setupMenuListeners() {
         mainView.setupMenuListeners(
-            // Listener para el botón Universidad
+            //Listener para el boton Universidad
             new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     mainView.showPanel("UNIVERSIDAD");
                 }
             },
-            // Listener para el botón Escuelas
+            //Listener para el boton Escuelas
             new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     mainView.showPanel("ESCUELAS");
                 }
             },
-            // Listener para el botón Cursos
+            //Listener para el boton Cursos
             new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
