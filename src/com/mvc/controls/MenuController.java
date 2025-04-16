@@ -35,7 +35,14 @@ public class MenuController {
                 public void actionPerformed(ActionEvent e) {
                     mainView.showPanel("CURSOS");
                 }
-            }
+            },
+          //Listener para el boton Buscar por escuela
+            new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    mainView.showPanel("BUSQUEDA");
+                }
+            } 
         );
     }
 }

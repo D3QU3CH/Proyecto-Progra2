@@ -409,11 +409,11 @@ public class MainView extends JFrame {
     }
     
     //Metodo para configurar listeners de los botones del menu
-    public void setupMenuListeners(ActionListener universidadListener, ActionListener escuelasListener, ActionListener cursosListener) {
+    public void setupMenuListeners(ActionListener universidadListener, ActionListener escuelasListener, ActionListener cursosListener, ActionListener busquedaPorEscuela ) {
         M_btnUniversidad.addActionListener(universidadListener);
         M_btnEscuelas.addActionListener(escuelasListener);
         M_btnCursos.addActionListener(cursosListener); 
-       
-        
+        varBtnBuscarPorEscuela.addActionListener(busquedaPorEscuela);
+
     }
 }
