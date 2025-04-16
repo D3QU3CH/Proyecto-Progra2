@@ -15,14 +15,14 @@ public class MainView extends JFrame {
     //Panel principal que contiene todo
     private JPanel mainPanel;
     
-    //Panel para el men˙ lateral
+    //Panel para el men√∫ lateral
     private JPanel menuPanel;
     
     //Panel para mostrar el contenido segun la seleccion
     private JPanel contentPanel;
 
     public MainView() {
-        setTitle("Sistema de GestiÛn Universitaria");
+        setTitle("Sistema de Gesti√≥n Universitaria");
         setSize(1000, 600);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -45,17 +45,17 @@ public class MainView extends JFrame {
         CursosPanel();
         BusquedaPanel();
         
-        //AÒadir paneles al contenido
+        //A√±adir paneles al contenido
         contentPanel.add(universidadPanel, "UNIVERSIDAD");
         contentPanel.add(escuelasPanel, "ESCUELAS");
         contentPanel.add(cursosPanel, "CURSOS");
         contentPanel.add(panelBusqueda, "BUSQUEDA");
         
-        //AÒadir componentes al panel principal
+        //A√±adir componentes al panel principal
         mainPanel.add(menuPanel, BorderLayout.WEST);
         mainPanel.add(contentPanel, BorderLayout.CENTER);
         
-        //AÒadir panel principal al frame
+        //A√±adir panel principal al frame
         add(mainPanel);
     
     }
@@ -68,7 +68,7 @@ public class MainView extends JFrame {
     private void MenuPanel() {
         menuPanel = new JPanel();
         menuPanel.setLayout(new BoxLayout(menuPanel, BoxLayout.Y_AXIS));
-        menuPanel.setBorder(BorderFactory.createTitledBorder("Men˙"));
+        menuPanel.setBorder(BorderFactory.createTitledBorder("Men√∫"));
         menuPanel.setPreferredSize(new Dimension(150, 600));
         
         JLabel lblMenu = new JLabel("OPCIONES");
@@ -89,7 +89,7 @@ public class MainView extends JFrame {
             btn.setMargin(new Insets(10, 10, 10, 10));
         }
         
-        //AÒadir componentes al panel de menu
+        //A√±adir componentes al panel de menu
         menuPanel.add(Box.createVerticalStrut(20));
         menuPanel.add(lblMenu);
         menuPanel.add(Box.createVerticalStrut(20));
@@ -123,7 +123,7 @@ public class MainView extends JFrame {
         universidadPanel = new JPanel(new BorderLayout(10, 10));
         universidadPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
         
-        JLabel lblTitleUniversidad = new JLabel("GestiÛn de Universidad", JLabel.CENTER);
+        JLabel lblTitleUniversidad = new JLabel("Gesti√≥n de Universidad", JLabel.CENTER);
         lblTitleUniversidad.setFont(new Font("Arial", Font.BOLD, 18));
         universidadPanel.add(lblTitleUniversidad, BorderLayout.NORTH);
         
@@ -137,11 +137,11 @@ public class MainView extends JFrame {
         U_lblName.setFont(new Font("Arial", Font.BOLD, 12));
         U_txtName = new JTextField();
         
-        U_lblAdress = new JLabel("DirecciÛn:");
+        U_lblAdress = new JLabel("Direcci√≥n:");
         U_lblAdress.setFont(new Font("Arial", Font.BOLD, 12));
         U_txtAdress = new JTextField();
         
-        U_lblPhoneNumber = new JLabel("N˙mero de TelÈfono:");
+        U_lblPhoneNumber = new JLabel("N√∫mero de Tel√©fono:");
         U_lblPhoneNumber.setFont(new Font("Arial", Font.BOLD, 12));
         U_txtPhoneNumber = new JTextField();
         
@@ -164,11 +164,11 @@ public class MainView extends JFrame {
         U_lblUniversityName = new JLabel("Universidad: ");
         U_lblUniversityName.setFont(new Font("Arial", Font.BOLD, 14));
         
-        U_lblNewAdress = new JLabel("Nueva DirecciÛn:");
+        U_lblNewAdress = new JLabel("Nueva Direcci√≥n:");
         U_lblNewAdress.setFont(new Font("Arial", Font.BOLD, 12));
         U_txtNewAdress = new JTextField();
         
-        U_lblNewPhone = new JLabel("Nuevo N˙mero de TelÈfono:");
+        U_lblNewPhone = new JLabel("Nuevo N√∫mero de Tel√©fono:");
         U_lblNewPhone.setFont(new Font("Arial", Font.BOLD, 12));
         U_txtNewPhone = new JTextField();
         
@@ -206,7 +206,7 @@ public class MainView extends JFrame {
         escuelasPanel = new JPanel(new BorderLayout(10, 10));
         escuelasPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
         
-        JLabel lblTitleEscuelas = new JLabel("GestiÛn de Escuelas", JLabel.CENTER);
+        JLabel lblTitleEscuelas = new JLabel("Gesti√≥n de Escuelas", JLabel.CENTER);
         lblTitleEscuelas.setFont(new Font("Arial", Font.BOLD, 18));
         escuelasPanel.add(lblTitleEscuelas, BorderLayout.NORTH);
         
@@ -280,7 +280,7 @@ public class MainView extends JFrame {
         cursosPanel = new JPanel(new BorderLayout(10, 10));
         cursosPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
         
-        JLabel lblTitleCursos = new JLabel("GestiÛn de Cursos", JLabel.CENTER);
+        JLabel lblTitleCursos = new JLabel("Gesti√≥n de Cursos", JLabel.CENTER);
         lblTitleCursos.setFont(new Font("Arial", Font.BOLD, 18));
         cursosPanel.add(lblTitleCursos, BorderLayout.NORTH);
         
@@ -291,7 +291,7 @@ public class MainView extends JFrame {
         varTxtEscuelaNombres = new JTextField();
         varLblSiglasNom = new JLabel("Siglas del Curso:");
         varTxtSigla = new JTextField();
-        varLblDescripcionNom = new JLabel("DescripciÛn del Curso:");
+        varLblDescripcionNom = new JLabel("Descripci√≥n del Curso:");
         varTxtDescripcion = new JTextField();
         
         panelRegistroCursos.add(varLblNombreEscuela);
@@ -308,7 +308,7 @@ public class MainView extends JFrame {
         lblTituloCursos.setFont(new Font("Arial", Font.BOLD, 16));
         panelConsultaCursos.add(lblTituloCursos, BorderLayout.NORTH);
         
-        String[] columnas = {"Nombre de la Escuela", "Siglas del Curso", "DescripciÛn del Curso"};
+        String[] columnas = {"Nombre de la Escuela", "Siglas del Curso", "Descripci√≥n del Curso"};
         DefaultTableModel modelo = new DefaultTableModel(columnas, 0);
         tablaCursos = new JTable(modelo);
         tablaCursos.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -327,7 +327,7 @@ public class MainView extends JFrame {
         panelOpcionesCursos = new JPanel(new BorderLayout(5, 5));
         panelOpcionesCursos.setBorder(BorderFactory.createTitledBorder("Operaciones Adicionales"));
         
-        JLabel varOpciones = new JLabel("M·s Opciones, Funcionan ingresando las Siglas");
+        JLabel varOpciones = new JLabel("M√°s Opciones, Funcionan ingresando las Siglas");
         varOpciones.setFont(new Font("Arial", Font.BOLD, 14));
         varOpciones.setHorizontalAlignment(SwingConstants.CENTER);
         panelOpcionesCursos.add(varOpciones, BorderLayout.NORTH);
@@ -360,25 +360,44 @@ public class MainView extends JFrame {
     public JPanel panelBusqueda;
     public JTextField imputBuscar;
     public JTextArea showTexteArea;
-    
+    public JButton btnBuscar;
     private void BusquedaPanel() {
+        // Configurar el panel principal de b√∫squeda
         panelBusqueda = new JPanel(new BorderLayout(10, 10));
         panelBusqueda.setBorder(new EmptyBorder(10, 10, 10, 10));
-        panelBusqueda.setPreferredSize(new Dimension(130, 500)); // TamaÒo reducido
+        panelBusqueda.setPreferredSize(new Dimension(300, 500));
+        panelBusqueda.setBackground(Color.LIGHT_GRAY); // Color de fondo para depuraci√≥n
 
+        // T√≠tulo del panel de b√∫squeda
         JLabel lblBusquedaTitle = new JLabel("Buscar Escuela", JLabel.CENTER);
         lblBusquedaTitle.setFont(new Font("Arial", Font.BOLD, 16));
         panelBusqueda.add(lblBusquedaTitle, BorderLayout.NORTH);
 
+        // Panel para el formulario de consulta
         JPanel panelBusquedaForm = new JPanel(new BorderLayout(5, 5));
         panelBusquedaForm.setBorder(BorderFactory.createTitledBorder("Consulta"));
+        panelBusquedaForm.setBackground(Color.CYAN); // Color de fondo para depuraci√≥n
 
+        // Panel para el campo de texto y el bot√≥n
+        JPanel panelInputYBoton = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 5)); // Usar FlowLayout
+        panelInputYBoton.setBackground(Color.YELLOW); // Color de fondo para depuraci√≥n
+
+        // Campo de texto
         imputBuscar = new JTextField();
         imputBuscar.setFont(new Font("Arial", Font.PLAIN, 14));
-        imputBuscar.setBorder(BorderFactory.createTitledBorder("Nombre de Escuela"));
-        panelBusquedaForm.add(imputBuscar, BorderLayout.NORTH);
+        imputBuscar.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5)); // Eliminar t√≠tulo
+        panelInputYBoton.add(imputBuscar);
 
-        showTexteArea = new JTextArea();
+        // Bot√≥n de b√∫squeda
+        btnBuscar = new JButton("Buscar");
+        btnBuscar.setFont(new Font("Arial", Font.BOLD, 14));
+        panelInputYBoton.add(btnBuscar);
+
+        // Agregar el panel de entrada al formulario de consulta
+        panelBusquedaForm.add(panelInputYBoton, BorderLayout.NORTH);
+
+        // √Årea de resultados
+        showTexteArea = new JTextArea(10, 20);
         showTexteArea.setEditable(false);
         showTexteArea.setFont(new Font("Arial", Font.PLAIN, 12));
         showTexteArea.setBorder(BorderFactory.createEtchedBorder());
@@ -386,11 +405,13 @@ public class MainView extends JFrame {
         JScrollPane scrollBusqueda = new JScrollPane(showTexteArea);
         panelBusquedaForm.add(scrollBusqueda, BorderLayout.CENTER);
 
+        // Agregar el formulario de consulta al panel de b√∫squeda
         panelBusqueda.add(panelBusquedaForm, BorderLayout.CENTER);
-    }
 
-    
-    
+        // Forzar redimensionamiento y actualizaci√≥n
+        panelBusqueda.revalidate();
+        panelBusqueda.repaint();
+    }
     public void showPanel(String panelName) {
         CardLayout cl = (CardLayout) contentPanel.getLayout();
         cl.show(contentPanel, panelName);
