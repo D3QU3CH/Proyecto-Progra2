@@ -64,7 +64,7 @@ public class MainView extends JFrame {
     public JButton M_btnUniversidad;
     public JButton M_btnEscuelas;
     public JButton M_btnCursos;
-    public JButton M_btnBusqueda;
+  
     private void MenuPanel() {
         menuPanel = new JPanel();
         menuPanel.setLayout(new BoxLayout(menuPanel, BoxLayout.Y_AXIS));
@@ -409,11 +409,11 @@ public class MainView extends JFrame {
     }
     
     //Metodo para configurar listeners de los botones del menu
-    public void setupMenuListeners(ActionListener universidadListener, ActionListener escuelasListener, ActionListener cursosListener,ActionListener busquedaPorEscuela) {
+    public void setupMenuListeners(ActionListener universidadListener, ActionListener escuelasListener, ActionListener cursosListener) {
         M_btnUniversidad.addActionListener(universidadListener);
         M_btnEscuelas.addActionListener(escuelasListener);
         M_btnCursos.addActionListener(cursosListener); 
-        M_btnBusqueda.addActionListener(busquedaPorEscuela);
+       
         
     }
 }

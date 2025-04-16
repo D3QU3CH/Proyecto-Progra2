@@ -21,7 +21,7 @@ public class CursosController {
         eliminarCursoActionListener();
         setupTableSelectionListener(); // Nuevo método para configurar el listener de selección
         modificarCursoActionListener();//MODIFICAR CURSO
-        verPanelBusqueda();
+       
     }
     
     //AGREGAR CURSO
