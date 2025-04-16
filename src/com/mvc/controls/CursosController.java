@@ -21,7 +21,8 @@ public class CursosController {
         eliminarCursoActionListener();
         setupTableSelectionListener(); // Nuevo método para configurar el listener de selección
         modificarCursoActionListener();//MODIFICAR CURSO
-       
+        ActionListenerBusquedaPorEscuela();//Para la busqueda por esceula
+        botonLimpiarActionListenerParaTextArea();
     }
     
     //AGREGAR CURSO
@@ -36,32 +37,61 @@ public class CursosController {
     }
     
     public void agregarCursos() {
+        // Obtener los datos ingresados por el usuario
         String varSiglasCurso = mainView.varTxtSigla.getText().trim();
         String varDescipcionDeCursos = mainView.varTxtDescripcion.getText().trim();
         String varNombreEscuelas = mainView.varTxtEscuelaNombres.getText().trim();
-
+        // Validar que todos los campos estén llenos
         if (!varSiglasCurso.isEmpty() && !varDescipcionDeCursos.isEmpty() && !varNombreEscuelas.isEmpty()) {
+            // Verificar si la escuela existe en el área de texto de escuelas
             String contenido = mainView.txtAreaEscuelas.getText().toLowerCase().trim();
             String[] lineas = contenido.split("\n");
 
+            boolean escuelaEncontrada = false;
             for (String linea : lineas) {
                 String nombreEscuelaEnLinea = linea.replaceAll("^[0-9]+:", "").trim();
 
                 if (nombreEscuelaEnLinea.equalsIgnoreCase(varNombreEscuelas)) {
-                    varCursosRegistrar = new Cursos(varSiglasCurso, varDescipcionDeCursos, varNombreEscuelas);
-                    Object[][] datos = { { varNombreEscuelas, varSiglasCurso, varDescipcionDeCursos } };
-                    agregarDatosTabla(datos);
-
-                    JOptionPane.showMessageDialog(mainView, "¡Curso registrado exitosamente!", "¡Éxito!",JOptionPane.INFORMATION_MESSAGE);
-                    limpiarPanelCurso();
-                    return;
+                    escuelaEncontrada = true;
+                    break;
                 }
             }
-            
-            JOptionPane.showMessageDialog(mainView, "¡No se encontró la Escuela!", "¡Advertencia!", JOptionPane.WARNING_MESSAGE);
+
+            // Si la escuela no existe, mostrar advertencia
+            if (!escuelaEncontrada) {
+                JOptionPane.showMessageDialog(mainView, "¡No se encontró la Escuela!", "¡Advertencia!", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            // Validar si las siglas del curso ya existen en la tabla
+            DefaultTableModel modeloTabla = (DefaultTableModel) mainView.tablaCursos.getModel();
+            boolean siglasExisten = false;
+
+            for (int i = 0; i < modeloTabla.getRowCount(); i++) {
+                String siglasRegistradas = (String) modeloTabla.getValueAt(i, 1); // Columna de siglas
+
+                if (siglasRegistradas.equalsIgnoreCase(varSiglasCurso)) {
+                    siglasExisten = true;
+                    break;
+                }
+            }
+
+            // Si las siglas ya existen, mostrar advertencia
+            if (siglasExisten) {
+                JOptionPane.showMessageDialog(mainView, "¡Las siglas del curso ya están registradas!", "¡Error!", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Si pasa todas las validaciones, registrar el curso
+            varCursosRegistrar = new Cursos(varSiglasCurso, varDescipcionDeCursos, varNombreEscuelas);
+            Object[][] datos = { { varNombreEscuelas, varSiglasCurso, varDescipcionDeCursos } };
+            agregarDatosTabla(datos);
+
+            JOptionPane.showMessageDialog(mainView, "¡Curso registrado exitosamente!", "¡Éxito!", JOptionPane.INFORMATION_MESSAGE);
+            limpiarPanelCurso();
         } else {
-            JOptionPane.showMessageDialog(mainView, "¡Todos los campos son obligatorios!", "!Advertencia¡",
-                    JOptionPane.WARNING_MESSAGE);
+            // Si algún campo está vacío, mostrar advertencia
+            JOptionPane.showMessageDialog(mainView, "¡Todos los campos son obligatorios!", "¡Advertencia!", JOptionPane.WARNING_MESSAGE);
         }
     }
     
@@ -179,7 +209,18 @@ public class CursosController {
         }
     }
    
-    
+    private void ActionListenerBusquedaPorEscuela() {
+    	mainView.btnBuscar.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				buscarPorEscuela();
+				
+			}
+    		
+    	});
+    }
     void limpiarPanelCurso() {
         mainView.varTxtSigla.setText("");
         mainView.varTxtDescripcion.setText("");
@@ -194,7 +235,46 @@ public class CursosController {
         mainView.varBtnModificar.setEnabled(false);
 
     }
-    //ver panel de busqueda por escuela
+    private void botonLimpiarActionListenerParaTextArea() {
+    	mainView.btnLimpiar.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				LimpiarTextArea();
+			}
+    		
+    	});
+    }
+    public void LimpiarTextArea() {
+    	mainView.imputBuscar.setText("");
+    	mainView.showTexteArea.setText("");
+    }
+    public void buscarPorEscuela() {
+    	 String varNombreEscuela=mainView.imputBuscar.getText().trim();
+    	 DefaultTableModel modeloTabla = (DefaultTableModel) mainView.tablaCursos.getModel();
+    	 boolean coincidenciaEncontrada = false;
+    	 for(int i =0;i<modeloTabla.getRowCount();i++) {
+    		 String varNombreEscuelaEvaluar = (String) modeloTabla.getValueAt(i, 0);
+    		 
+    		 if(varNombreEscuela.equalsIgnoreCase(varNombreEscuelaEvaluar)) {
+    			 coincidenciaEncontrada= true;
+    			 String nombreEscuela = (String) modeloTabla.getValueAt(i, 0); // Columna 0: Nombre de la Escuela
+    	         String siglasCurso = (String) modeloTabla.getValueAt(i, 1);   // Columna 1: Siglas del Curso
+    	         String descripcionCurso = (String) modeloTabla.getValueAt(i, 2);
+    	         String filaTexto = "Escuela: " + nombreEscuela + ", Siglas: " + siglasCurso + ", Descripción: " + descripcionCurso;
+
+    	            // Agregar la fila al JTextArea
+    	         mainView.showTexteArea.append(filaTexto + "\n");
+    		 }
+    	 }
+    	 if(!coincidenciaEncontrada) {
+    		 mainView.imputBuscar.setText("");
+    		 mainView.showTexteArea.setText("");
+    		 JOptionPane.showMessageDialog(mainView, "¡No se encontraron considencias", "¡Advertencia!",
+                     JOptionPane.WARNING_MESSAGE);
+    	 }
+    }
   
     
 }

@@ -5,6 +5,7 @@ import com.formdev.flatlaf.intellijthemes.FlatDraculaIJTheme;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
 import java.awt.event.ActionListener;
@@ -361,37 +362,54 @@ public class MainView extends JFrame {
     public JTextField imputBuscar;
     public JTextArea showTexteArea;
     public JButton btnBuscar;
+    public JButton btnLimpiar;
     private void BusquedaPanel() {
-        // Configurar el panel principal de búsqueda
         panelBusqueda = new JPanel(new BorderLayout(10, 10));
         panelBusqueda.setBorder(new EmptyBorder(10, 10, 10, 10));
         panelBusqueda.setPreferredSize(new Dimension(300, 500));
-        panelBusqueda.setBackground(Color.LIGHT_GRAY); // Color de fondo para depuración
+        panelBusqueda.setBackground(new Color(36, 36, 36)); // Fondo oscuro como el tema FlatLaf
 
         // Título del panel de búsqueda
         JLabel lblBusquedaTitle = new JLabel("Buscar Escuela", JLabel.CENTER);
         lblBusquedaTitle.setFont(new Font("Arial", Font.BOLD, 16));
+        lblBusquedaTitle.setForeground(new Color(187, 187, 187)); // Texto claro
         panelBusqueda.add(lblBusquedaTitle, BorderLayout.NORTH);
 
         // Panel para el formulario de consulta
         JPanel panelBusquedaForm = new JPanel(new BorderLayout(5, 5));
-        panelBusquedaForm.setBorder(BorderFactory.createTitledBorder("Consulta"));
-        panelBusquedaForm.setBackground(Color.CYAN); // Color de fondo para depuración
+        panelBusquedaForm.setBorder(BorderFactory.createTitledBorder(null, "Consulta", 
+            TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, 
+            new Font("Arial", Font.BOLD, 12), new Color(187, 187, 187))); // Título claro
+        panelBusquedaForm.setBackground(new Color(36, 36, 36)); // Fondo oscuro
 
-        // Panel para el campo de texto y el botón
-        JPanel panelInputYBoton = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 5)); // Usar FlowLayout
-        panelInputYBoton.setBackground(Color.YELLOW); // Color de fondo para depuración
+        // Panel para el campo de texto y los botones
+        JPanel panelInputYBoton = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 5));
+        panelInputYBoton.setBackground(new Color(36, 36, 36)); // Fondo oscuro
 
         // Campo de texto
         imputBuscar = new JTextField();
         imputBuscar.setFont(new Font("Arial", Font.PLAIN, 14));
-        imputBuscar.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5)); // Eliminar título
+        imputBuscar.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5)); // Sin borde adicional
+        imputBuscar.setBackground(new Color(50, 50, 50)); // Fondo oscuro para el campo
+        imputBuscar.setForeground(new Color(187, 187, 187)); // Texto claro
+        imputBuscar.setCaretColor(new Color(187, 187, 187)); // Cursor claro
         panelInputYBoton.add(imputBuscar);
 
         // Botón de búsqueda
         btnBuscar = new JButton("Buscar");
         btnBuscar.setFont(new Font("Arial", Font.BOLD, 14));
+        btnBuscar.setBackground(new Color(50, 50, 50)); // Fondo oscuro para el botón
+        btnBuscar.setForeground(new Color(187, 187, 187)); // Texto claro
+        btnBuscar.setFocusPainted(false); // Eliminar el borde de foco
         panelInputYBoton.add(btnBuscar);
+
+        // Botón de limpiar
+        btnLimpiar = new JButton("Limpiar");
+        btnLimpiar.setFont(new Font("Arial", Font.BOLD, 14));
+        btnLimpiar.setBackground(new Color(50, 50, 50)); // Fondo oscuro para el botón
+        btnLimpiar.setForeground(new Color(187, 187, 187)); // Texto claro
+        btnLimpiar.setFocusPainted(false); // Eliminar el borde de foco
+        panelInputYBoton.add(btnLimpiar);
 
         // Agregar el panel de entrada al formulario de consulta
         panelBusquedaForm.add(panelInputYBoton, BorderLayout.NORTH);
@@ -400,9 +418,11 @@ public class MainView extends JFrame {
         showTexteArea = new JTextArea(10, 20);
         showTexteArea.setEditable(false);
         showTexteArea.setFont(new Font("Arial", Font.PLAIN, 12));
+        showTexteArea.setBackground(new Color(50, 50, 50)); // Fondo oscuro
+        showTexteArea.setForeground(new Color(187, 187, 187)); // Texto claro
         showTexteArea.setBorder(BorderFactory.createEtchedBorder());
-
         JScrollPane scrollBusqueda = new JScrollPane(showTexteArea);
+        scrollBusqueda.getViewport().setBackground(new Color(50, 50, 50)); // Fondo oscuro para el scroll
         panelBusquedaForm.add(scrollBusqueda, BorderLayout.CENTER);
 
         // Agregar el formulario de consulta al panel de búsqueda
