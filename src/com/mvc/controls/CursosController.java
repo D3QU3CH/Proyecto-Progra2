@@ -22,7 +22,7 @@ public class CursosController {
         setupTableSelectionListener(); // Nuevo método para configurar el listener de selección
         modificarCursoActionListener();//MODIFICAR CURSO
         ActionListenerBusquedaPorEscuela();//Para la busqueda por esceula
-        botonLimpiarActionListenerParaTextArea();
+       
     }
     
     //AGREGAR CURSO
@@ -235,23 +235,10 @@ public class CursosController {
         mainView.varBtnModificar.setEnabled(false);
 
     }
-    private void botonLimpiarActionListenerParaTextArea() {
-    	mainView.btnLimpiar.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-				LimpiarTextArea();
-			}
-    		
-    	});
-    }
-    public void LimpiarTextArea() {
-    	mainView.imputBuscar.setText("");
-    	mainView.showTexteArea.setText("");
-    }
+  
     public void buscarPorEscuela() {
     	 String varNombreEscuela=mainView.imputBuscar.getText().trim();
+    	 mainView.showTexteArea.setText("");
     	 DefaultTableModel modeloTabla = (DefaultTableModel) mainView.tablaCursos.getModel();
     	 boolean coincidenciaEncontrada = false;
     	 for(int i =0;i<modeloTabla.getRowCount();i++) {

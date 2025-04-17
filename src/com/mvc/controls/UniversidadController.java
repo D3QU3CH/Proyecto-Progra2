@@ -33,6 +33,13 @@ public class UniversidadController {
         String varTelefono = mainView.U_txtPhoneNumber.getText().trim();
 
         if (!varNombre.isEmpty() && !varDireccion.isEmpty() && !varTelefono.isEmpty()) {
+        	
+        	  if (!varTelefono.matches("\\d+")) {
+                  JOptionPane.showMessageDialog(mainView, "El número de teléfono solo debe contener números.", "¡Error!",
+                          JOptionPane.ERROR_MESSAGE);
+                  return; // No continuar si no es válido
+              }
+        	
             varUniversidadRegistrada = new University(varNombre, varDireccion, varTelefono);
 
             JOptionPane.showMessageDialog(mainView, "Universidad registrada: " + varNombre, "¡Éxito!",

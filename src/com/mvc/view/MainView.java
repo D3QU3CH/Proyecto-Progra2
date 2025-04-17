@@ -404,12 +404,12 @@ public class MainView extends JFrame {
         panelInputYBoton.add(btnBuscar);
 
         // Botón de limpiar
-        btnLimpiar = new JButton("Limpiar");
-        btnLimpiar.setFont(new Font("Arial", Font.BOLD, 14));
-        btnLimpiar.setBackground(new Color(50, 50, 50)); // Fondo oscuro para el botón
-        btnLimpiar.setForeground(new Color(187, 187, 187)); // Texto claro
-        btnLimpiar.setFocusPainted(false); // Eliminar el borde de foco
-        panelInputYBoton.add(btnLimpiar);
+        //btnLimpiar = new JButton("Limpiar");
+       // btnLimpiar.setFont(new Font("Arial", Font.BOLD, 14));
+       // btnLimpiar.setBackground(new Color(50, 50, 50)); // Fondo oscuro para el botón
+       // btnLimpiar.setForeground(new Color(187, 187, 187)); // Texto claro
+       // btnLimpiar.setFocusPainted(false); // Eliminar el borde de foco
+       // panelInputYBoton.add(btnLimpiar);
 
         // Agregar el panel de entrada al formulario de consulta
         panelBusquedaForm.add(panelInputYBoton, BorderLayout.NORTH);
