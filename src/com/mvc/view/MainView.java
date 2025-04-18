@@ -28,19 +28,19 @@ public class MainView extends JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         
+        //Tema de toda la interfaz
         FlatDraculaIJTheme.setup();
+        
         //Configuracion del panel principal
         mainPanel = new JPanel(new BorderLayout(10, 10));
         mainPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
-        
-        //Configuracion del panel de menu
-        MenuPanel();
         
         //Configuracion del panel de contenido
         contentPanel = new JPanel(new CardLayout());
         contentPanel.setBorder(BorderFactory.createEtchedBorder());
         
-        //Configurar los paneles de contenido
+        //Llamar los paneles de contenido
+        MenuPanel();
         UniversidadPanel();
         EscuelasPanel();
         CursosPanel();

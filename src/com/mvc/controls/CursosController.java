@@ -44,14 +44,14 @@ public class CursosController {
         // Validar que todos los campos estén llenos
         if (!varSiglasCurso.isEmpty() && !varDescipcionDeCursos.isEmpty() && !varNombreEscuelas.isEmpty()) {
             // Verificar si la escuela existe en el área de texto de escuelas
-            String contenido = mainView.txtAreaEscuelas.getText().toLowerCase().trim();
+            String contenido = mainView.txtAreaEscuelas.getText().trim();
             String[] lineas = contenido.split("\n");
 
             boolean escuelaEncontrada = false;
             for (String linea : lineas) {
                 String nombreEscuelaEnLinea = linea.replaceAll("^[0-9]+:", "").trim();
 
-                if (nombreEscuelaEnLinea.equalsIgnoreCase(varNombreEscuelas)) {
+                if (nombreEscuelaEnLinea.equals(varNombreEscuelas)) {
                     escuelaEncontrada = true;
                     break;
                 }
@@ -227,25 +227,26 @@ public class CursosController {
     	 String varNombreEscuela=mainView.txtBuscar.getText().trim();
     	 mainView.showTextArea.setText("");
     	 DefaultTableModel modeloTabla = (DefaultTableModel) mainView.tablaCursos.getModel();
-    	 boolean coincidenciaEncontrada = false;
+    	 boolean escuelaEncontrada = false;
     	 for(int i =0;i<modeloTabla.getRowCount();i++) {
     		 String varNombreEscuelaEvaluar = (String) modeloTabla.getValueAt(i, 0);
     		 
-    		 if(varNombreEscuela.equalsIgnoreCase(varNombreEscuelaEvaluar)) {
-    			 coincidenciaEncontrada= true;
+    		 if(varNombreEscuela.equals(varNombreEscuelaEvaluar)) {
+    			 escuelaEncontrada= true;
+    			 
     			 String nombreEscuela = (String) modeloTabla.getValueAt(i, 0); // Columna 0: Nombre de la Escuela
     	         String siglasCurso = (String) modeloTabla.getValueAt(i, 1);   // Columna 1: Siglas del Curso
     	         String descripcionCurso = (String) modeloTabla.getValueAt(i, 2);
-    	         String filaTexto = "Escuela: " + nombreEscuela + ", Siglas: " + siglasCurso + ", Descripción: " + descripcionCurso;
+    	         String filaTexto = "Escuela: " + nombreEscuela + " - Siglas: " + siglasCurso + " - Descripción: " + descripcionCurso;
 
     	            // Agregar la fila al JTextArea
     	         mainView.showTextArea.append(filaTexto + "\n");
     		 }
     	 }
-    	 if(!coincidenciaEncontrada) {
+    	 if(!escuelaEncontrada) {
     		 mainView.txtBuscar.setText("");
     		 mainView.showTextArea.setText("");
-    		 JOptionPane.showMessageDialog(mainView, "¡No se encontraron considencias", "¡Advertencia!",
+    		 JOptionPane.showMessageDialog(mainView, "¡No se encontró la escuela", "¡Advertencia!",
                      JOptionPane.WARNING_MESSAGE);
     	 }
     }
