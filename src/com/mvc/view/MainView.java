@@ -62,9 +62,9 @@ public class MainView extends JFrame {
     }
     
      //Botones del menu
-    public JButton M_btnUniversidad;
-    public JButton M_btnEscuelas;
-    public JButton M_btnCursos;
+    public JButton btnUniversidad;
+    public JButton btnEscuelas;
+    public JButton btnCursos;
   
     private void MenuPanel() {
         menuPanel = new JPanel();
@@ -76,47 +76,45 @@ public class MainView extends JFrame {
         lblMenu.setFont(new Font("Arial", Font.BOLD, 16));
         lblMenu.setAlignmentX(Component.CENTER_ALIGNMENT);
         
-        M_btnUniversidad = new JButton("Universidad");
-        M_btnEscuelas = new JButton("Escuelas");
-        M_btnCursos = new JButton("Cursos");
+        btnUniversidad = new JButton("Universidad");
+        btnEscuelas = new JButton("Escuelas");
+        btnCursos = new JButton("Cursos");
         
         //Configuracion de los botones
-        JButton[] buttons = {M_btnUniversidad, M_btnEscuelas, M_btnCursos};
+        JButton[] buttons = {btnUniversidad, btnEscuelas, btnCursos};
         for (JButton btn : buttons) {
             btn.setMaximumSize(new Dimension(140, 40));
-            btn.setPreferredSize(new Dimension(140, 40));
             btn.setFont(new Font("Arial", Font.BOLD, 12));
             btn.setAlignmentX(Component.CENTER_ALIGNMENT);
-            btn.setMargin(new Insets(10, 10, 10, 10));
         }
         
         //Añadir componentes al panel de menu
         menuPanel.add(Box.createVerticalStrut(20));
         menuPanel.add(lblMenu);
         menuPanel.add(Box.createVerticalStrut(20));
-        menuPanel.add(M_btnUniversidad);
+        menuPanel.add(btnUniversidad);
         menuPanel.add(Box.createVerticalStrut(10));
-        menuPanel.add(M_btnEscuelas);
+        menuPanel.add(btnEscuelas);
         menuPanel.add(Box.createVerticalStrut(10));
-        menuPanel.add(M_btnCursos);
+        menuPanel.add(btnCursos);
     }
     
     //Componentes de Universidad (Registrar y Actualizar)
     //Registrar Universidad
-    private JLabel U_lblName;
-    private JLabel U_lblAdress;
-    private JLabel U_lblPhoneNumber;
-    public JTextField U_txtName;
-    public JTextField U_txtAdress;
-    public JTextField U_txtPhoneNumber;
-    public JButton U_btnRegisterUniversity;
+    private JLabel lblName;
+    private JLabel lblAdress;
+    private JLabel lblPhoneNumber;
+    public JTextField txtName;
+    public JTextField txtAdress;
+    public JTextField txtPhoneNumber;
+    public JButton btnRegisterUniversity;
     
-    private JLabel U_lblUniversityName;
-    private JLabel U_lblNewAdress;
-    private JLabel U_lblNewPhone;
-    public JTextField U_txtNewAdress;
-    public JTextField U_txtNewPhone;
-    public JButton U_btnUpdateUniversity;
+    private JLabel lblUniversityName;
+    private JLabel lblNewAdress;
+    private JLabel lblNewPhone;
+    public JTextField txtNewAdress;
+    public JTextField txtNewPhone;
+    public JButton btnUpdateUniversity;
     
     private JPanel universidadPanel;
     
@@ -134,57 +132,57 @@ public class MainView extends JFrame {
         JPanel registerPanel = new JPanel(new GridLayout(4, 2, 5, 5));
         registerPanel.setBorder(BorderFactory.createTitledBorder("Registrar Universidad"));
         
-        U_lblName = new JLabel("Nombre de la Universidad:");
-        U_lblName.setFont(new Font("Arial", Font.BOLD, 12));
-        U_txtName = new JTextField();
+        lblName = new JLabel("Nombre de la Universidad:");
+        lblName.setFont(new Font("Arial", Font.BOLD, 16));
+        txtName = new JTextField();
         
-        U_lblAdress = new JLabel("Dirección:");
-        U_lblAdress.setFont(new Font("Arial", Font.BOLD, 12));
-        U_txtAdress = new JTextField();
+        lblAdress = new JLabel("Dirección:");
+        lblAdress.setFont(new Font("Arial", Font.BOLD, 16));
+        txtAdress = new JTextField();
         
-        U_lblPhoneNumber = new JLabel("Número de Teléfono:");
-        U_lblPhoneNumber.setFont(new Font("Arial", Font.BOLD, 12));
-        U_txtPhoneNumber = new JTextField();
+        lblPhoneNumber = new JLabel("Número de Teléfono:");
+        lblPhoneNumber.setFont(new Font("Arial", Font.BOLD, 16));
+        txtPhoneNumber = new JTextField();
         
-        U_btnRegisterUniversity = new JButton("Registrar Universidad");
-        U_btnRegisterUniversity.setFont(new Font("Arial", Font.PLAIN, 14));
+        btnRegisterUniversity = new JButton("Registrar Universidad");
+        btnRegisterUniversity.setFont(new Font("Arial", Font.BOLD, 16));
         
-        registerPanel.add(U_lblName);
-        registerPanel.add(U_txtName);
-        registerPanel.add(U_lblAdress);
-        registerPanel.add(U_txtAdress);
-        registerPanel.add(U_lblPhoneNumber);
-        registerPanel.add(U_txtPhoneNumber);
+        registerPanel.add(lblName);
+        registerPanel.add(txtName);
+        registerPanel.add(lblAdress);
+        registerPanel.add(txtAdress);
+        registerPanel.add(lblPhoneNumber);
+        registerPanel.add(txtPhoneNumber);
         registerPanel.add(new JLabel());
-        registerPanel.add(U_btnRegisterUniversity);
+        registerPanel.add(btnRegisterUniversity);
         
         //Panel para actualizar universidad
         JPanel updatePanel = new JPanel(new GridLayout(4, 2, 5, 5));
         updatePanel.setBorder(BorderFactory.createTitledBorder("Actualizar Universidad"));
         
-        U_lblUniversityName = new JLabel("Universidad: ");
-        U_lblUniversityName.setFont(new Font("Arial", Font.BOLD, 14));
+        lblUniversityName = new JLabel("Universidad: ");
+        lblUniversityName.setFont(new Font("Arial", Font.ITALIC, 16));
         
-        U_lblNewAdress = new JLabel("Nueva Dirección:");
-        U_lblNewAdress.setFont(new Font("Arial", Font.BOLD, 12));
-        U_txtNewAdress = new JTextField();
+        lblNewAdress = new JLabel("Nueva Dirección:");
+        lblNewAdress.setFont(new Font("Arial", Font.BOLD, 16));
+        txtNewAdress = new JTextField();
         
-        U_lblNewPhone = new JLabel("Nuevo Número de Teléfono:");
-        U_lblNewPhone.setFont(new Font("Arial", Font.BOLD, 12));
-        U_txtNewPhone = new JTextField();
+        lblNewPhone = new JLabel("Nuevo Número de Teléfono:");
+        lblNewPhone.setFont(new Font("Arial", Font.BOLD, 16));
+        txtNewPhone = new JTextField();
         
-        U_btnUpdateUniversity = new JButton("Actualizar Universidad");
-        U_btnUpdateUniversity.setFont(new Font("Arial", Font.PLAIN, 14));
-        U_btnUpdateUniversity.setEnabled(false);
+        btnUpdateUniversity = new JButton("Actualizar Universidad");
+        btnUpdateUniversity.setFont(new Font("Arial", Font.BOLD, 16));
+        btnUpdateUniversity.setEnabled(false);
         
-        updatePanel.add(U_lblUniversityName);
+        updatePanel.add(lblUniversityName);
         updatePanel.add(new JLabel());
-        updatePanel.add(U_lblNewAdress);
-        updatePanel.add(U_txtNewAdress);
-        updatePanel.add(U_lblNewPhone);
-        updatePanel.add(U_txtNewPhone);
+        updatePanel.add(lblNewAdress);
+        updatePanel.add(txtNewAdress);
+        updatePanel.add(lblNewPhone);
+        updatePanel.add(txtNewPhone);
         updatePanel.add(new JLabel());
-        updatePanel.add(U_btnUpdateUniversity);
+        updatePanel.add(btnUpdateUniversity);
         
         contentUniversidad.add(registerPanel);
         contentUniversidad.add(updatePanel);
@@ -215,7 +213,7 @@ public class MainView extends JFrame {
         panelRegistroEscuela.setBorder(BorderFactory.createTitledBorder("Registrar Escuela"));
         
         lblEscuelasTitle = new JLabel("Universidad: ");
-        lblEscuelasTitle.setFont(new Font("Arial", Font.BOLD, 14));
+        lblEscuelasTitle.setFont(new Font("Arial", Font.ITALIC, 16));
         
         lblNameSchool = new JLabel("Nombre De la Escuela:");
         lblNameSchool.setFont(new Font("Arial", Font.BOLD, 12));
@@ -223,7 +221,7 @@ public class MainView extends JFrame {
         txtNameSchool = new JTextField();
         
         btnRegisterSchool = new JButton("Registrar Escuela");
-        btnRegisterSchool.setFont(new Font("Arial", Font.PLAIN, 14));
+        btnRegisterSchool.setFont(new Font("Arial", Font.BOLD, 14));
         btnRegisterSchool.setEnabled(false);
         
         panelRegistroEscuela.add(lblEscuelasTitle);
@@ -241,7 +239,7 @@ public class MainView extends JFrame {
         
         txtAreaEscuelas = new JTextArea();
         txtAreaEscuelas.setEditable(false);
-        txtAreaEscuelas.setFont(new Font("Arial", Font.PLAIN, 30));
+        txtAreaEscuelas.setFont(new Font("Arial", Font.BOLD, 20));
         txtAreaEscuelas.setBorder(BorderFactory.createEtchedBorder());
         
         scrollPaneEscuelas = new JScrollPane(txtAreaEscuelas);
@@ -289,10 +287,13 @@ public class MainView extends JFrame {
         panelRegistroCursos.setBorder(BorderFactory.createTitledBorder("Registro de Cursos"));
         
         varLblNombreEscuela = new JLabel("Nombre de la Escuela:");
+        varLblNombreEscuela.setFont(new Font("Arial", Font.BOLD, 14));
         varTxtEscuelaNombres = new JTextField();
         varLblSiglasNom = new JLabel("Siglas del Curso:");
+        varLblSiglasNom.setFont(new Font("Arial", Font.BOLD, 14));
         varTxtSigla = new JTextField();
         varLblDescripcionNom = new JLabel("Descripción del Curso:");
+        varLblDescripcionNom.setFont(new Font("Arial", Font.BOLD, 14));
         varTxtDescripcion = new JTextField();
         
         panelRegistroCursos.add(varLblNombreEscuela);
@@ -321,14 +322,14 @@ public class MainView extends JFrame {
         
         JPanel panelBotonesAccion = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
         varBtnRegistrar = new JButton("Registrar Curso");
-        varBtnRegistrar.setFont(new Font("Arial", Font.PLAIN, 13));
+        varBtnRegistrar.setFont(new Font("Arial", Font.BOLD, 13));
         varBtnRegistrar.setEnabled(false);
         panelBotonesAccion.add(varBtnRegistrar);
         
         panelOpcionesCursos = new JPanel(new BorderLayout(5, 5));
         panelOpcionesCursos.setBorder(BorderFactory.createTitledBorder("Operaciones Adicionales"));
         
-        JLabel varOpciones = new JLabel("Más Opciones, Funcionan ingresando las Siglas");
+        JLabel varOpciones = new JLabel("Más Opciones...");
         varOpciones.setFont(new Font("Arial", Font.BOLD, 14));
         varOpciones.setHorizontalAlignment(SwingConstants.CENTER);
         panelOpcionesCursos.add(varOpciones, BorderLayout.NORTH);
@@ -340,13 +341,12 @@ public class MainView extends JFrame {
         
         JButton[] botones = { varBtnEliminar, varBtnModificar, varBtnBuscarPorEscuela };
         for (JButton btn : botones) {
-            btn.setFont(new Font("Arial", Font.PLAIN, 12));
+            btn.setFont(new Font("Arial", Font.BOLD, 12));
             btn.setEnabled(false);
             additionalButtonsPanel.add(btn);
         }
         
-        panelOpcionesCursos.add(additionalButtonsPanel, BorderLayout.CENTER);
-        
+        panelOpcionesCursos.add(additionalButtonsPanel, BorderLayout.CENTER);       
         JPanel contentCursos = new JPanel(new BorderLayout(10, 10));
         contentCursos.add(panelRegistroCursos, BorderLayout.NORTH);
         contentCursos.add(panelConsultaCursos, BorderLayout.CENTER);
@@ -359,78 +359,41 @@ public class MainView extends JFrame {
     //panel de busqueda por curso (Escuela)
     //jeferson
     public JPanel panelBusqueda;
-    public JTextField imputBuscar;
-    public JTextArea showTexteArea;
+    public JTextField txtBuscar;
+    public JTextArea showTextArea;
     public JButton btnBuscar;
     public JButton btnLimpiar;
+    
     private void BusquedaPanel() {
+    	
         panelBusqueda = new JPanel(new BorderLayout(10, 10));
         panelBusqueda.setBorder(new EmptyBorder(10, 10, 10, 10));
-        panelBusqueda.setPreferredSize(new Dimension(300, 500));
-        panelBusqueda.setBackground(new Color(36, 36, 36)); // Fondo oscuro como el tema FlatLaf
 
-        // Título del panel de búsqueda
         JLabel lblBusquedaTitle = new JLabel("Buscar Escuela", JLabel.CENTER);
         lblBusquedaTitle.setFont(new Font("Arial", Font.BOLD, 16));
-        lblBusquedaTitle.setForeground(new Color(187, 187, 187)); // Texto claro
         panelBusqueda.add(lblBusquedaTitle, BorderLayout.NORTH);
 
-        // Panel para el formulario de consulta
-        JPanel panelBusquedaForm = new JPanel(new BorderLayout(5, 5));
-        panelBusquedaForm.setBorder(BorderFactory.createTitledBorder(null, "Consulta", 
-            TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, 
-            new Font("Arial", Font.BOLD, 12), new Color(187, 187, 187))); // Título claro
-        panelBusquedaForm.setBackground(new Color(36, 36, 36)); // Fondo oscuro
+        JPanel panelBusquedaForm = new JPanel(new BorderLayout(5, 15));
+        panelBusquedaForm.setBorder(BorderFactory.createTitledBorder("Consulta"));
 
-        // Panel para el campo de texto y los botones
-        JPanel panelInputYBoton = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 5));
-        panelInputYBoton.setBackground(new Color(36, 36, 36)); // Fondo oscuro
+        JPanel panelTxtYBoton = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        txtBuscar = new JTextField(30);
+        panelTxtYBoton.add(txtBuscar);
 
-        // Campo de texto
-        imputBuscar = new JTextField();
-        imputBuscar.setFont(new Font("Arial", Font.PLAIN, 14));
-        imputBuscar.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5)); // Sin borde adicional
-        imputBuscar.setBackground(new Color(50, 50, 50)); // Fondo oscuro para el campo
-        imputBuscar.setForeground(new Color(187, 187, 187)); // Texto claro
-        imputBuscar.setCaretColor(new Color(187, 187, 187)); // Cursor claro
-        panelInputYBoton.add(imputBuscar);
-
-        // Botón de búsqueda
         btnBuscar = new JButton("Buscar");
         btnBuscar.setFont(new Font("Arial", Font.BOLD, 14));
-        btnBuscar.setBackground(new Color(50, 50, 50)); // Fondo oscuro para el botón
-        btnBuscar.setForeground(new Color(187, 187, 187)); // Texto claro
-        btnBuscar.setFocusPainted(false); // Eliminar el borde de foco
-        panelInputYBoton.add(btnBuscar);
+        panelTxtYBoton.add(btnBuscar);
 
-        // Botón de limpiar
-        //btnLimpiar = new JButton("Limpiar");
-       // btnLimpiar.setFont(new Font("Arial", Font.BOLD, 14));
-       // btnLimpiar.setBackground(new Color(50, 50, 50)); // Fondo oscuro para el botón
-       // btnLimpiar.setForeground(new Color(187, 187, 187)); // Texto claro
-       // btnLimpiar.setFocusPainted(false); // Eliminar el borde de foco
-       // panelInputYBoton.add(btnLimpiar);
+        panelBusquedaForm.add(panelTxtYBoton, BorderLayout.NORTH);
 
-        // Agregar el panel de entrada al formulario de consulta
-        panelBusquedaForm.add(panelInputYBoton, BorderLayout.NORTH);
+        showTextArea = new JTextArea(10, 20);
+        showTextArea.setEditable(false);
+        showTextArea.setFont(new Font("Arial", Font.BOLD, 20));
+        
+        JScrollPane scrollBusqueda = new JScrollPane(showTextArea);
+        panelBusquedaForm.add(scrollBusqueda);
 
-        // Área de resultados
-        showTexteArea = new JTextArea(10, 20);
-        showTexteArea.setEditable(false);
-        showTexteArea.setFont(new Font("Arial", Font.PLAIN, 12));
-        showTexteArea.setBackground(new Color(50, 50, 50)); // Fondo oscuro
-        showTexteArea.setForeground(new Color(187, 187, 187)); // Texto claro
-        showTexteArea.setBorder(BorderFactory.createEtchedBorder());
-        JScrollPane scrollBusqueda = new JScrollPane(showTexteArea);
-        scrollBusqueda.getViewport().setBackground(new Color(50, 50, 50)); // Fondo oscuro para el scroll
-        panelBusquedaForm.add(scrollBusqueda, BorderLayout.CENTER);
-
-        // Agregar el formulario de consulta al panel de búsqueda
         panelBusqueda.add(panelBusquedaForm, BorderLayout.CENTER);
-
-        // Forzar redimensionamiento y actualización
-        panelBusqueda.revalidate();
-        panelBusqueda.repaint();
     }
     public void showPanel(String panelName) {
         CardLayout cl = (CardLayout) contentPanel.getLayout();
@@ -438,22 +401,20 @@ public class MainView extends JFrame {
     }
     
     public void setUniversityName(String name) {
-        U_lblUniversityName.setText("Universidad: " + name);
+        lblUniversityName.setText("Universidad: " + name);
         lblEscuelasTitle.setText("Universidad: " + name);
     }
     
     public void enableCursosControls(boolean enable) {
-        varBtnRegistrar.setEnabled(enable);
         varBtnEliminar.setEnabled(enable);
-        varBtnModificar.setEnabled(enable);
         varBtnBuscarPorEscuela.setEnabled(enable);
     }
     
     //Metodo para configurar listeners de los botones del menu
     public void setupMenuListeners(ActionListener universidadListener, ActionListener escuelasListener, ActionListener cursosListener, ActionListener busquedaPorEscuela ) {
-        M_btnUniversidad.addActionListener(universidadListener);
-        M_btnEscuelas.addActionListener(escuelasListener);
-        M_btnCursos.addActionListener(cursosListener); 
+        btnUniversidad.addActionListener(universidadListener);
+        btnEscuelas.addActionListener(escuelasListener);
+        btnCursos.addActionListener(cursosListener); 
         varBtnBuscarPorEscuela.addActionListener(busquedaPorEscuela);
 
     }

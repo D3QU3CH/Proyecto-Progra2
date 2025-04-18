@@ -86,6 +86,8 @@ public class CursosController {
             varCursosRegistrar = new Cursos(varSiglasCurso, varDescipcionDeCursos, varNombreEscuelas);
             Object[][] datos = { { varNombreEscuelas, varSiglasCurso, varDescipcionDeCursos } };
             agregarDatosTabla(datos);
+            
+            mainView.enableCursosControls(true);
 
             JOptionPane.showMessageDialog(mainView, "¡Curso registrado exitosamente!", "¡Éxito!", JOptionPane.INFORMATION_MESSAGE);
             limpiarPanelCurso();
@@ -214,13 +216,40 @@ public class CursosController {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				buscarPorEscuela();
 				
 			}
     		
     	});
     }
+  
+    public void buscarPorEscuela() {
+    	 String varNombreEscuela=mainView.txtBuscar.getText().trim();
+    	 mainView.showTextArea.setText("");
+    	 DefaultTableModel modeloTabla = (DefaultTableModel) mainView.tablaCursos.getModel();
+    	 boolean coincidenciaEncontrada = false;
+    	 for(int i =0;i<modeloTabla.getRowCount();i++) {
+    		 String varNombreEscuelaEvaluar = (String) modeloTabla.getValueAt(i, 0);
+    		 
+    		 if(varNombreEscuela.equalsIgnoreCase(varNombreEscuelaEvaluar)) {
+    			 coincidenciaEncontrada= true;
+    			 String nombreEscuela = (String) modeloTabla.getValueAt(i, 0); // Columna 0: Nombre de la Escuela
+    	         String siglasCurso = (String) modeloTabla.getValueAt(i, 1);   // Columna 1: Siglas del Curso
+    	         String descripcionCurso = (String) modeloTabla.getValueAt(i, 2);
+    	         String filaTexto = "Escuela: " + nombreEscuela + ", Siglas: " + siglasCurso + ", Descripción: " + descripcionCurso;
+
+    	            // Agregar la fila al JTextArea
+    	         mainView.showTextArea.append(filaTexto + "\n");
+    		 }
+    	 }
+    	 if(!coincidenciaEncontrada) {
+    		 mainView.txtBuscar.setText("");
+    		 mainView.showTextArea.setText("");
+    		 JOptionPane.showMessageDialog(mainView, "¡No se encontraron considencias", "¡Advertencia!",
+                     JOptionPane.WARNING_MESSAGE);
+    	 }
+    }
+    
     void limpiarPanelCurso() {
         mainView.varTxtSigla.setText("");
         mainView.varTxtDescripcion.setText("");
@@ -235,33 +264,5 @@ public class CursosController {
         mainView.varBtnModificar.setEnabled(false);
 
     }
-  
-    public void buscarPorEscuela() {
-    	 String varNombreEscuela=mainView.imputBuscar.getText().trim();
-    	 mainView.showTexteArea.setText("");
-    	 DefaultTableModel modeloTabla = (DefaultTableModel) mainView.tablaCursos.getModel();
-    	 boolean coincidenciaEncontrada = false;
-    	 for(int i =0;i<modeloTabla.getRowCount();i++) {
-    		 String varNombreEscuelaEvaluar = (String) modeloTabla.getValueAt(i, 0);
-    		 
-    		 if(varNombreEscuela.equalsIgnoreCase(varNombreEscuelaEvaluar)) {
-    			 coincidenciaEncontrada= true;
-    			 String nombreEscuela = (String) modeloTabla.getValueAt(i, 0); // Columna 0: Nombre de la Escuela
-    	         String siglasCurso = (String) modeloTabla.getValueAt(i, 1);   // Columna 1: Siglas del Curso
-    	         String descripcionCurso = (String) modeloTabla.getValueAt(i, 2);
-    	         String filaTexto = "Escuela: " + nombreEscuela + ", Siglas: " + siglasCurso + ", Descripción: " + descripcionCurso;
-
-    	            // Agregar la fila al JTextArea
-    	         mainView.showTexteArea.append(filaTexto + "\n");
-    		 }
-    	 }
-    	 if(!coincidenciaEncontrada) {
-    		 mainView.imputBuscar.setText("");
-    		 mainView.showTexteArea.setText("");
-    		 JOptionPane.showMessageDialog(mainView, "¡No se encontraron considencias", "¡Advertencia!",
-                     JOptionPane.WARNING_MESSAGE);
-    	 }
-    }
-  
     
 }

@@ -19,7 +19,7 @@ public class UniversidadController {
     }
     
     private void registerUniversityActionListener() {
-    	mainView.U_btnRegisterUniversity.addActionListener(new ActionListener() {
+    	mainView.btnRegisterUniversity.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
             	registerUniversity();
@@ -28,9 +28,9 @@ public class UniversidadController {
     }
     
     private void registerUniversity() {
-        String varNombre = mainView.U_txtName.getText().trim();
-        String varDireccion = mainView.U_txtAdress.getText().trim();
-        String varTelefono = mainView.U_txtPhoneNumber.getText().trim();
+        String varNombre = mainView.txtName.getText().trim();
+        String varDireccion = mainView.txtAdress.getText().trim();
+        String varTelefono = mainView.txtPhoneNumber.getText().trim();
 
         if (!varNombre.isEmpty() && !varDireccion.isEmpty() && !varTelefono.isEmpty()) {
         	
@@ -48,13 +48,13 @@ public class UniversidadController {
             //Actualizar la interfaz de usuario
             mainView.setUniversityName(varNombre);
             
-            mainView.U_btnUpdateUniversity.setEnabled(true);
+            mainView.btnUpdateUniversity.setEnabled(true);
             mainView.btnRegisterSchool.setEnabled(true);
-            mainView.U_btnRegisterUniversity.setEnabled(false);
+            mainView.btnRegisterUniversity.setEnabled(false);
 
             //Inicializar los campos para actualizar universidad
-            mainView.U_txtNewAdress.setText(varDireccion);
-            mainView.U_txtNewPhone.setText(varTelefono);
+            mainView.txtNewAdress.setText(varDireccion);
+            mainView.txtNewPhone.setText(varTelefono);
             
             //Mostrar panel de escuelas después de registrar universidad
             mainView.showPanel("ESCUELAS");
@@ -68,7 +68,7 @@ public class UniversidadController {
     }
     
     private void uptadeUniversityActionListener() {
-    	mainView.U_btnUpdateUniversity.addActionListener(new ActionListener() {
+    	mainView.btnUpdateUniversity.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
             	uptadeUniversity();
@@ -78,8 +78,8 @@ public class UniversidadController {
     
     private void uptadeUniversity() {
         if (varUniversidadRegistrada != null) {
-            String nuevaDireccion = mainView.U_txtNewAdress.getText().trim();
-            String nuevoTelefono = mainView.U_txtNewPhone.getText().trim();
+            String nuevaDireccion = mainView.txtNewAdress.getText().trim();
+            String nuevoTelefono = mainView.txtNewPhone.getText().trim();
 
             if (!nuevaDireccion.isEmpty() && !nuevoTelefono.isEmpty()) {
                 varUniversidadRegistrada.actualizarDatos(nuevaDireccion, nuevoTelefono);
@@ -97,9 +97,9 @@ public class UniversidadController {
     }
     
     private void limpiarCampos() {
-        mainView.U_txtName.setText("");
-        mainView.U_txtAdress.setText("");
-        mainView.U_txtPhoneNumber.setText("");
+        mainView.txtName.setText("");
+        mainView.txtAdress.setText("");
+        mainView.txtPhoneNumber.setText("");
     }
     
     public University getUniversidad() {

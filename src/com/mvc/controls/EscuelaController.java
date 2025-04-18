@@ -37,7 +37,7 @@ public class EscuelaController {
                 Escuela nuevaEscuela = new Escuela(nombreEscuela);
                 universidad.agregarEscuela(nuevaEscuela);
                 
-                mainView.enableCursosControls(true);
+                mainView.varBtnRegistrar.setEnabled(true);
                 
                 agregarEscuelasTxtArea();
 
