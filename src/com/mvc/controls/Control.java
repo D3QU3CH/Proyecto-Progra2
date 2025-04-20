@@ -4,22 +4,22 @@ import com.mvc.view.MainView;
 
 public class Control {
 
-    private MainView mainView;
-    private MenuController menuController;
-    private UniversidadController universidadController;
-    private EscuelaController escuelaController;
-    private CursosController cursosController;
+    private MainView varMainView;
+    private MenuController varMenuController;
+    private UniversidadController varUniversityController;
+    private EscuelaController varSchoolController;
+    private CursosController varCourseController;
 
-    public Control(MainView mainView) {
-        this.mainView = mainView;
-        
-        //Inicializar los controladores específicos
-        menuController = new MenuController(mainView);
-        universidadController = new UniversidadController(mainView);
-        escuelaController = new EscuelaController(mainView, universidadController);
-        cursosController = new CursosController(mainView);
-        
-        //Mostrar la vista
-        mainView.setVisible(true);
+    public Control(MainView pMainView) {
+        this.varMainView = pMainView;
+
+        // Initialize specific controllers
+        varMenuController = new MenuController(pMainView);
+        varUniversityController = new UniversidadController(pMainView);
+        varSchoolController = new EscuelaController(pMainView, varUniversityController);
+        varCourseController = new CursosController(pMainView);
+
+        // Show the view
+        varMainView.setVisible(true);
     }
 }

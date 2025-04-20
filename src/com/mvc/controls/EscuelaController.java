@@ -8,58 +8,58 @@ import com.mvc.models.Escuela;
 import com.mvc.models.University;
 import com.mvc.view.MainView;
 
-public class EscuelaController { 
-    
+public class EscuelaController {
+
     private MainView mainView;
-    private UniversidadController universidadController;
-    
-    public EscuelaController(MainView mainView, UniversidadController universidadController) {
-        this.mainView = mainView;
-        this.universidadController = universidadController;
-        setupEscuelasPanel();
+    private UniversidadController universityController;
+
+    public EscuelaController(MainView pMainView, UniversidadController pUniversityController) {
+        this.mainView = pMainView;
+        this.universityController = pUniversityController;
+        setupSchoolsPanel();
     }
-    
-    public void setupEscuelasPanel() {
-        mainView.btnRegisterSchool.addActionListener(new ActionListener() {
+
+    public void setupSchoolsPanel() {
+        mainView.varRegisterSchoolButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                agregarEscuela();
+                addSchool();
             }
         });
     }
-    
-    private void agregarEscuela() {
-        University universidad = universidadController.getUniversidad();
-        if (universidad != null) {
-            String nombreEscuela = mainView.txtNameSchool.getText().trim();
 
-            if (!nombreEscuela.isEmpty()) {
-                Escuela nuevaEscuela = new Escuela(nombreEscuela);
-                universidad.agregarEscuela(nuevaEscuela);
-                
-                mainView.varBtnRegistrar.setEnabled(true);
-                
-                agregarEscuelasTxtArea();
+    public void addSchool() {
+        University university = universityController.getUniversity();
+        if (university != null) {
+            String schoolName = mainView.varSchoolNameField2.getText().trim();
 
-                mainView.txtNameSchool.setText("");
+            if (!schoolName.isEmpty()) {
+                Escuela newSchool = new Escuela(schoolName);
+                university.addSchool(newSchool);
+
+                mainView.enableCourseControls(true); // Habilita los botones
+
+                addSchoolsToTextArea();
+
+                mainView.varSchoolNameField2.setText("");
             } else {
                 JOptionPane.showMessageDialog(mainView, "¡El nombre de la escuela es obligatorio!", "¡Error!", JOptionPane.WARNING_MESSAGE);
             }
         } else {
-            JOptionPane.showMessageDialog(mainView, "¡Primero se debe registrar una universidad!", "¡Error!",JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(mainView, "¡Primero se debe registrar una universidad!", "¡Error!", JOptionPane.WARNING_MESSAGE);
         }
     }
-    
-    private void agregarEscuelasTxtArea() {
-        University universidad = universidadController.getUniversidad();
-        if (universidad != null && universidad.getEscuelas() != null) {
-            StringBuilder lista = new StringBuilder();
-            int contador = 0;
-            for (Escuela esc : universidad.getEscuelas()) {
-                contador++;
-                lista.append(contador + ":").append(esc.getVarName()).append("\n");
+
+    private void addSchoolsToTextArea() {
+        University university = universityController.getUniversity();
+        if (university != null && university.getEscuelas() != null) {
+            StringBuilder list = new StringBuilder();
+            int counter = 0;
+            for (Escuela school : university.getEscuelas()) {
+                counter++;
+                list.append(counter).append(":").append(school.getVarName()).append("\n");
             }
-            mainView.txtAreaEscuelas.setText(lista.toString());
+            mainView.varSchoolsTextArea.setText(list.toString());
         }
     }
 }

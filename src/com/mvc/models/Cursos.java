@@ -2,48 +2,37 @@ package com.mvc.models;
 
 public class Cursos {
 
-	private String varSiglas;
-	private String varDescripcion;
-	private String varNombreEscuela;
-	
-	
-	public Cursos(String pSiglas,String pDescripcion,String pNombreEscuela) {
-		this.varSiglas=pSiglas;
-		this.varDescripcion=pDescripcion;
-		this.varNombreEscuela=pNombreEscuela;
-	}
+    private String varCode;
+    private String varDescription;
+    private String varSchoolName;
 
+    public Cursos(String pCode, String pDescription, String pSchoolName) {
+        this.varCode = pCode;
+        this.varDescription = pDescription;
+        this.varSchoolName = pSchoolName;
+    }
 
-	public String getVarSiglas() {
-		return varSiglas;
-	}
+    public String getVarCode() {
+        return varCode;
+    }
 
+    public void setVarCode(String pCode) {
+        this.varCode = pCode;
+    }
 
-	public void setVarSiglas(String pSiglas) {
-		this.varSiglas = pSiglas;
-	}
+    public String getVarDescription() {
+        return varDescription;
+    }
 
+    public void setVarDescription(String pDescription) {
+        this.varDescription = pDescription;
+    }
 
-	public String getVarDescripcion() {
-		return varDescripcion;
-	}
+    public String getVarSchoolName() {
+        return varSchoolName;
+    }
 
-
-	public void setVarDescripcion(String pDescripcion) {
-		this.varDescripcion = pDescripcion;
-	}
-
-
-	public String getVarNombreEscuela() {
-		return varNombreEscuela;
-	}
-
-
-	public void setVarNombreEscuela(String pNombreEscuela) {
-		this.varNombreEscuela = pNombreEscuela;
-	}
-	
-	
-	
-	
+    public void setVarSchoolName(String pSchoolName) {
+        this.varSchoolName = pSchoolName;
+    }
 }

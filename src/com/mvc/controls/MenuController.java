@@ -5,44 +5,44 @@ import java.awt.event.ActionListener;
 import com.mvc.view.MainView;
 
 public class MenuController {
-    
-    private MainView mainView;
-    
-    public MenuController(MainView mainView) {
-        this.mainView = mainView;
+
+    private MainView varMainView;
+
+    public MenuController(MainView pMainView) {
+        this.varMainView = pMainView;
         setupMenuListeners();
     }
-    
+
     private void setupMenuListeners() {
-        mainView.setupMenuListeners(
-            //Listener para el boton Universidad
+        varMainView.setupMenuListeners(
+            // Listener for the University button
             new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    mainView.showPanel("UNIVERSIDAD");
+                    varMainView.showPanel("UNIVERSITY");
                 }
             },
-            //Listener para el boton Escuelas
+            // Listener for the Schools button
             new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    mainView.showPanel("ESCUELAS");
+                    varMainView.showPanel("SCHOOLS");
                 }
             },
-            //Listener para el boton Cursos
+            // Listener for the Courses button
             new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    mainView.showPanel("CURSOS");
+                    varMainView.showPanel("COURSES");
                 }
             },
-          //Listener para el boton Buscar por escuela
+            // Listener for the Search by School button
             new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    mainView.showPanel("BUSQUEDA");
+                    varMainView.showPanel("SEARCH");
                 }
-            } 
+            }
         );
     }
 }
