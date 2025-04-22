@@ -52,7 +52,7 @@ public class MainView extends JFrame {
         contentPanel.add(escuelasPanel, "ESCUELAS");
         contentPanel.add(cursosPanel, "CURSOS");
         contentPanel.add(panelBusqueda, "BUSQUEDA");
-        
+        //contentPanel.add(panelBusqueda, "REGRESAR");
         //Añadir componentes al panel principal
         mainPanel.add(menuPanel, BorderLayout.WEST);
         mainPanel.add(contentPanel, BorderLayout.CENTER);
@@ -280,7 +280,7 @@ public class MainView extends JFrame {
     
     private JPanel cursosPanel;
     
-    private void CursosPanel() {
+    public void CursosPanel() {
         cursosPanel = new JPanel(new BorderLayout(10, 10));
         cursosPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
         
@@ -375,9 +375,8 @@ public class MainView extends JFrame {
     public JTextArea showTextArea;
     public JButton btnBuscar;
     public JButton btnLimpiar;
-    
+    public  JButton varBtnRegresar;
     private void BusquedaPanel() {
-    	
         panelBusqueda = new JPanel(new BorderLayout(10, 10));
         panelBusqueda.setBorder(new EmptyBorder(10, 10, 10, 10));
 
@@ -403,7 +402,14 @@ public class MainView extends JFrame {
         showTextArea.setFont(new Font("Arial", Font.BOLD, 20));
         
         JScrollPane scrollBusqueda = new JScrollPane(showTextArea);
-        panelBusquedaForm.add(scrollBusqueda);
+        panelBusquedaForm.add(scrollBusqueda, BorderLayout.CENTER);
+
+        // Agregar el botón "Regresar"
+        JPanel panelBotonRegresar = new JPanel(new FlowLayout(FlowLayout.CENTER));
+         varBtnRegresar = new JButton("Regresar");
+         varBtnRegresar.setFont(new Font("Arial", Font.BOLD, 14));
+        panelBotonRegresar.add(varBtnRegresar);
+        panelBusquedaForm.add(panelBotonRegresar, BorderLayout.SOUTH);
 
         panelBusqueda.add(panelBusquedaForm, BorderLayout.CENTER);
     }
@@ -422,11 +428,11 @@ public class MainView extends JFrame {
     }
     
     //Metodo para configurar listeners de los botones del menu
-    public void setupMenuListeners(ActionListener universidadListener, ActionListener escuelasListener, ActionListener cursosListener, ActionListener busquedaPorEscuela ) {
+    public void setupMenuListeners(ActionListener universidadListener, ActionListener escuelasListener, ActionListener cursosListener, ActionListener busquedaPorEscuela,ActionListener regresar ) {
         btnUniversidad.addActionListener(universidadListener);
         btnEscuelas.addActionListener(escuelasListener);
         btnCursos.addActionListener(cursosListener); 
         varBtnBuscarPorEscuela.addActionListener(busquedaPorEscuela);
-
+        varBtnRegresar.addActionListener(regresar);
     }
 }

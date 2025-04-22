@@ -42,7 +42,12 @@ public class MenuController {
                 public void actionPerformed(ActionEvent e) {
                     mainView.showPanel("BUSQUEDA");
                 }
-            } 
+            },
+            new ActionListener() {
+            	 public void actionPerformed(ActionEvent e) {
+                     //mainView.showPanel("REGRESAR");
+                 }
+            }
         );
     }
 }

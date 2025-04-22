@@ -31,7 +31,7 @@ public class CursosController {
         modificarCursoActionListener();//MODIFICAR CURSO
         ActionListenerBusquedaPorEscuela();//Para la busqueda por esceula
         setupVerEscuelasButtonListener(); // Añadir este método
-       
+        
     }
     
     //AGREGAR CURSO
@@ -231,32 +231,53 @@ public class CursosController {
     		
     	});
     }
-  
-    public void buscarPorEscuela() {
-    	 String varNombreEscuela=mainView.txtBuscar.getText().trim();
-    	 mainView.showTextArea.setText("");
-    	 DefaultTableModel modeloTabla = (DefaultTableModel) mainView.tablaCursos.getModel();
-    	 boolean coincidenciaEncontrada = false;
-    	 for(int i =0;i<modeloTabla.getRowCount();i++) {
-    		 String varNombreEscuelaEvaluar = (String) modeloTabla.getValueAt(i, 0);
-    		 
-    		 if(varNombreEscuela.equalsIgnoreCase(varNombreEscuelaEvaluar)) {
-    			 coincidenciaEncontrada= true;
-    			 String nombreEscuela = (String) modeloTabla.getValueAt(i, 0); // Columna 0: Nombre de la Escuela
-    	         String siglasCurso = (String) modeloTabla.getValueAt(i, 1);   // Columna 1: Siglas del Curso
-    	         String descripcionCurso = (String) modeloTabla.getValueAt(i, 2);
-    	         String filaTexto = "Escuela: " + nombreEscuela + ", Siglas: " + siglasCurso + ", Descripción: " + descripcionCurso;
 
-    	            // Agregar la fila al JTextArea
-    	         mainView.showTextArea.append(filaTexto + "\n");
-    		 }
-    	 }
-    	 if(!coincidenciaEncontrada) {
-    		 mainView.txtBuscar.setText("");
-    		 mainView.showTextArea.setText("");
-    		 JOptionPane.showMessageDialog(mainView, "No se encontraron coincidencias", "¡Advertencia!",
-                     JOptionPane.WARNING_MESSAGE);
-    	 }
+    public void buscarPorEscuela() {
+       
+        String varNombreEscuela = mainView.txtBuscar.getText().trim();
+        String varContenidoTxtArea = mainView.txtAreaEscuelas.getText();
+        mainView.showTextArea.setText("");
+
+        // Validar si la escuela existe en el JTextArea
+        if (!varContenidoTxtArea.toLowerCase().contains(varNombreEscuela.toLowerCase())) {
+            JOptionPane.showMessageDialog(mainView, "La escuela '" + varNombreEscuela + "' no existe.", "Escuela no encontrada",
+                    JOptionPane.WARNING_MESSAGE);
+            return; // Terminar el método aquí
+        }
+
+        // Obtener el modelo de la tabla de cursos
+        DefaultTableModel modeloTabla = (DefaultTableModel) mainView.tablaCursos.getModel();
+        boolean coincidenciaEncontrada = false;
+
+        // Buscar la escuela en la tabla de cursos
+        for (int i = 0; i < modeloTabla.getRowCount(); i++) {
+            String varNombreEscuelaEvaluar = (String) modeloTabla.getValueAt(i, 0); // Columna 0: Nombre de la Escuela
+
+            if (varNombreEscuela.equalsIgnoreCase(varNombreEscuelaEvaluar)) {
+                coincidenciaEncontrada = true;// BANDERA
+
+                // Obtener los datos del curso asociado a la escuela
+                String nombreEscuela = (String) modeloTabla.getValueAt(i, 0); // Columna 0: Nombre de la Escuela
+                String siglasCurso = (String) modeloTabla.getValueAt(i, 1);   // Columna 1: Siglas del Curso
+                String descripcionCurso = (String) modeloTabla.getValueAt(i, 2); // Columna 2: Descripción del Curso
+
+                // Formatear la fila de texto para mostrar en el JTextArea
+                String filaTexto = "Escuela: " + nombreEscuela + ", Siglas: " + siglasCurso + ", Descripción: " + descripcionCurso;
+
+                // Agregar la fila al JTextArea
+                mainView.showTextArea.append(filaTexto + "\n");
+            }
+        }
+
+        // Validar los resultados de la búsqueda
+        if (!coincidenciaEncontrada) {
+            JOptionPane.showMessageDialog(mainView, "La escuela '" + varNombreEscuela + "' existe, pero no tiene cursos asociados.",
+                    "Sin cursos", JOptionPane.WARNING_MESSAGE);
+        } else {
+            
+            JOptionPane.showMessageDialog(mainView, "Se encontraron cursos para la escuela '" + varNombreEscuela + "'.",
+                    "Búsqueda exitosa", JOptionPane.INFORMATION_MESSAGE);
+        }
     }
     
     void limpiarPanelCurso() {
