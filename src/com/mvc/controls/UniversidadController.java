@@ -1,88 +1,103 @@
 package com.mvc.controls;
 
+import java.awt.BorderLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
+import javax.swing.border.TitledBorder;
 
 import com.mvc.models.University;
 import com.mvc.view.MainView;
 
 public class UniversidadController {
-
+    
     private MainView mainView;
-    private University varRegisteredUniversity;
-
-    public UniversidadController(MainView pMainView) {
-        this.mainView = pMainView;
+    private University varUniversidadRegistrada;
+    
+    public UniversidadController(MainView mainView) {
+        this.mainView = mainView;
         registerUniversityActionListener();
-        updateUniversityActionListener();
+        uptadeUniversityActionListener();
     }
-
+    
     private void registerUniversityActionListener() {
-        mainView.varRegisterUniversityButton.addActionListener(new ActionListener() {
+    	mainView.btnRegisterUniversity.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                registerUniversity();
+            	registerUniversity();
             }
         });
     }
-
+    
     private void registerUniversity() {
-        String varName = mainView.varNameField.getText().trim();
-        String varAddress = mainView.varAddressField.getText().trim();
-        String varPhone = mainView.varPhoneField.getText().trim();
+        String varNombre = mainView.txtName.getText().trim();
+        String varDireccion = mainView.txtAdress.getText().trim();
+        String varTelefono = mainView.txtPhoneNumber.getText().trim();
 
-        if (!varName.isEmpty() && !varAddress.isEmpty() && !varPhone.isEmpty()) {
+        if (!varNombre.isEmpty() && !varDireccion.isEmpty() && !varTelefono.isEmpty()) {
+        	
+        	  if (!varTelefono.matches("\\d+")) {
+                  JOptionPane.showMessageDialog(mainView, "El número de teléfono solo debe contener números.", "¡Error!",
+                          JOptionPane.ERROR_MESSAGE);
+                  return; // No continuar si no es válido
+              }
+        	
+            varUniversidadRegistrada = new University(varNombre, varDireccion, varTelefono);
 
-            if (!varPhone.matches("\\d+")) {
-                JOptionPane.showMessageDialog(mainView, "El número de teléfono solo debe contener números.", "¡Error!",
-                        JOptionPane.ERROR_MESSAGE);
-                return; // No continuar si no es válido
-            }
-
-            varRegisteredUniversity = new University(varName, varAddress, varPhone);
-
-            JOptionPane.showMessageDialog(mainView, "Universidad registrada: " + varName, "¡Éxito!",
+            JOptionPane.showMessageDialog(mainView, "Universidad registrada: " + varNombre, "¡Éxito!",
                     JOptionPane.INFORMATION_MESSAGE);
 
-            // Actualizar la interfaz de usuario
-            mainView.setUniversityName(varName);
+            //Actualizar la interfaz de usuario
+            mainView.setUniversityName(varNombre);
+            
+            mainView.btnUpdateUniversity.setEnabled(true);
+            mainView.btnRegisterSchool.setEnabled(true);
+            mainView.btnRegisterUniversity.setEnabled(false);
 
-            mainView.varUpdateUniversityButton.setEnabled(true);
-            mainView.varRegisterSchoolButton.setEnabled(true);
-            mainView.varRegisterUniversityButton.setEnabled(false);
-
-            // Inicializar los campos para actualizar universidad
-            mainView.varNewAddressField.setText(varAddress);
-            mainView.varNewPhoneField.setText(varPhone);
-
-            // Mostrar panel de escuelas después de registrar universidad
-            mainView.showPanel("SCHOOLS");
-
-            // Limpiar campos de registro
-            clearFields();
+            //Inicializar los campos para actualizar universidad
+            mainView.txtNewAdress.setText(varDireccion);
+            mainView.txtNewPhone.setText(varTelefono);
+            
+            mainView.registerPanel.removeAll();
+            //mainView.registerPanel.revalidate();
+            TitledBorder border = (TitledBorder) mainView.registerPanel.getBorder();
+            border.setTitle("");
+            
+            JLabel tituloUniversidad = new JLabel("Universidad: "+varUniversidadRegistrada.getName(), SwingConstants.CENTER);
+            tituloUniversidad.setFont(new Font("Arial", Font.ITALIC, 40)); // Tamaño grande
+            mainView.registerPanel.setLayout(new BorderLayout()); // Para centrar fácilmente
+            mainView.registerPanel.add(tituloUniversidad, BorderLayout.CENTER);
+            
+            mainView.registerPanel.repaint();
+                       
+            //Limpiar campos de registro
+            limpiarCampos();
         } else {
             JOptionPane.showMessageDialog(mainView, "¡Todos los campos son obligatorios!", "¡Error!",
                     JOptionPane.WARNING_MESSAGE);
         }
     }
-
-    private void updateUniversityActionListener() {
-        mainView.varUpdateUniversityButton.addActionListener(new ActionListener() {
+    
+    private void uptadeUniversityActionListener() {
+    	mainView.btnUpdateUniversity.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                updateUniversity();
+            	uptadeUniversity();
             }
         });
     }
+    
+    private void uptadeUniversity() {
+        if (varUniversidadRegistrada != null) {
+            String nuevaDireccion = mainView.txtNewAdress.getText().trim();
+            String nuevoTelefono = mainView.txtNewPhone.getText().trim();
 
-    private void updateUniversity() {
-        if (varRegisteredUniversity != null) {
-            String pNewAddress = mainView.varNewAddressField.getText().trim();
-            String pNewPhone = mainView.varNewPhoneField.getText().trim();
-
-            if (!pNewAddress.isEmpty() && !pNewPhone.isEmpty()) {
-                varRegisteredUniversity.updateData(pNewAddress, pNewPhone);
+            if (!nuevaDireccion.isEmpty() && !nuevoTelefono.isEmpty()) {
+                varUniversidadRegistrada.actualizarDatos(nuevaDireccion, nuevoTelefono);
 
                 JOptionPane.showMessageDialog(mainView, "¡Datos actualizados correctamente!", "¡Éxito!",
                         JOptionPane.INFORMATION_MESSAGE);
@@ -95,14 +110,14 @@ public class UniversidadController {
                     JOptionPane.WARNING_MESSAGE);
         }
     }
-
-    private void clearFields() {
-        mainView.varNameField.setText("");
-        mainView.varAddressField.setText("");
-        mainView.varPhoneField.setText("");
+    
+    private void limpiarCampos() {
+        mainView.txtName.setText("");
+        mainView.txtAdress.setText("");
+        mainView.txtPhoneNumber.setText("");
     }
-
-    public University getUniversity() {
-        return varRegisteredUniversity;
+    
+    public University getUniversidad() {
+        return varUniversidadRegistrada;
     }
 }

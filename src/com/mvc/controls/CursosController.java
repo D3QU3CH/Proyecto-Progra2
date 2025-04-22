@@ -1,221 +1,318 @@
 package com.mvc.controls;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+
 import com.mvc.models.Cursos;
+import com.mvc.models.Escuela;
+import com.mvc.models.University;
 import com.mvc.view.MainView;
 
-public class CursosController {
-
-    private MainView varMainView;
-    private Cursos varCourseToRegister;
-
-    public CursosController(MainView pMainView) {
-        this.varMainView = pMainView;
-        addCourseActionListener();
-        deleteCourseActionListener();
-        setupTableSelectionListener(); // New method to configure selection listener
-        modifyCourseActionListener(); // Modify course
-        searchBySchoolActionListener(); // Search by school
+public class CursosController { 
+    
+    private MainView mainView;
+    private Cursos varCursosRegistrar;
+    private University varUniversidad;
+    private UniversidadController universidadController;
+    
+    public CursosController(MainView mainView, UniversidadController universidadController) {
+        this.mainView = mainView;
+        this.universidadController = universidadController;
+        agregarCursosActionListener();
+        eliminarCursoActionListener();
+        setupTableSelectionListener(); // Nuevo método para configurar el listener de selección
+        modificarCursoActionListener();//MODIFICAR CURSO
+        ActionListenerBusquedaPorEscuela();//Para la busqueda por esceula
+        setupVerEscuelasButtonListener(); // Añadir este método
+       
     }
-
-    // ADD COURSE
-    private void addCourseActionListener() {
-        varMainView.varRegisterCourseButton.addActionListener(new ActionListener() {
+    
+    //AGREGAR CURSO
+    private void agregarCursosActionListener() {
+        // Añadir el ActionListener al botón de registrar curso
+        mainView.varBtnRegistrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                addCourse();
+                agregarCursos();
             }
         });
     }
+    
+    
+    public void agregarCursos() {
+        // Obtener los datos ingresados por el usuario
+        String varSiglasCurso = mainView.varTxtSigla.getText().trim();
+        String varDescipcionDeCursos = mainView.varTxtDescripcion.getText().trim();
+        String varNombreEscuelas = mainView.varTxtEscuelaNombres.getText().trim();
+        
+        // Validar que todos los campos estén llenos
+        if (!varSiglasCurso.isEmpty() && !varDescipcionDeCursos.isEmpty() && !varNombreEscuelas.isEmpty()) {
+            // Obtener la universidad y su lista de escuelas
+            University universidad = universidadController.getUniversidad();
+            if (universidad == null || universidad.getEscuelas() == null || universidad.getEscuelas().isEmpty()) {
+                JOptionPane.showMessageDialog(mainView, "No hay escuelas registradas en la universidad", "¡Error!", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            
+            // Buscar la escuela exacta en la lista de escuelas
+            String nombreEscuelaExacto = null;
+            for (Escuela escuela : universidad.getEscuelas()) {
+                if (escuela.getVarName().equalsIgnoreCase(varNombreEscuelas)) {
+                    nombreEscuelaExacto = escuela.getVarName(); // Obtener el nombre exacto como está en la lista
+                    break;
+                }
+            }
+            
+            // Si no se encuentra la escuela, mostrar advertencia
+            if (nombreEscuelaExacto == null) {
+                JOptionPane.showMessageDialog(mainView, "¡No se encontró la Escuela!", "¡Advertencia!", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
 
-    public void addCourse() {
-        String varCourseCode = varMainView.varCourseCodeField.getText().trim();
-        String varCourseDescription = varMainView.varCourseDescriptionField.getText().trim();
-        String varSchoolName = varMainView.varSchoolNameFieldCursos.getText().trim();
+            // Validar si las siglas del curso ya existen en la tabla
+            DefaultTableModel modeloTabla = (DefaultTableModel) mainView.tablaCursos.getModel();
+            boolean siglasExisten = false;
 
-        if (!varCourseCode.isEmpty() && !varCourseDescription.isEmpty() && !varSchoolName.isEmpty()) {
-            String content = varMainView.varSchoolsTextArea.getText().trim();
-            String[] lines = content.split("\n");
-            boolean schoolFound = false;
-            for (String line : lines) {
-                String schoolInLine = line.replaceAll("^[0-9]+:", "").trim();
-                if (schoolInLine.equals(varSchoolName)) {
-                    schoolFound = true;
+            for (int i = 0; i < modeloTabla.getRowCount(); i++) {
+                String siglasRegistradas = (String) modeloTabla.getValueAt(i, 1); // Columna de siglas
+
+                if (siglasRegistradas.equalsIgnoreCase(varSiglasCurso)) {
+                    siglasExisten = true;
                     break;
                 }
             }
 
-            if (!schoolFound) {
-                JOptionPane.showMessageDialog(varMainView, "¡No se encontró la Escuela!", "¡Advertencia!", JOptionPane.WARNING_MESSAGE);
+            // Si las siglas ya existen, mostrar advertencia
+            if (siglasExisten) {
+                JOptionPane.showMessageDialog(mainView, "¡Las siglas del curso ya están registradas!", "¡Error!", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
-            DefaultTableModel tableModel = (DefaultTableModel) varMainView.varCoursesTable.getModel();
-            boolean codeExists = false;
-            for (int i = 0; i < tableModel.getRowCount(); i++) {
-                String registeredCode = (String) tableModel.getValueAt(i, 1); // Column of codes
-                if (registeredCode.equalsIgnoreCase(varCourseCode)) {
-                    codeExists = true;
-                    break;
-                }
-            }
+            // Si pasa todas las validaciones, registrar el curso con el nombre exacto de la escuela
+            varCursosRegistrar = new Cursos(varSiglasCurso, varDescipcionDeCursos, nombreEscuelaExacto);
+            Object[][] datos = { { nombreEscuelaExacto, varSiglasCurso, varDescipcionDeCursos } };
+            agregarDatosTabla(datos);
+            
+            mainView.enableCursosControls(true);
 
-            if (codeExists) {
-                JOptionPane.showMessageDialog(varMainView, "¡Las siglas del curso ya están registradas!", "¡Error!", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            varCourseToRegister = new Cursos(varCourseCode, varCourseDescription, varSchoolName);
-            Object[][] data = {{varSchoolName, varCourseCode, varCourseDescription}};
-            addDataToTable(data);
-            varMainView.enableCourseControls(true);
-            JOptionPane.showMessageDialog(varMainView, "¡Curso registrado exitosamente!", "¡Éxito!", JOptionPane.INFORMATION_MESSAGE);
-            clearCoursePanel();
+            JOptionPane.showMessageDialog(mainView, "¡Curso registrado exitosamente!", "¡Éxito!", JOptionPane.INFORMATION_MESSAGE);
+            limpiarPanelCurso();
         } else {
-            JOptionPane.showMessageDialog(varMainView, "¡Todos los campos son obligatorios!", "¡Advertencia!", JOptionPane.WARNING_MESSAGE);
+            // Si algún campo está vacío, mostrar advertencia
+            JOptionPane.showMessageDialog(mainView, "¡Todos los campos son obligatorios!", "¡Advertencia!", JOptionPane.WARNING_MESSAGE);
         }
     }
-
-    public void addDataToTable(Object[][] pData) {
-        DefaultTableModel tableModel = (DefaultTableModel) varMainView.varCoursesTable.getModel();
-        for (Object[] row : pData) {
-            tableModel.addRow(row);
+    
+    public void agregarDatosTabla(Object[][] datos) {
+        DefaultTableModel modeloTabla = (DefaultTableModel) mainView.tablaCursos.getModel();
+        
+        // Agregar los nuevos datos
+        for (Object[] fila : datos) {
+            modeloTabla.addRow(fila);
         }
     }
-
-    // DELETE COURSE
-    private void deleteCourseActionListener() {
-        varMainView.varDeleteCourseButton.addActionListener(new ActionListener() {
+    //ELIMINAR CURSO
+    private void eliminarCursoActionListener() {
+        mainView.varBtnEliminar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                deleteCourse();
+                eliminarCurso();
             }
         });
     }
-
-    public void deleteCourse() {
-        String varCourseCode = varMainView.varCourseCodeField.getText().trim();
-        DefaultTableModel tableModel = (DefaultTableModel) varMainView.varCoursesTable.getModel();
-        boolean selected = false;
-        for (int i = 0; i < tableModel.getRowCount(); i++) {
-            Object cellValue = tableModel.getValueAt(i, 1);
-            if (cellValue != null && cellValue.toString().equalsIgnoreCase(varCourseCode)) {
-                tableModel.removeRow(i);
-                JOptionPane.showMessageDialog(varMainView, "¡Se eliminó el curso!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                selected = true;
+    
+    public void eliminarCurso() {
+        String varSiglasCurso = mainView.varTxtSigla.getText().trim();
+        DefaultTableModel modeloTabla = (DefaultTableModel) mainView.tablaCursos.getModel();
+        boolean seleccionado = false;
+        
+        for (int i = 0; i < modeloTabla.getRowCount(); i++) {
+            Object valorCelda = modeloTabla.getValueAt(i, 1);
+            if (valorCelda != null && valorCelda.toString().equalsIgnoreCase(varSiglasCurso)) {
+                modeloTabla.removeRow(i);
+                JOptionPane.showMessageDialog(mainView, "¡Se eliminó el curso!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                seleccionado = true;
                 break;
             }
         }
-        if (!selected) {
-            JOptionPane.showMessageDialog(varMainView, "¡No se seleccionó el curso!", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        
+        if (!seleccionado) {
+            JOptionPane.showMessageDialog(mainView, "¡No se seleccionó el curso!", "Advertencia", JOptionPane.WARNING_MESSAGE);
         }
-        clearCoursePanel();
+        
+        limpiarPanelCurso(); // Limpiar los campos después de eliminar
     }
-
-    // SELECT COURSE
+    
+    
+    //SELECCIONAR CURSO
     private void setupTableSelectionListener() {
-        varMainView.varCoursesTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+        mainView.tablaCursos.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 if (!e.getValueIsAdjusting()) {
-                    fillFormFromTable();
+                    llenarFormularioDesdeTabla();
                 }
             }
         });
+        
     }
-
-    private void fillFormFromTable() {
-        int row = varMainView.varCoursesTable.getSelectedRow();
-        if (row != -1) {
-            String school = varMainView.varCoursesTable.getValueAt(row, 0).toString();
-            String code = varMainView.varCoursesTable.getValueAt(row, 1).toString();
-            String description = varMainView.varCoursesTable.getValueAt(row, 2).toString();
-            varMainView.varSchoolNameField2.setText(school);
-            varMainView.varCourseCodeField.setText(code);
-            varMainView.varCourseDescriptionField.setText(description);
-            varMainView.varRegisterCourseButton.setEnabled(false);
-            varMainView.varSchoolNameField2.setEnabled(false);
-            varMainView.varCourseCodeField.setEnabled(false);
-            varMainView.varModifyCourseButton.setEnabled(true);
+    
+    //Metodo para llenar los campos de texto con los datos de la fila seleccionada
+    private void llenarFormularioDesdeTabla() {
+        int fila = mainView.tablaCursos.getSelectedRow();
+        if (fila != -1) {
+            // Obtener los valores de la fila seleccionada
+            String escuela = mainView.tablaCursos.getValueAt(fila, 0).toString();
+            String siglas = mainView.tablaCursos.getValueAt(fila, 1).toString();
+            String descripcion = mainView.tablaCursos.getValueAt(fila, 2).toString();
+            
+            // Llenar los campos de texto
+            mainView.varTxtEscuelaNombres.setText(escuela);
+            mainView.varTxtSigla.setText(siglas);
+            mainView.varTxtDescripcion.setText(descripcion);
+            
+            // Actualizar estado de los botones (opcional)
+            mainView.varBtnRegistrar.setEnabled(false);
+            mainView.varTxtEscuelaNombres.setEnabled(false);
+            mainView.varTxtSigla .setEnabled(false);
+            
+            mainView.varBtnModificar.setEnabled(true);
         }
     }
-
-    // MODIFY COURSE
-    private void modifyCourseActionListener() {
-        varMainView.varModifyCourseButton.addActionListener(new ActionListener() {
+    
+    //MODIFICAR CURSO
+    private void modificarCursoActionListener() {
+        mainView.varBtnModificar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                modifyCourse();
+                modificarCurso();
             }
         });
     }
 
-    public void modifyCourse() {
-        int row = varMainView.varCoursesTable.getSelectedRow();
-        if (row != -1) {
-            String varCourseCode = varMainView.varCourseCodeField.getText().trim();
-            String varCourseDescription = varMainView.varCourseDescriptionField.getText().trim();
-            String varSchoolName = varMainView.varSchoolNameField2.getText().trim();
-            if (!varCourseCode.isEmpty() && !varCourseDescription.isEmpty() && !varSchoolName.isEmpty()) {
-                varMainView.varCoursesTable.setValueAt(varSchoolName, row, 0);
-                varMainView.varCoursesTable.setValueAt(varCourseCode, row, 1);
-                varMainView.varCoursesTable.setValueAt(varCourseDescription, row, 2);
-                JOptionPane.showMessageDialog(varMainView, "¡Curso actualizado exitosamente!", "¡Éxito!", JOptionPane.INFORMATION_MESSAGE);
-                clearCoursePanel();
+    public void modificarCurso() {
+        int fila = mainView.tablaCursos.getSelectedRow();
+        
+        if (fila != -1) {
+            String varDescipcionDeCursos = mainView.varTxtDescripcion.getText().trim();
+            
+            if (!varDescipcionDeCursos.isEmpty()) {
+                // Actualizar datos en la tabla
+                mainView.tablaCursos.setValueAt(varDescipcionDeCursos, fila, 2);
+
+                JOptionPane.showMessageDialog(mainView, "¡Curso actualizado exitosamente!", "¡Éxito!",
+                        JOptionPane.INFORMATION_MESSAGE);
+                limpiarPanelCurso();
             } else {
-                JOptionPane.showMessageDialog(varMainView, "¡Todos los campos son obligatorios", "¡Advertencia!", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(mainView, "¡Todos los campos son obligatorios", "¡Advertencia!",
+                        JOptionPane.WARNING_MESSAGE);
             }
         } else {
-            JOptionPane.showMessageDialog(varMainView, "¡Seleccione un curso para modificar", "¡Advertencia!", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(mainView, "¡Seleccione un curso para modificar", "¡Advertencia!",
+                    JOptionPane.WARNING_MESSAGE);
         }
     }
+   
+    private void ActionListenerBusquedaPorEscuela() {
+    	mainView.btnBuscar.addActionListener(new ActionListener() {
 
-    // SEARCH BY SCHOOL
-    private void searchBySchoolActionListener() {
-        varMainView.varSearchButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				buscarPorEscuela();
+				
+			}
+    		
+    	});
+    }
+  
+    public void buscarPorEscuela() {
+    	 String varNombreEscuela=mainView.txtBuscar.getText().trim();
+    	 mainView.showTextArea.setText("");
+    	 DefaultTableModel modeloTabla = (DefaultTableModel) mainView.tablaCursos.getModel();
+    	 boolean coincidenciaEncontrada = false;
+    	 for(int i =0;i<modeloTabla.getRowCount();i++) {
+    		 String varNombreEscuelaEvaluar = (String) modeloTabla.getValueAt(i, 0);
+    		 
+    		 if(varNombreEscuela.equalsIgnoreCase(varNombreEscuelaEvaluar)) {
+    			 coincidenciaEncontrada= true;
+    			 String nombreEscuela = (String) modeloTabla.getValueAt(i, 0); // Columna 0: Nombre de la Escuela
+    	         String siglasCurso = (String) modeloTabla.getValueAt(i, 1);   // Columna 1: Siglas del Curso
+    	         String descripcionCurso = (String) modeloTabla.getValueAt(i, 2);
+    	         String filaTexto = "Escuela: " + nombreEscuela + ", Siglas: " + siglasCurso + ", Descripción: " + descripcionCurso;
+
+    	            // Agregar la fila al JTextArea
+    	         mainView.showTextArea.append(filaTexto + "\n");
+    		 }
+    	 }
+    	 if(!coincidenciaEncontrada) {
+    		 mainView.txtBuscar.setText("");
+    		 mainView.showTextArea.setText("");
+    		 JOptionPane.showMessageDialog(mainView, "No se encontraron coincidencias", "¡Advertencia!",
+                     JOptionPane.WARNING_MESSAGE);
+    	 }
+    }
+    
+    void limpiarPanelCurso() {
+        mainView.varTxtSigla.setText("");
+        mainView.varTxtDescripcion.setText("");
+        mainView.varTxtEscuelaNombres.setText("");
+        mainView.tablaCursos.clearSelection(); // Limpiar selección de la tabla
+        
+        // Restablecer estado de los botones
+        mainView.varBtnRegistrar.setEnabled(true);
+        mainView.varTxtEscuelaNombres.setEnabled(true);
+        mainView.varTxtSigla .setEnabled(true);
+        
+        mainView.varBtnModificar.setEnabled(false);
+
+    }
+    
+    
+    // Añadir este nuevo método
+    private void setupVerEscuelasButtonListener() {
+        // Asumiendo que has declarado btnVerEscuelas como público en MainView
+        mainView.btnVerEscuelas.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                searchBySchool();
+                mostrarEscuelasDisponibles();
             }
         });
     }
+    
+	// Método para mostrar las escuelas disponibles
+	private void mostrarEscuelasDisponibles() {
+		String contenido = mainView.txtAreaEscuelas.getText().trim();
+		if (contenido.isEmpty()) {
+			JOptionPane.showMessageDialog(mainView, "No hay escuelas registradas todavía.", "Escuelas Disponibles",
+					JOptionPane.INFORMATION_MESSAGE);
+			return;
+		}
 
-    public void searchBySchool() {
-        String varSchoolName = varMainView.varSearchField.getText().trim();
-        varMainView.varSearchTextArea.setText("");
-        DefaultTableModel tableModel = (DefaultTableModel) varMainView.varCoursesTable.getModel();
-        boolean schoolFound = false;
-        for (int i = 0; i < tableModel.getRowCount(); i++) {
-            String schoolToCheck = (String) tableModel.getValueAt(i, 0);
-            if (varSchoolName.equals(schoolToCheck)) {
-                schoolFound = true;
-                String school = (String) tableModel.getValueAt(i, 0); // Column 0: School Name
-                String courseCode = (String) tableModel.getValueAt(i, 1); // Column 1: Course Code
-                String courseDescription = (String) tableModel.getValueAt(i, 2); // Column 2: Course Description
-                String rowText = "Escuela: " + school + " - Siglas: " + courseCode + " - Descripción: " + courseDescription;
-                varMainView.varSearchTextArea.append(rowText + "\n");
-            }
-        }
-        if (!schoolFound) {
-            varMainView.varSearchField.setText("");
-            varMainView.varSearchTextArea.setText("");
-            JOptionPane.showMessageDialog(varMainView, "¡No se encontró la escuela", "¡Advertencia!", JOptionPane.WARNING_MESSAGE);
-        }
-    }
+		// Extraer los nombres de las escuelas del área de texto
+		String[] lineas = contenido.split("\n");
+		StringBuilder escuelasInfo = new StringBuilder("Escuelas disponibles:\n");
 
-    private void clearCoursePanel() {
-        varMainView.varCourseCodeField.setText("");
-        varMainView.varCourseDescriptionField.setText("");
-        varMainView.varSchoolNameFieldCursos.setText("");
-        varMainView.varCoursesTable.clearSelection();
-        varMainView.varRegisterCourseButton.setEnabled(true);
-        varMainView.varSchoolNameField2.setEnabled(true);
-        varMainView.varCourseCodeField.setEnabled(true);
-        varMainView.varModifyCourseButton.setEnabled(false);
-    }
+		for (String linea : lineas) {
+			escuelasInfo.append(linea).append("\n");
+		}
+
+		// Mostrar un diálogo con las escuelas
+		JTextArea textArea = new JTextArea(escuelasInfo.toString());
+		textArea.setEditable(false);
+		textArea.setWrapStyleWord(true);
+		textArea.setLineWrap(true);
+
+		JScrollPane scrollPane = new JScrollPane(textArea);
+		scrollPane.setPreferredSize(new Dimension(300, 200));
+
+		JOptionPane.showMessageDialog(mainView,scrollPane, "Escuelas Disponibles", JOptionPane.INFORMATION_MESSAGE);
+	}
+
 }

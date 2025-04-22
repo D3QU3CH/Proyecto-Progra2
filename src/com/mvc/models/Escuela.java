@@ -2,24 +2,28 @@ package com.mvc.models;
 
 public class Escuela {
 
-    private String varName;
+	private String varName;
 
-    public Escuela() {
-    }
+	public Escuela() {
 
-    public Escuela(String pName) {
-        this.varName = pName;
-    }
+	}
 
-    public String getVarName() {
-        return varName;
-    }
+	public Escuela(String pName) {
+		this.varName = pName;
+	}
 
-    public void setVarName(String pName) {
-        this.varName = pName;
-    }
+	public String getVarName() {
+		return varName;
+	}
 
-    public String toString() {
-        return "School: " + varName;
-    }
+	public void setVarName(String varName) {
+		this.varName = varName;
+	}
+
+	public String toString() {
+		return "Escuela: " + varName;
+	}
+	
+	
+
 }
