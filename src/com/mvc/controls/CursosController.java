@@ -31,7 +31,7 @@ public class CursosController {
         modificarCursoActionListener();//MODIFICAR CURSO
         ActionListenerBusquedaPorEscuela();//Para la busqueda por esceula
         setupVerEscuelasButtonListener(); // Añadir este método
-        
+        setupVerBtnRegresarACursos();
     }
     
     //AGREGAR CURSO
@@ -280,7 +280,7 @@ public class CursosController {
         }
     }
     
-    void limpiarPanelCurso() {
+    private void limpiarPanelCurso() {
         mainView.varTxtSigla.setText("");
         mainView.varTxtDescripcion.setText("");
         mainView.varTxtEscuelaNombres.setText("");
@@ -335,5 +335,15 @@ public class CursosController {
 
 		JOptionPane.showMessageDialog(mainView,scrollPane, "Escuelas Disponibles", JOptionPane.INFORMATION_MESSAGE);
 	}
+	
+	 private void setupVerBtnRegresarACursos() {
+	        // Asumiendo que has declarado btnVerEscuelas como público en MainView
+	        mainView.varBtnRegresar.addActionListener(new ActionListener() {
+	            @Override
+	            public void actionPerformed(ActionEvent e) {
+	            	mainView.showPanel("CURSOS");
+	            }
+	        });
+	    }
 
 }

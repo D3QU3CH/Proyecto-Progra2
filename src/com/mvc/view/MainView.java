@@ -263,7 +263,7 @@ public class MainView extends JFrame {
     private JPanel panelOpcionesCursos;
     
     private JLabel varLblSiglasNom;
-    private JLabel varLblDescripcionNom;
+    private JLabel varLblNombreCurso;
     private JLabel varLblNombreEscuela;
     public JTextField varTxtSigla;
     public JTextField varTxtDescripcion;
@@ -305,15 +305,15 @@ public class MainView extends JFrame {
         varLblSiglasNom = new JLabel("Siglas del Curso:");
         varLblSiglasNom.setFont(new Font("Arial", Font.BOLD, 14));
         varTxtSigla = new JTextField();
-        varLblDescripcionNom = new JLabel("Descripción del Curso:");
-        varLblDescripcionNom.setFont(new Font("Arial", Font.BOLD, 14));
+        varLblNombreCurso = new JLabel("Nombre del Curso:");
+        varLblNombreCurso.setFont(new Font("Arial", Font.BOLD, 14));
         varTxtDescripcion = new JTextField();
         
         panelRegistroCursos.add(varLblNombreEscuela);
         panelRegistroCursos.add(escuelaPanel); // Añadimos el panel combinado
         panelRegistroCursos.add(varLblSiglasNom);
         panelRegistroCursos.add(varTxtSigla);
-        panelRegistroCursos.add(varLblDescripcionNom);
+        panelRegistroCursos.add(varLblNombreCurso);
         panelRegistroCursos.add(varTxtDescripcion);
         
         panelConsultaCursos = new JPanel(new BorderLayout(10, 10));
@@ -323,7 +323,7 @@ public class MainView extends JFrame {
         lblTituloCursos.setFont(new Font("Arial", Font.BOLD, 16));
         panelConsultaCursos.add(lblTituloCursos, BorderLayout.NORTH);
         
-        String[] columnas = {"Nombre de la Escuela", "Siglas del Curso", "Descripción del Curso"};
+        String[] columnas = {"Nombre de la Escuela", "Siglas del Curso", "Nombre del Curso"};
         DefaultTableModel modelo = new DefaultTableModel(columnas, 0);
         tablaCursos = new JTable(modelo);
         tablaCursos.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -376,6 +376,7 @@ public class MainView extends JFrame {
     public JButton btnBuscar;
     public JButton btnLimpiar;
     public  JButton varBtnRegresar;
+    
     private void BusquedaPanel() {
         panelBusqueda = new JPanel(new BorderLayout(10, 10));
         panelBusqueda.setBorder(new EmptyBorder(10, 10, 10, 10));
@@ -428,11 +429,10 @@ public class MainView extends JFrame {
     }
     
     //Metodo para configurar listeners de los botones del menu
-    public void setupMenuListeners(ActionListener universidadListener, ActionListener escuelasListener, ActionListener cursosListener, ActionListener busquedaPorEscuela,ActionListener regresar ) {
+    public void setupMenuListeners(ActionListener universidadListener, ActionListener escuelasListener, ActionListener cursosListener, ActionListener busquedaPorEscuela) {
         btnUniversidad.addActionListener(universidadListener);
         btnEscuelas.addActionListener(escuelasListener);
         btnCursos.addActionListener(cursosListener); 
         varBtnBuscarPorEscuela.addActionListener(busquedaPorEscuela);
-        varBtnRegresar.addActionListener(regresar);
     }
 }
