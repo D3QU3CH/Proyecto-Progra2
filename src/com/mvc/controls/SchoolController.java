@@ -4,16 +4,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
 
-import com.mvc.models.Escuela;
+import com.mvc.models.School;
 import com.mvc.models.University;
 import com.mvc.view.MainView;
 
-public class EscuelaController { 
+public class SchoolController { 
     
     private MainView mainView;
-    private UniversidadController universidadController;
+    private UniversityController universidadController;
     
-    public EscuelaController(MainView mainView, UniversidadController universidadController) {
+    public SchoolController(MainView mainView, UniversityController universidadController) {
         this.mainView = mainView;
         this.universidadController = universidadController;
         setupEscuelasPanel();
@@ -36,7 +36,7 @@ public class EscuelaController {
             if (!nombreEscuela.isEmpty()) {
                 // Verificar si la escuela ya existe
                 boolean escuelaExiste = false;
-                for (Escuela esc : universidad.getEscuelas()) {
+                for (School esc : universidad.getEscuelas()) {
                     if (esc.getVarName().equalsIgnoreCase(nombreEscuela)) { // Usar equals para comparar los nombres
                         escuelaExiste = true;
                         break; // Si se encuentra, no es necesario seguir buscando
@@ -47,7 +47,7 @@ public class EscuelaController {
                     JOptionPane.showMessageDialog(mainView, "¡La escuela ya existe!", "¡Error!", JOptionPane.WARNING_MESSAGE);
                 } else {
                     // Si no existe, agregar la nueva escuela
-                    Escuela nuevaEscuela = new Escuela(nombreEscuela);
+                    School nuevaEscuela = new School(nombreEscuela);
                     universidad.agregarEscuela(nuevaEscuela);
                     mainView.varBtnRegistrar.setEnabled(true);
                     agregarEscuelasTxtArea();
@@ -67,9 +67,7 @@ public class EscuelaController {
         University universidad = universidadController.getUniversidad();
         if (universidad != null && universidad.getEscuelas() != null) {
             StringBuilder lista = new StringBuilder();
-            int contador = 0;
-            for (Escuela esc : universidad.getEscuelas()) {
-                contador++;
+            for (School esc : universidad.getEscuelas()) {
                 lista.append(" - ").append(esc.getVarName()).append("\n");
             }
             mainView.txtAreaEscuelas.setText(lista.toString());

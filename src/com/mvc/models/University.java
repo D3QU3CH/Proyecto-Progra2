@@ -7,7 +7,7 @@ public class University {
 	private String name;
 	private String adress;
 	private String phoneNumber;
-	private List<Escuela> escuelas;
+	private List<School> escuelas;
 	
 	public University() {
 		escuelas = new ArrayList<>();
@@ -50,13 +50,13 @@ public class University {
 	        this.phoneNumber = nuevoTelefono;
     }
 
-    public void agregarEscuela(Escuela nuevaEscuela) {
+    public void agregarEscuela(School nuevaEscuela) {
         if (nuevaEscuela != null) {
             escuelas.add(nuevaEscuela);
         }
     }
 
-    public List<Escuela> getEscuelas() {
+    public List<School> getEscuelas() {
         return escuelas;
     }
 

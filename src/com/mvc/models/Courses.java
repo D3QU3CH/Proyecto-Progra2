@@ -1,13 +1,13 @@
 package com.mvc.models;
 
-public class Cursos {
+public class Courses {
 
 	private String varSiglas;
 	private String varDescripcion;
 	private String varNombreEscuela;
 	
 	
-	public Cursos(String pSiglas,String pDescripcion,String pNombreEscuela) {
+	public Courses(String pSiglas,String pDescripcion,String pNombreEscuela) {
 		this.varSiglas=pSiglas;
 		this.varDescripcion=pDescripcion;
 		this.varNombreEscuela=pNombreEscuela;

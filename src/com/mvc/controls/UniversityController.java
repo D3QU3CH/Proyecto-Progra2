@@ -13,12 +13,12 @@ import javax.swing.border.TitledBorder;
 import com.mvc.models.University;
 import com.mvc.view.MainView;
 
-public class UniversidadController {
+public class UniversityController {
     
     private MainView mainView;
     private University varUniversidadRegistrada;
     
-    public UniversidadController(MainView mainView) {
+    public UniversityController(MainView mainView) {
         this.mainView = mainView;
         registerUniversityActionListener();
         uptadeUniversityActionListener();
@@ -56,14 +56,12 @@ public class UniversidadController {
             
             mainView.btnUpdateUniversity.setEnabled(true);
             mainView.btnRegisterSchool.setEnabled(true);
-            mainView.btnRegisterUniversity.setEnabled(false);
 
             //Inicializar los campos para actualizar universidad
             mainView.txtNewAdress.setText(varDireccion);
             mainView.txtNewPhone.setText(varTelefono);
             
             mainView.registerPanel.removeAll();
-            //mainView.registerPanel.revalidate();
             TitledBorder border = (TitledBorder) mainView.registerPanel.getBorder();
             border.setTitle("");
             

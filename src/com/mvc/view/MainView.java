@@ -52,7 +52,6 @@ public class MainView extends JFrame {
         contentPanel.add(escuelasPanel, "ESCUELAS");
         contentPanel.add(cursosPanel, "CURSOS");
         contentPanel.add(panelBusqueda, "BUSQUEDA");
-        //contentPanel.add(panelBusqueda, "REGRESAR");
         //Añadir componentes al panel principal
         mainPanel.add(menuPanel, BorderLayout.WEST);
         mainPanel.add(contentPanel, BorderLayout.CENTER);
@@ -66,6 +65,7 @@ public class MainView extends JFrame {
     public JButton btnUniversidad;
     public JButton btnEscuelas;
     public JButton btnCursos;
+    
   
     private void MenuPanel() {
         menuPanel = new JPanel();

@@ -1,14 +1,14 @@
 package com.mvc.models;
 
-public class Escuela {
+public class School {
 
 	private String varName;
 
-	public Escuela() {
+	public School() {
 
 	}
 
-	public Escuela(String pName) {
+	public School(String pName) {
 		this.varName = pName;
 	}
 
