@@ -273,6 +273,7 @@ public class MainView extends JFrame {
     public JButton varBtnEliminar;
     public JButton varBtnModificar;
     public JButton varBtnBuscarPorEscuela;
+    public JButton varBtnDeseleccionarTabla;
     
     private JLabel lblTituloCursos;
     public JTable tablaCursos;
@@ -310,7 +311,7 @@ public class MainView extends JFrame {
         varTxtDescripcion = new JTextField();
         
         panelRegistroCursos.add(varLblNombreEscuela);
-        panelRegistroCursos.add(escuelaPanel); // Añadimos el panel combinado
+        panelRegistroCursos.add(escuelaPanel); 
         panelRegistroCursos.add(varLblSiglasNom);
         panelRegistroCursos.add(varTxtSigla);
         panelRegistroCursos.add(varLblNombreCurso);
@@ -319,9 +320,10 @@ public class MainView extends JFrame {
         panelConsultaCursos = new JPanel(new BorderLayout(10, 10));
         panelConsultaCursos.setBorder(BorderFactory.createTitledBorder("Cursos Registrados"));
         
-        lblTituloCursos = new JLabel("Lista de las Escuelas y Cursos:", JLabel.CENTER);
+        lblTituloCursos = new JLabel("Lista de las Escuelas y Cursos...", JLabel.CENTER);
         lblTituloCursos.setFont(new Font("Arial", Font.BOLD, 16));
         panelConsultaCursos.add(lblTituloCursos, BorderLayout.NORTH);
+        
         
         String[] columnas = {"Nombre de la Escuela", "Siglas del Curso", "Nombre del Curso"};
         DefaultTableModel modelo = new DefaultTableModel(columnas, 0);
@@ -333,11 +335,16 @@ public class MainView extends JFrame {
         scrollPaneCursos = new JScrollPane(tablaCursos);
         panelConsultaCursos.add(scrollPaneCursos, BorderLayout.CENTER);
         
-        JPanel panelBotonesAccion = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        JPanel panelBotonARegistar = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
         varBtnRegistrar = new JButton("Agregar Curso");
         varBtnRegistrar.setFont(new Font("Arial", Font.BOLD, 13));
         varBtnRegistrar.setEnabled(false);
-        panelBotonesAccion.add(varBtnRegistrar);
+        varBtnDeseleccionarTabla = new JButton("Deseleccionar tabla");
+        varBtnDeseleccionarTabla.setFont(new Font("Arial", Font.BOLD, 13));
+        varBtnDeseleccionarTabla.setEnabled(false);
+        
+        panelBotonARegistar.add(varBtnRegistrar);
+        panelBotonARegistar.add(varBtnDeseleccionarTabla);
         
         panelOpcionesCursos = new JPanel(new BorderLayout(5, 5));
         panelOpcionesCursos.setBorder(BorderFactory.createTitledBorder("Operaciones Adicionales"));
@@ -347,23 +354,23 @@ public class MainView extends JFrame {
         varOpciones.setHorizontalAlignment(SwingConstants.CENTER);
         panelOpcionesCursos.add(varOpciones, BorderLayout.NORTH);
         
-        JPanel additionalButtonsPanel = new JPanel(new GridLayout(3, 1, 10, 10));
+        JPanel buttonsPanel = new JPanel(new GridLayout(3, 1, 10, 10));
         varBtnEliminar = new JButton("Eliminar Curso");
         varBtnModificar = new JButton("Modificar Curso");
         varBtnBuscarPorEscuela = new JButton("Buscar Cursos por Escuela");
         
-        JButton[] botones = { varBtnEliminar, varBtnModificar, varBtnBuscarPorEscuela };
+        JButton[] botones = { varBtnEliminar, varBtnModificar, varBtnBuscarPorEscuela};
         for (JButton btn : botones) {
             btn.setFont(new Font("Arial", Font.BOLD, 12));
             btn.setEnabled(false);
-            additionalButtonsPanel.add(btn);
+            buttonsPanel.add(btn);
         }
         
-        panelOpcionesCursos.add(additionalButtonsPanel, BorderLayout.CENTER);       
+        panelOpcionesCursos.add(buttonsPanel, BorderLayout.CENTER);       
         JPanel contentCursos = new JPanel(new BorderLayout(10, 10));
         contentCursos.add(panelRegistroCursos, BorderLayout.NORTH);
         contentCursos.add(panelConsultaCursos, BorderLayout.CENTER);
-        contentCursos.add(panelBotonesAccion, BorderLayout.SOUTH);
+        contentCursos.add(panelBotonARegistar, BorderLayout.SOUTH);
         contentCursos.add(panelOpcionesCursos, BorderLayout.EAST);
         
         cursosPanel.add(contentCursos, BorderLayout.CENTER);

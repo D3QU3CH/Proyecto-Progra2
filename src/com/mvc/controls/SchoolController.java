@@ -50,6 +50,7 @@ public class SchoolController {
                     School nuevaEscuela = new School(nombreEscuela);
                     universidad.agregarEscuela(nuevaEscuela);
                     mainView.varBtnRegistrar.setEnabled(true);
+                    
                     agregarEscuelasTxtArea();
                     mainView.txtNameSchool.setText(""); 
                 }
