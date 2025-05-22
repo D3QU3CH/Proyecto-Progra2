@@ -48,7 +48,19 @@ public class MenuController {
                 public void actionPerformed(ActionEvent e) {
                     mainView.showPanel("BUSQUEDA");
                 }
-            } 
+            },
+            new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    mainView.showPanel("CONSULTASPANEL");
+                }
+            },
+            new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    mainView.showPanel("CONSULTASPANELPORCURSO");
+                }
+            }
         );
         
         mainView.btnConsultas.addActionListener(new ActionListener() {

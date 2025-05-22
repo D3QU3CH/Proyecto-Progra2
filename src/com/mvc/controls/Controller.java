@@ -10,6 +10,7 @@ public class Controller {
 	private SchoolController escuelaController;
 	private CoursesController cursosController;
 	private TeacherController teacherController;
+	private ConsultasController consultasController;
 
 	public Controller(MainView mainView) {
 		this.mainView = mainView;
@@ -20,6 +21,8 @@ public class Controller {
 		escuelaController = new SchoolController(mainView, universidadController);
 		cursosController = new CoursesController(mainView, universidadController);
 		teacherController = new TeacherController(mainView);
+		
+		consultasController = new ConsultasController(mainView, universidadController);
 
 		// Mostrar la vista
 		mainView.setVisible(true);

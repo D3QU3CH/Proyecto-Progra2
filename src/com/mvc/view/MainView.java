@@ -1,6 +1,6 @@
 package com.mvc.view;
 import com.formdev.flatlaf.intellijthemes.FlatDraculaIJTheme;
-
+import com.mvc.controls.ControllerPanelConsultas;
 
 import java.awt.*;
 import javax.swing.*;
@@ -22,7 +22,10 @@ public class MainView extends JFrame {
     private JPanel contentPanel;
     
     public JButton btnVerEscuelas;
-
+	//instancia de los objetos 
+    public ControllerPanelConsultas panelPorProfesor;
+    public ControllerPanelConsultas panelPorCurso;
+    
     public MainView() {
         setTitle("Sistema de Gestión Universitaria");
         setSize(1000, 600);
@@ -49,6 +52,9 @@ public class MainView extends JFrame {
         ProfesoresPanel();
         ConsultasPanel();
         
+     // En MainView (o donde construyes la vista)
+       
+
         //Añadir paneles al contenido
         contentPanel.add(universidadPanel, "UNIVERSIDAD");
         contentPanel.add(escuelasPanel, "ESCUELAS");
@@ -56,6 +62,12 @@ public class MainView extends JFrame {
         contentPanel.add(panelBusqueda, "BUSQUEDA");
         contentPanel.add(profesoresPanel, "PROFESORES"); //
         contentPanel.add(consultasPanel, "CONSULTAS");
+        /// anadir los objetos 
+        this.panelPorProfesor = BusquedaPanelConsultas("Buscar Cursos por Profesor");
+        this.panelPorCurso = BusquedaPanelConsultas("Buscar Información por Sigla de Curso");
+
+        contentPanel.add(panelPorProfesor.panel, "CONSULTASPANEL");
+        contentPanel.add(panelPorCurso.panel, "CONSULTASPANELPORCURSO");
         //Añadir componentes al panel principal
         mainPanel.add(menuPanel, BorderLayout.WEST);
         mainPanel.add(contentPanel, BorderLayout.CENTER);
@@ -64,6 +76,7 @@ public class MainView extends JFrame {
         add(mainPanel);
     
     }
+    
     
      //Botones del menu
     public JButton btnUniversidad;
@@ -639,6 +652,48 @@ public class MainView extends JFrame {
         panelRegresar.add(btnRegresarConsultas);
         consultasPanel.add(panelRegresar, BorderLayout.SOUTH);
     }
+    /////////////////////////////////////////////////////////
+    public ControllerPanelConsultas BusquedaPanelConsultas(String titulo) {
+        JPanel panel = new JPanel(new BorderLayout(10, 10));
+        panel.setBorder(new EmptyBorder(10, 10, 10, 10));
+
+        JLabel etiquetaTitulo = new JLabel(titulo, JLabel.CENTER);
+        etiquetaTitulo.setFont(new Font("Arial", Font.BOLD, 16));
+        panel.add(etiquetaTitulo, BorderLayout.NORTH);
+
+        JPanel varPanelFormulario = new JPanel(new BorderLayout(5, 15));
+        varPanelFormulario.setBorder(BorderFactory.createTitledBorder("Consulta"));
+
+        JPanel varPanelCampoBoton = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        
+        // Variables que queremos reutilizar
+        JTextField campoBuscar = new JTextField(30);
+        JButton botonBuscar = new JButton("Buscar");
+        botonBuscar.setFont(new Font("Arial", Font.BOLD, 14));
+
+        varPanelCampoBoton.add(campoBuscar);
+        varPanelCampoBoton.add(botonBuscar);
+
+        varPanelFormulario.add(varPanelCampoBoton, BorderLayout.NORTH);
+
+        JTextArea areaMostrar = new JTextArea(10, 20);
+        areaMostrar.setEditable(false);
+        areaMostrar.setFont(new Font("Arial", Font.BOLD, 14));
+
+        JScrollPane scrollResultado = new JScrollPane(areaMostrar);
+        varPanelFormulario.add(scrollResultado, BorderLayout.CENTER);
+
+        JPanel varPanelBotonVolver = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JButton botonVolver = new JButton("Regresar");
+        botonVolver.setFont(new Font("Arial", Font.BOLD, 14));
+        varPanelBotonVolver.add(botonVolver);
+
+        varPanelFormulario.add(varPanelBotonVolver, BorderLayout.SOUTH);
+
+        panel.add(varPanelFormulario, BorderLayout.CENTER);
+
+        return new ControllerPanelConsultas(panel, campoBuscar, areaMostrar, botonBuscar, botonVolver);
+    }
    
     public void showPanel(String panelName) {
         CardLayout cl = (CardLayout) contentPanel.getLayout();
@@ -658,11 +713,14 @@ public class MainView extends JFrame {
     public void setupMenuListeners(ActionListener universidadListener, ActionListener escuelasListener, 
     		ActionListener cursosListener, 
             ActionListener profesoresListener, 
-            ActionListener busquedaPorEscuela) {
+            ActionListener busquedaPorEscuela,ActionListener consultasListener,ActionListener busquedaDeProfesorPorCurso) {
         btnUniversidad.addActionListener(universidadListener);
         btnEscuelas.addActionListener(escuelasListener);
         btnCursos.addActionListener(cursosListener); 
         btnProfesores.addActionListener(profesoresListener);  // NUEVO
         varBtnBuscarPorEscuela.addActionListener(busquedaPorEscuela);
+        btnConsultarCursosPorProfesor.addActionListener(consultasListener);
+        btnConsultarProfesoresPorCurso.addActionListener(busquedaDeProfesorPorCurso);
+        
     }
 }
