@@ -168,7 +168,7 @@ public class CoursesController {
 					JOptionPane.WARNING_MESSAGE);
 		}
 
-		limpiarPanelCurso(); // Limpiar los campos después de eliminar
+		limpiarPanelCurso(); 
 	}
 
 	// SELECCIONAR CURSO
@@ -183,8 +183,7 @@ public class CoursesController {
 		});
 
 	}
-
-	// Metodo para llenar los campos de texto con los datos de la fila seleccionada
+	
 	private void llenarFormularioDesdeTabla() {
 		int fila = mainView.tablaCursos.getSelectedRow();
 		if (fila != -1) {
@@ -320,9 +319,7 @@ public class CoursesController {
 
 	}
 
-	// Añadir este nuevo método
 	private void setupVerEscuelasButtonListener() {
-		// Asumiendo que has declarado btnVerEscuelas como público en MainView
 		mainView.btnVerEscuelas.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -331,7 +328,6 @@ public class CoursesController {
 		});
 	}
 
-	// Método para mostrar las escuelas disponibles
 	private void mostrarEscuelasDisponibles() {
 		String contenido = mainView.txtAreaEscuelas.getText().trim();
 		if (contenido.isEmpty()) {
@@ -340,7 +336,6 @@ public class CoursesController {
 			return;
 		}
 
-		// Extraer los nombres de las escuelas del área de texto
 		String[] lineas = contenido.split("\n");
 		StringBuilder escuelasInfo = new StringBuilder("Escuelas disponibles:\n");
 
@@ -348,7 +343,6 @@ public class CoursesController {
 			escuelasInfo.append(linea).append("\n");
 		}
 
-		// Mostrar un diálogo con las escuelas
 		JTextArea textArea = new JTextArea(escuelasInfo.toString());
 		textArea.setEditable(false);
 		textArea.setWrapStyleWord(true);
@@ -361,7 +355,6 @@ public class CoursesController {
 	}
 
 	private void setupVerBtnRegresarACursos() {
-		// Asumiendo que has declarado btnVerEscuelas como público en MainView
 		mainView.varBtnRegresar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

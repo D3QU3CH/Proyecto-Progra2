@@ -119,14 +119,14 @@ public class ConsultasController {
 
     	DefaultTableModel modeloTabla = (DefaultTableModel) mainView.tablaProfesores.getModel();
     	
-    	boolean considencia = false;
+    	boolean coincidencia = false;
     	 panel.areaMostrar.setText("");
     	 
     	for(int i =0; i<modeloTabla.getRowCount();i++) {
     		String varTomarSigla = (String) modeloTabla.getValueAt(i, 0);
     		
     		if(varSiglasCurso.equalsIgnoreCase(varTomarSigla)) {
-    			considencia =true;
+    			coincidencia = true;
     			
     			String nombreProfesor = (String) modeloTabla.getValueAt(i, 1);
                 String primeroApellido = (String) modeloTabla.getValueAt(i, 2);
@@ -134,19 +134,18 @@ public class ConsultasController {
                 String cedula = (String) modeloTabla.getValueAt(i, 4);
                 String grupo = (String) modeloTabla.getValueAt(i, 5);
                 
-                String filaTexto = "siglas cusro: "+varSiglasCurso+" "+
-                        "Profesor: " + nombreProfesor + " " + primeroApellido + " " + segudoApellido + "\n" +
+                String filaTexto = "Profesor: " + nombreProfesor + " " + primeroApellido + " " + segudoApellido + "\n" +
                         "Cédula: " + cedula + "\n" +
-                        "Grupo: " + grupo + "\n\n" +
-                        "----------------------------------------\n\n";
+                        "Grupo: " + grupo + "\n" +
+                        "----------------------------------------\n";
               
-                panel.areaMostrar.append(filaTexto + "\n");
+                panel.areaMostrar.append(filaTexto);
               
     			
     		}
     		
     	}
-    	if (!considencia) {
+    	if (!coincidencia) {
             JOptionPane.showMessageDialog(mainView,
                     "el curso con siglas '" + varSiglasCurso + "' no tiene profesores asignados!", "Sin cursos",
                     JOptionPane.WARNING_MESSAGE);

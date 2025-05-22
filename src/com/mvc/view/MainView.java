@@ -64,7 +64,7 @@ public class MainView extends JFrame {
         contentPanel.add(consultasPanel, "CONSULTAS");
         /// anadir los objetos 
         this.panelPorProfesor = BusquedaPanelConsultas("Buscar Cursos por Profesor");
-        this.panelPorCurso = BusquedaPanelConsultas("Buscar Información por Sigla de Curso");
+        this.panelPorCurso = BusquedaPanelConsultas("Buscar Profesor por Sigla de Curso");
 
         contentPanel.add(panelPorProfesor.panel, "CONSULTASPANEL");
         contentPanel.add(panelPorCurso.panel, "CONSULTASPANELPORCURSO");
@@ -458,19 +458,19 @@ public class MainView extends JFrame {
     private JLabel lblPrimerApe;
     private JLabel lblSegundoApe;
     private JLabel lblCedula;
-    private JLabel lblNombreCurso;
+    private JLabel lblNombreGrupo;
     private JLabel lblSiglasCurso;
 
     public JTextField txtNombreProfesor;
     public JTextField txtPrimerApe;
     public JTextField txtSegundoApe;
     public JTextField txtCedula;
-    public JTextField txtNombreCursoProf;
+    public JTextField txtNombreGrupoProf;
     public JTextField txtSiglasCurso;
 
     // Botones de profesores
     public JButton btnAsignarProfesor;
-    public JButton btnDesignar;
+    public JButton btnDesasignar;
     public JButton btnDeseleccionarTablaProf;
     public JButton btnAsignarDirector;
     public JButton btnConsultas;
@@ -510,9 +510,9 @@ public class MainView extends JFrame {
         lblCedula.setFont(new Font("Arial", Font.BOLD, 14));
         txtCedula = new JTextField();
         
-        lblNombreCurso = new JLabel("Nombre del Curso (G1, G2, G3, etc...):");
-        lblNombreCurso.setFont(new Font("Arial", Font.BOLD, 14));
-        txtNombreCursoProf = new JTextField();
+        lblNombreGrupo = new JLabel("Nombre del Grupo (G1, G2, G3, etc...):");
+        lblNombreGrupo.setFont(new Font("Arial", Font.BOLD, 14));
+        txtNombreGrupoProf = new JTextField();
         
         lblSiglasCurso = new JLabel("Siglas de Curso:");
         lblSiglasCurso.setFont(new Font("Arial", Font.BOLD, 14));
@@ -526,8 +526,8 @@ public class MainView extends JFrame {
         panelRegistroProfesores.add(txtSegundoApe);
         panelRegistroProfesores.add(lblCedula);
         panelRegistroProfesores.add(txtCedula);
-        panelRegistroProfesores.add(lblNombreCurso);
-        panelRegistroProfesores.add(txtNombreCursoProf);
+        panelRegistroProfesores.add(lblNombreGrupo);
+        panelRegistroProfesores.add(txtNombreGrupoProf);
         panelRegistroProfesores.add(lblSiglasCurso);
         panelRegistroProfesores.add(txtSiglasCurso);
         
@@ -556,16 +556,16 @@ public class MainView extends JFrame {
         btnAsignarProfesor.setFont(new Font("Arial", Font.BOLD, 13));
         btnAsignarProfesor.setEnabled(true);
         
-        btnDesignar = new JButton("Designar Profesor");
-        btnDesignar.setFont(new Font("Arial", Font.BOLD, 13));
-        btnDesignar.setEnabled(true);
+        btnDesasignar = new JButton("Desasignar Profesor");
+        btnDesasignar.setFont(new Font("Arial", Font.BOLD, 13));
+        btnDesasignar.setEnabled(false);
         
         btnDeseleccionarTablaProf = new JButton("Deseleccionar Tabla");
         btnDeseleccionarTablaProf.setFont(new Font("Arial", Font.BOLD, 13));
-        btnDeseleccionarTablaProf.setEnabled(true);
+        btnDeseleccionarTablaProf.setEnabled(false);
         
         panelBotonesPrincipales.add(btnAsignarProfesor);
-        panelBotonesPrincipales.add(btnDesignar);
+        panelBotonesPrincipales.add(btnDesasignar);
         panelBotonesPrincipales.add(btnDeseleccionarTablaProf);
         
         // Panel de opciones adicionales
@@ -582,7 +582,7 @@ public class MainView extends JFrame {
         JButton[] botonesProfesores = {btnModificarProfesor, btnAsignarDirector, btnConsultas};
         for (JButton btn : botonesProfesores) {
             btn.setFont(new Font("Arial", Font.BOLD, 12));
-            btn.setEnabled(true);
+            btn.setEnabled(false);
             buttonsPanelProf.add(btn);
         }
         
