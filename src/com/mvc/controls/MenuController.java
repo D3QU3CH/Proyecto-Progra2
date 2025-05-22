@@ -1,5 +1,4 @@
 package com.mvc.controls;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import com.mvc.view.MainView;
@@ -36,7 +35,14 @@ public class MenuController {
                     mainView.showPanel("CURSOS");
                 }
             },
-          //Listener para el boton Buscar por escuela
+            //Listener para el boton Profesores - NUEVO
+            new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    mainView.showPanel("PROFESORES");
+                }
+            },
+            //Listener para el boton Buscar por escuela
             new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -44,5 +50,20 @@ public class MenuController {
                 }
             } 
         );
+        
+        mainView.btnConsultas.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mainView.showPanel("CONSULTAS");
+            }
+        });
+
+        // Listener para el botón Regresar del panel de consultas
+        mainView.btnRegresarConsultas.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mainView.showPanel("PROFESORES");
+            }
+        });
     }
 }
