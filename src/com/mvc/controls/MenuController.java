@@ -60,6 +60,18 @@ public class MenuController {
                 public void actionPerformed(ActionEvent e) {
                     mainView.showPanel("CONSULTASPANELPORCURSO");
                 }
+            },
+            new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    mainView.showPanel("CONSULAPORCEDULA");
+                }
+            },
+            new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    mainView.showPanel("CONSULTAPORESCUELA");
+                }
             }
         );
         

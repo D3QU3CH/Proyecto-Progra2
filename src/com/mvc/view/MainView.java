@@ -22,9 +22,11 @@ public class MainView extends JFrame {
     private JPanel contentPanel;
     
     public JButton btnVerEscuelas;
-	//instancia de los objetos 
+	//instancia de los objetos del tod la logica de profesores consultas
     public ControllerPanelConsultas panelPorProfesor;
     public ControllerPanelConsultas panelPorCurso;
+    public ControllerPanelConsultas panelPorCedula;
+    public ControllerPanelConsultas panelPorEscuela;
     
     public MainView() {
         setTitle("Sistema de Gestión Universitaria");
@@ -63,11 +65,14 @@ public class MainView extends JFrame {
         contentPanel.add(profesoresPanel, "PROFESORES"); //
         contentPanel.add(consultasPanel, "CONSULTAS");
         /// anadir los objetos 
-        this.panelPorProfesor = BusquedaPanelConsultas("Buscar Cursos por Profesor");
-        this.panelPorCurso = BusquedaPanelConsultas("Buscar Profesor por Sigla de Curso");
-
+        this.panelPorProfesor = BusquedaPanelConsultas("Buscar Cursos por Profesor","Debes de ingresar un nombre de un profesor");
+        this.panelPorCurso = BusquedaPanelConsultas("Buscar Profesor por Sigla de Curso","Debes de ingresar un nombre de un curso");
+        this.panelPorCedula =BusquedaPanelConsultas("Buscar profesor por cedula", "Debes de ingresar un numero de cedula");
+        this.panelPorEscuela =BusquedaPanelConsultas("Buscar profesores por Escuela", "Debes de ingresar el nombre de la escuerla");
         contentPanel.add(panelPorProfesor.panel, "CONSULTASPANEL");
         contentPanel.add(panelPorCurso.panel, "CONSULTASPANELPORCURSO");
+        contentPanel.add(panelPorCedula.panel, "CONSULAPORCEDULA");
+        contentPanel.add(panelPorEscuela.panel, "CONSULTAPORESCUELA");
         //Añadir componentes al panel principal
         mainPanel.add(menuPanel, BorderLayout.WEST);
         mainPanel.add(contentPanel, BorderLayout.CENTER);
@@ -653,7 +658,7 @@ public class MainView extends JFrame {
         consultasPanel.add(panelRegresar, BorderLayout.SOUTH);
     }
     /////////////////////////////////////////////////////////
-    public ControllerPanelConsultas BusquedaPanelConsultas(String titulo) {
+    public ControllerPanelConsultas BusquedaPanelConsultas(String titulo, String labelDescripcion) {
         JPanel panel = new JPanel(new BorderLayout(10, 10));
         panel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
@@ -663,6 +668,11 @@ public class MainView extends JFrame {
 
         JPanel varPanelFormulario = new JPanel(new BorderLayout(5, 15));
         varPanelFormulario.setBorder(BorderFactory.createTitledBorder("Consulta"));
+
+        // Nuevo JLabel descriptivo
+        JLabel etiquetaCampo = new JLabel(labelDescripcion);
+        etiquetaCampo.setFont(new Font("Arial", Font.PLAIN, 14));
+        etiquetaCampo.setBorder(BorderFactory.createEmptyBorder(0, 10, 5, 0)); // Espaciado
 
         JPanel varPanelCampoBoton = new JPanel(new FlowLayout(FlowLayout.LEFT));
         
@@ -674,7 +684,12 @@ public class MainView extends JFrame {
         varPanelCampoBoton.add(campoBuscar);
         varPanelCampoBoton.add(botonBuscar);
 
-        varPanelFormulario.add(varPanelCampoBoton, BorderLayout.NORTH);
+        // Agrupamos label + campo
+        JPanel contenedorCampo = new JPanel(new BorderLayout());
+        contenedorCampo.add(etiquetaCampo, BorderLayout.NORTH);
+        contenedorCampo.add(varPanelCampoBoton, BorderLayout.CENTER);
+
+        varPanelFormulario.add(contenedorCampo, BorderLayout.NORTH);
 
         JTextArea areaMostrar = new JTextArea(10, 20);
         areaMostrar.setEditable(false);
@@ -713,7 +728,7 @@ public class MainView extends JFrame {
     public void setupMenuListeners(ActionListener universidadListener, ActionListener escuelasListener, 
     		ActionListener cursosListener, 
             ActionListener profesoresListener, 
-            ActionListener busquedaPorEscuela,ActionListener consultasListener,ActionListener busquedaDeProfesorPorCurso) {
+            ActionListener busquedaPorEscuela,ActionListener consultasListener,ActionListener busquedaDeProfesorPorCurso,ActionListener busquedaPorCedula,ActionListener busquedaPorEscuelaConsultas) {
         btnUniversidad.addActionListener(universidadListener);
         btnEscuelas.addActionListener(escuelasListener);
         btnCursos.addActionListener(cursosListener); 
@@ -721,6 +736,8 @@ public class MainView extends JFrame {
         varBtnBuscarPorEscuela.addActionListener(busquedaPorEscuela);
         btnConsultarCursosPorProfesor.addActionListener(consultasListener);
         btnConsultarProfesoresPorCurso.addActionListener(busquedaDeProfesorPorCurso);
+        btnConsultarProfesorCedula.addActionListener(busquedaPorCedula);
+        btnConsultarProfesorEscuela.addActionListener(busquedaPorEscuelaConsultas);
         
     }
 }

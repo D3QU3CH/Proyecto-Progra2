@@ -10,7 +10,7 @@ import com.mvc.models.Courses;
 import com.mvc.models.University;
 import com.mvc.view.MainView;
 
-public class ConsultasController {
+public class ConsultasController { 
 
     private MainView mainView;
     private UniversityController universidadController;
@@ -18,6 +18,8 @@ public class ConsultasController {
     // Paneles específicos que vienen desde MainView
     private ControllerPanelConsultas panelPorProfesor;
     private ControllerPanelConsultas panelPorCurso;
+    private ControllerPanelConsultas panelPorCedula;
+    private ControllerPanelConsultas panelPorEscuela;
 
     public ConsultasController(MainView mainView, UniversityController universidadController) {
         this.mainView = mainView;
@@ -26,7 +28,8 @@ public class ConsultasController {
         // Suponiendo que MainView tiene estos dos paneles ya creados
         this.panelPorProfesor = mainView.panelPorProfesor;
         this.panelPorCurso = mainView.panelPorCurso;
-
+        this.panelPorCedula=mainView.panelPorCedula;
+        this.panelPorEscuela=mainView.panelPorEscuela;
         // Conectar eventos
         configurarEventos();
     }
@@ -49,8 +52,26 @@ public class ConsultasController {
         } else {
             System.err.println("botonBuscar es null en panelPorCurso");
         }
+        //configuara bonton por cedula
+        if (panelPorCedula.botonBuscar != null) {
+        	panelPorCedula.botonBuscar.addActionListener(e -> {
+        		busquedaPorNumeroDeCedula(panelPorCedula);
+            });
+        } else {
+            System.err.println("botonBuscar es null en panelPorCurso");
+        }
+        //configurar el boton de buscar por escuela
+        if (panelPorEscuela.botonBuscar != null) {
+        	panelPorEscuela.botonBuscar.addActionListener(e -> {
+        		busquedaPorEscuela(panelPorEscuela);
+            });
+        } else {
+            System.err.println("botonBuscar es null en panelPorCurso");
+        }
         configurarBotonVolver(panelPorProfesor);
         configurarBotonVolver(panelPorCurso);
+        configurarBotonVolver(panelPorCedula);
+        configurarBotonVolver(panelPorEscuela);
     }
     
     private void configurarBotonVolver(ControllerPanelConsultas panel) {
@@ -87,12 +108,15 @@ public class ConsultasController {
                         if (siglasCurso.equalsIgnoreCase(siglasCursoTabla)) {
                             String nombreEscuela = (String) modeloTabla.getValueAt(i, 0);
                             String descripcionCurso = (String) modeloTabla.getValueAt(i, 2);
-
-                            String filaTexto = "Escuela: " + nombreEscuela +
-                                               ", Siglas: " + siglasCurso +
-                                               ", Descripción: " + descripcionCurso;
+                            
+                            String filaTexto = "Profesor: " + varNombreProfesor + " " + "\n" +
+                            		"Escuela: " + nombreEscuela +
+                                    ", Siglas: " + siglasCurso +
+                                    ", Descripción: " + descripcionCurso+"\n"+
+                                    "----------------------------------------\n";
 
                             panel.areaMostrar.append(filaTexto + "\n");
+                            
                         }
                     }
                 }
@@ -158,6 +182,95 @@ public class ConsultasController {
     	
     	
     }
+    public void busquedaPorNumeroDeCedula(ControllerPanelConsultas panel) {
+    	String varNumeroCedula = panel.campoBuscar.getText().trim();
+    	
+    	DefaultTableModel modeloTabla = (DefaultTableModel) mainView.tablaProfesores.getModel();
+    	boolean coincidencia = false;
+    	panel.areaMostrar.setText("");
+    	for(int i=0;i<modeloTabla.getRowCount();i++) {
+    		String varTomarCedula = (String) modeloTabla.getValueAt(i, 4);
+    		
+    		if(varNumeroCedula.equalsIgnoreCase(varTomarCedula)) {
+    			coincidencia=true;
+    			String curso = (String) modeloTabla.getValueAt(i, 0);
+    			String nombreProfesor = (String) modeloTabla.getValueAt(i, 1);
+                String primeroApellido = (String) modeloTabla.getValueAt(i, 2);
+                String segudoApellido = (String) modeloTabla.getValueAt(i, 3);
+                String grupo = (String) modeloTabla.getValueAt(i, 5);
+                
+                String filaTexto = "Profesor: " + nombreProfesor + " " + primeroApellido + " " + segudoApellido + "\n" +
+                        "Cédula: " + varNumeroCedula + "\n" +
+                        "Grupo: " + grupo + "\n" +
+                        "----------------------------------------\n";
+              
+                panel.areaMostrar.append(filaTexto);
+    			
+    		}
+    		
+    		
+    	}
+    	if (!coincidencia) {
+            JOptionPane.showMessageDialog(mainView,
+                    "No se encontraron profesores con el numero de cedula: '" + varNumeroCedula + "' error!", "",
+                    JOptionPane.WARNING_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(mainView,
+                    "¡Se encontraron considencia en el numero de cedula:'" + varNumeroCedula + "'!", "Éxito",
+                    JOptionPane.INFORMATION_MESSAGE);
+        }
+    	
+    	
+    }
+    public void busquedaPorEscuela(ControllerPanelConsultas panel) {
+        String varNombreEscuela = panel.campoBuscar.getText().trim();
+        DefaultTableModel modeloProfesores = (DefaultTableModel) mainView.tablaProfesores.getModel();
+        DefaultTableModel modeloCursos = (DefaultTableModel) mainView.tablaCursos.getModel();
+
+        boolean coincidencia = false;
+        panel.areaMostrar.setText(""); // Limpiar el área de texto antes de mostrar resultados
+
+        for (int i = 0; i < modeloCursos.getRowCount(); i++) {
+            String nombreEscuela = (String) modeloCursos.getValueAt(i, 0); // Columna 0: nombre de la escuela
+            String siglasCurso = (String) modeloCursos.getValueAt(i, 1);   // Columna 1: siglas del curso
+
+            if (nombreEscuela.equalsIgnoreCase(varNombreEscuela)) {
+                // Buscar profesores que tengan estas siglas de curso
+                for (int j = 0; j < modeloProfesores.getRowCount(); j++) {
+                    String siglasProfesor = (String) modeloProfesores.getValueAt(j, 0); // Columna 0: siglas del curso del profesor
+
+                    if (siglasCurso.equalsIgnoreCase(siglasProfesor)) {
+                        coincidencia = true;
+                        String cursoSiglas =(String) modeloProfesores.getValueAt(j, 0);
+                        String nombreProfesor = (String) modeloProfesores.getValueAt(j, 1);
+                        String primerApellido = (String) modeloProfesores.getValueAt(j, 2);
+                        String segundoApellido = (String) modeloProfesores.getValueAt(j, 3);
+                        String cedula = (String) modeloProfesores.getValueAt(j, 4);
+                        String grupo = (String) modeloProfesores.getValueAt(j, 5);
+
+                        String filaTexto = "Escuela: " + nombreEscuela + "\n" +"Curso:"+cursoSiglas+""+"\n"+
+                                "Profesor: " + nombreProfesor + " " + primerApellido + " " + segundoApellido + "\n" +
+                                "Cédula: " + cedula + "\n" +
+                                "Grupo: " + grupo + "\n" +
+                                "----------------------------------------\n";
+
+                        panel.areaMostrar.append(filaTexto);
+                    }
+                }
+            }
+        }
+
+        if (!coincidencia) {
+            JOptionPane.showMessageDialog(mainView,
+                    "No se encontraron profesores con la escuela: '" + varNombreEscuela + "'",
+                    "Sin coincidencias", JOptionPane.WARNING_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(mainView,
+                    "¡Se encontraron coincidencias en la escuela: '" + varNombreEscuela + "'!",
+                    "Éxito", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+
     
     
     
