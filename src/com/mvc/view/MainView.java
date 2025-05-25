@@ -651,6 +651,7 @@ public class MainView extends JFrame {
 
 		btnConsultaEscuelas = new JButton("Consulta de Escuelas");
 		btnConsultaEscuelas.setFont(new Font("Arial", Font.BOLD, 18));
+		
 		btnConsultaDirectores = new JButton("Consulta de Directores");
 		btnConsultaDirectores.setFont(new Font("Arial", Font.BOLD, 18));
 

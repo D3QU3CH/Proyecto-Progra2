@@ -15,6 +15,7 @@ public class ConsultasController {
 
     private MainView mainView;
     private UniversityController universidadController;
+    private TeacherController profesorController;
 
     // Paneles específicos que vienen desde MainView
     private ControllerPanelConsultas panelPorProfesor;
@@ -22,9 +23,10 @@ public class ConsultasController {
     private ControllerPanelConsultas panelPorCedula;
     private ControllerPanelConsultas panelPorEscuela;
 
-    public ConsultasController(MainView mainView, UniversityController universidadController) {
+    public ConsultasController(MainView mainView, UniversityController universidadController, TeacherController profesorController) {
         this.mainView = mainView;
         this.universidadController = universidadController;
+        this.profesorController = profesorController;
 
         // Suponiendo que MainView tiene estos dos paneles ya creados
         this.panelPorProfesor = mainView.panelPorProfesor;
@@ -73,7 +75,7 @@ public class ConsultasController {
         mainView.btnConsultaDirectores.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            	consultaDirectores();
+            	mainView.showPanel("DIRECTORES");
             }
         });
         
@@ -204,7 +206,6 @@ public class ConsultasController {
     		
     		if(varNumeroCedula.equalsIgnoreCase(varTomarCedula)) {
     			coincidencia=true;
-    			String curso = (String) modeloTabla.getValueAt(i, 0);
     			String nombreProfesor = (String) modeloTabla.getValueAt(i, 1);
                 String primeroApellido = (String) modeloTabla.getValueAt(i, 2);
                 String segudoApellido = (String) modeloTabla.getValueAt(i, 3);
@@ -285,50 +286,6 @@ public class ConsultasController {
         }
     }
     
-    public void consultaDirectores() {
-        mainView.txtAreaDirectores.setText(""); // Limpiar el área de texto
-        
-        // Acceder al modelo de la universidad para obtener las escuelas y sus directores
-        University universidad = universidadController.getUniversidad();
-        
-        if (universidad == null || universidad.getEscuelas().isEmpty()) {
-            mainView.txtAreaDirectores.setText("No hay escuelas registradas o universidad no creada.");
-            JOptionPane.showMessageDialog(mainView, 
-                    "No se encontraron escuelas registradas.", 
-                    "Sin datos", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-        
-        boolean hayDirectores = false;
-        String filaTexto = "";
-        
-        for (int i = 0; i < universidad.getEscuelas().size(); i++) {
-            School escuela = universidad.getEscuelas().get(i);
-            
-            if (escuela.getVarDirector() != null) {
-            	
-            	hayDirectores = true;
-            	
-            	filaTexto = 
-            			"Director de la Escuela " + escuela.getVarName() + "...\n" +
-                        "Profesor:  " + escuela.getVarDirector() + " " ;
-            					/*+ + " " +  + " " +  + "\n" +
-                        "Cédula: " +  + "\n" +
-                        "Grupo: " +  + "\n" +
-                        "----------------------------------------\n";*/
-            }
-        } 
-        
-        if (!hayDirectores) {
-            mainView.txtAreaDirectores.setText("No hay directores asignados a ninguna escuela.");
-        } else {
-            mainView.txtAreaDirectores.setText(filaTexto);
-           
-        }
-        
-        // Mostrar el panel de directores
-        mainView.showPanel("DIRECTORES");
-    }
     
     
 }

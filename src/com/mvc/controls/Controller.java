@@ -22,7 +22,7 @@ public class Controller {
 		cursosController = new CoursesController(mainView, universidadController);
 		teacherController = new TeacherController(mainView, universidadController );
 		
-		consultasController = new ConsultasController(mainView, universidadController);
+		consultasController = new ConsultasController(mainView, universidadController, teacherController);
 
 		// Mostrar la vista
 		mainView.setVisible(true);
