@@ -207,9 +207,13 @@ public class TeacherController {
 	    String apellido2 = (String) modelo.getValueAt(filaSeleccionada, 3);
 	    String cedula = (String) modelo.getValueAt(filaSeleccionada, 4);
 	    
-	    // Validar que los campos no estén vacíos
-	    if (varSiglasCursoProf.isEmpty() || nombreDirector.isEmpty()) {
-	        JOptionPane.showMessageDialog(mainView, "¡Debe seleccionar el profesor para hacerlo director!",
+	    
+	    String contenidoActual = mainView.txtAreaDirectores.getText(); 
+	    
+	    // Verificar si ya existe un director con la misma cédula
+	    if (contenidoActual.contains("Cédula: " + cedula)) {
+	        JOptionPane.showMessageDialog(mainView, 
+	                "¡Ya existe un director registrado con la cédula " + cedula + "!", 
 	                "¡Advertencia!", JOptionPane.WARNING_MESSAGE);
 	        return;
 	    }
@@ -217,22 +221,22 @@ public class TeacherController {
 	    // Buscar el curso en la tabla de cursos para obtener el nombre de la escuela
 	    DefaultTableModel modeloCursos = (DefaultTableModel) mainView.tablaCursos.getModel();
 	    String nombreEscuela = null;
-	    boolean cursoEncontrado = false;
 
 	    for (int i = 0; i < modeloCursos.getRowCount(); i++) {
+	    	
 	        String siglasRegistradas = (String) modeloCursos.getValueAt(i, 1); // Columna 1: siglas
 	        if (varSiglasCursoProf.equalsIgnoreCase(siglasRegistradas)) {
 	            nombreEscuela = (String) modeloCursos.getValueAt(i, 0); // Columna 0: nombre de escuela
-	            cursoEncontrado = true;
+	            
+	            if (contenidoActual.contains("Director de la Escuela " + nombreEscuela)) {
+	    	        JOptionPane.showMessageDialog(mainView, 
+	    	                "¡Ya existe un director para la escuela: " + nombreEscuela + "!", 
+	    	                "¡Advertencia!", JOptionPane.WARNING_MESSAGE);
+	    	        return;
+	    	    }
+	            
 	            break;
 	        }
-	    }
-
-	    // Validar que se encontró el curso
-	    if (!cursoEncontrado) {
-	        JOptionPane.showMessageDialog(mainView, "¡No se encontró el curso con las siglas especificadas!", "¡Error!",
-	                JOptionPane.ERROR_MESSAGE);
-	        return;
 	    }
 
 	    // Crear panel personalizado para solicitar el período
@@ -248,8 +252,7 @@ public class TeacherController {
 	    // Mostrar el JOptionPane con el panel personalizado
 	    int resultado = JOptionPane.showConfirmDialog(mainView, panelPeriodo, "Asignar Director - Período",
 	            JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
-	    
-	    int periodoAnios = 0;
+
 	    // Verificar si el usuario presionó OK (O aceptar)
 	    if (resultado == JOptionPane.OK_OPTION) {
 	        String periodoTexto = txtPeriodo.getText().trim();
@@ -263,7 +266,7 @@ public class TeacherController {
 
 	        // Validar que el período sea un número válido
 	        try {
-	            periodoAnios = Integer.parseInt(periodoTexto);
+	        	int periodoAnios = Integer.parseInt(periodoTexto);
 
 	            if (periodoAnios <= 0) {
 	                JOptionPane.showMessageDialog(mainView, "¡El período debe ser un número mayor a 0!", "¡Error!",
@@ -286,31 +289,17 @@ public class TeacherController {
 	                            break; // ya lo asignaste, puedes salir del for
 	                        }
 	                    }
-
-	                    // Agregar la información del nuevo director al textarea sin borrar el contenido anterior
-	                    String contenidoActual = mainView.txtAreaDirectores.getText();
-	                    StringBuilder nuevoContenido = new StringBuilder();
 	                    
-	                    // Si ya hay contenido, mantenerlo
-	                    if (contenidoActual != null && !contenidoActual.trim().isEmpty() && 
-	                        !contenidoActual.equals("No hay directores asignados a ninguna escuela.") &&
-	                        !contenidoActual.equals("No hay escuelas registradas o universidad no creada.")) {
-	                        nuevoContenido.append(contenidoActual);
-	                        if (!contenidoActual.endsWith("\n")) {
-	                            nuevoContenido.append("\n");
-	                        }
-	                    }
 	                    
-	                    // Agregar la información del nuevo director
-	                    nuevoContenido.append("Director de la Escuela ").append(nombreEscuela).append("...\n")
-	                            .append("Profesor: ").append(nombreDirector).append(" ")
-	                            .append(apellido1).append(" ").append(apellido2).append("\n")
-	                            .append("Cédula: ").append(cedula).append("\n")
-	                            .append("Periodo de tiempo en el que será director: ").append(periodoAnios).append(" años\n")
-	                            .append("----------------------------------------\n");
-	                    
-	                    // Actualizar el textarea con el nuevo contenido
-	                    mainView.txtAreaDirectores.setText(nuevoContenido.toString());
+	                    String filaTexto =
+                        		"Director de la Escuela " + nombreEscuela + "...\n" +
+                                "Profesor: " + nombreDirector + " " + apellido1 + " " + apellido2 + "\n" +
+                                "Cédula: " + cedula + "\n" +
+                                "Periodo de tiempo en el que será director: " + periodoAnios + " años\n" +
+                                "----------------------------------------------------------------\n";
+	                   
+	                    // Agregar al textarea el nuevo contenido
+	                    mainView.txtAreaDirectores.append(filaTexto);
 	                }
 	            } catch (Exception e) {
 	                JOptionPane.showMessageDialog(mainView, "¡Error al asignar el director!", "¡Error!",

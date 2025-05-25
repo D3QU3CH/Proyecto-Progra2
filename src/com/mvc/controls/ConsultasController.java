@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
 import javax.swing.table.DefaultTableModel;
 
 import com.mvc.models.Courses;
@@ -75,7 +76,29 @@ public class ConsultasController {
         mainView.btnConsultaDirectores.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            	mainView.showPanel("DIRECTORES");
+            	mainView.showPanel("CONSULTA DIRECTORES");
+            }
+        });
+        
+        mainView.btnConsultaEscuelas.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	mostrarInformacionEscuelas();
+            	mainView.showPanel("CONSULTA ESCUELAS");
+            }
+        });
+        
+        mainView.btnRegresarDirectores.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mainView.showPanel("CONSULTAS");
+            }
+        });
+
+        mainView.btnRegresarEscuelas.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mainView.showPanel("CONSULTAS");
             }
         });
         
@@ -286,6 +309,44 @@ public class ConsultasController {
         }
     }
     
-    
+    private void mostrarInformacionEscuelas() {
+        DefaultTableModel modeloCursos = (DefaultTableModel) mainView.tablaCursos.getModel();
+        DefaultTableModel modeloProfesores = (DefaultTableModel) mainView.tablaProfesores.getModel();
+        JTextArea areaTexto = mainView.txtAreaConsultaEscuelas;
+
+        areaTexto.setText(""); // Limpiar contenido anterior
+
+        for (int i = 0; i < modeloCursos.getRowCount(); i++) {
+            String nombreEscuela = (String) modeloCursos.getValueAt(i, 0);
+            String siglasCurso = (String) modeloCursos.getValueAt(i, 1);
+            String descripcionCurso = (String) modeloCursos.getValueAt(i, 2);
+
+            areaTexto.append("Escuela: " + nombreEscuela + "\n");
+            areaTexto.append("Curso: " + siglasCurso + " - " + descripcionCurso + " (Siglas - Descripcion)\n");
+
+            boolean profesorEncontrado = false;
+            for (int j = 0; j < modeloProfesores.getRowCount(); j++) {
+                String siglasProfesor = (String) modeloProfesores.getValueAt(j, 0);
+                if (siglasCurso.equalsIgnoreCase(siglasProfesor)) {
+                    profesorEncontrado = true;
+                    String nombre = (String) modeloProfesores.getValueAt(j, 1);
+                    String apellido1 = (String) modeloProfesores.getValueAt(j, 2);
+                    String apellido2 = (String) modeloProfesores.getValueAt(j, 3);
+                    String cedula = (String) modeloProfesores.getValueAt(j, 4);
+                    String grupo = (String) modeloProfesores.getValueAt(j, 5);
+
+                    areaTexto.append("Profesor: " + nombre + " " + apellido1 + " " + apellido2 
+                    		+ ", Cédula: " + cedula + ", Grupo: " + grupo + "\n");
+                }
+            }
+
+            if (!profesorEncontrado) {
+                areaTexto.append("Profesor: No asignado\n");
+            }
+
+            areaTexto.append("-------------------------------------------\n");
+        }
+    }
+
     
 }

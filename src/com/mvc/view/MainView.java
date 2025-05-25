@@ -55,6 +55,7 @@ public class MainView extends JFrame {
 		ProfesoresPanel();
 		ConsultasPanel();
 		DirectoresPanel();
+		ConsultaEscuelasPanel();
 
 		// Añadir paneles al contenido
 		contentPanel.add(universidadPanel, "UNIVERSIDAD");
@@ -63,7 +64,8 @@ public class MainView extends JFrame {
 		contentPanel.add(panelBusqueda, "BUSQUEDA");
 		contentPanel.add(profesoresPanel, "PROFESORES");
 		contentPanel.add(consultasPanel, "CONSULTAS");
-		contentPanel.add(panelConsultaDirectores, "DIRECTORES");
+		contentPanel.add(panelConsultaDirectores, "CONSULTA DIRECTORES");
+		contentPanel.add(panelConsultaEscuelas, "CONSULTA ESCUELAS");
 
 		/// anadir los objetos
 		this.panelPorProfesor = BusquedaPanelConsultas("Buscar Cursos por Profesor",
@@ -110,7 +112,7 @@ public class MainView extends JFrame {
 		btnEscuelas.setBorderPainted(false);
 		btnCursos = new JButton("Cursos");
 		btnCursos.setBorderPainted(false);
-		btnProfesores = new JButton("Profesores"); // NUEVO BOTÓN
+		btnProfesores = new JButton("Profesores"); 
 		btnProfesores.setBorderPainted(false);
 
 		// Configuracion de los botones
@@ -227,67 +229,67 @@ public class MainView extends JFrame {
 		universidadPanel.add(contentUniversidad, BorderLayout.CENTER);
 	}
 
-	// Componentes de Escuelas
-	public JLabel lblEscuelasTitle;
-	public JLabel lblNameSchool;
-	public JTextField txtNameSchool;
-	public JButton btnRegisterSchool;
-	private JLabel lblTituloEscuelas;
-	public JTextArea txtAreaEscuelas;
-	private JScrollPane scrollPaneEscuelas;
-
-	private JPanel escuelasPanel;
-
-	private void EscuelasPanel() {
-		escuelasPanel = new JPanel(new BorderLayout(10, 10));
-		escuelasPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
-
-		JLabel lblTitleEscuelas = new JLabel("Gestión de Escuelas", JLabel.CENTER);
-		lblTitleEscuelas.setFont(new Font("Arial", Font.BOLD, 18));
-		escuelasPanel.add(lblTitleEscuelas, BorderLayout.NORTH);
-
-		JPanel panelRegistroEscuela = new JPanel(new GridLayout(3, 2, 5, 5));
-		panelRegistroEscuela.setBorder(BorderFactory.createTitledBorder("Registrar Escuela"));
-
-		lblEscuelasTitle = new JLabel("Universidad: ");
-		lblEscuelasTitle.setFont(new Font("Arial", Font.ITALIC, 16));
-
-		lblNameSchool = new JLabel("Nombre De la Escuela:");
-		lblNameSchool.setFont(new Font("Arial", Font.BOLD, 12));
-
-		txtNameSchool = new JTextField();
-
-		btnRegisterSchool = new JButton("Registrar Escuela");
-		btnRegisterSchool.setFont(new Font("Arial", Font.BOLD, 14));
-		btnRegisterSchool.setEnabled(false);
-
-		panelRegistroEscuela.add(lblEscuelasTitle);
-		panelRegistroEscuela.add(new JLabel());
-		panelRegistroEscuela.add(lblNameSchool);
-		panelRegistroEscuela.add(txtNameSchool);
-		panelRegistroEscuela.add(btnRegisterSchool);
-
-		JPanel panelConsultaEscuelas = new JPanel(new BorderLayout(10, 10));
-		panelConsultaEscuelas.setBorder(BorderFactory.createTitledBorder("Escuelas Registradas"));
-
-		lblTituloEscuelas = new JLabel("Lista de las Escuelas:", JLabel.CENTER);
-		lblTituloEscuelas.setFont(new Font("Arial", Font.BOLD, 16));
-		panelConsultaEscuelas.add(lblTituloEscuelas, BorderLayout.NORTH);
-
-		txtAreaEscuelas = new JTextArea();
-		txtAreaEscuelas.setEditable(false);
-		txtAreaEscuelas.setFont(new Font("Arial", Font.BOLD, 20));
-		txtAreaEscuelas.setBorder(BorderFactory.createEtchedBorder());
-
-		scrollPaneEscuelas = new JScrollPane(txtAreaEscuelas);
-		panelConsultaEscuelas.add(scrollPaneEscuelas, BorderLayout.CENTER);
-
-		JPanel contentEscuelas = new JPanel(new BorderLayout(10, 10));
-		contentEscuelas.add(panelRegistroEscuela, BorderLayout.NORTH);
-		contentEscuelas.add(panelConsultaEscuelas, BorderLayout.CENTER);
-
-		escuelasPanel.add(contentEscuelas, BorderLayout.CENTER);
-	}
+	//Componentes de Escuelas
+    public JLabel lblEscuelasTitle;
+    public JLabel lblNameSchool;
+    public JTextField txtNameSchool;
+    public JButton btnRegisterSchool;
+    private JLabel lblTituloEscuelas;
+    public JTextArea txtAreaEscuelas;
+    private JScrollPane scrollPaneEscuelas;
+    
+    private JPanel escuelasPanel;
+    
+    private void EscuelasPanel() {
+        escuelasPanel = new JPanel(new BorderLayout(10, 10));
+        escuelasPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+        
+        JLabel lblTitleEscuelas = new JLabel("Gestión de Escuelas", JLabel.CENTER);
+        lblTitleEscuelas.setFont(new Font("Arial", Font.BOLD, 18));
+        escuelasPanel.add(lblTitleEscuelas, BorderLayout.NORTH);
+        
+        JPanel panelRegistroEscuela = new JPanel(new GridLayout(3, 2, 5, 5));
+        panelRegistroEscuela.setBorder(BorderFactory.createTitledBorder("Registrar Escuela"));
+        
+        lblEscuelasTitle = new JLabel("Universidad: ");
+        lblEscuelasTitle.setFont(new Font("Arial", Font.ITALIC, 16));
+        
+        lblNameSchool = new JLabel("Nombre De la Escuela:");
+        lblNameSchool.setFont(new Font("Arial", Font.BOLD, 12));
+        
+        txtNameSchool = new JTextField();
+        
+        btnRegisterSchool = new JButton("Registrar Escuela");
+        btnRegisterSchool.setFont(new Font("Arial", Font.BOLD, 14));
+        btnRegisterSchool.setEnabled(false);
+        
+        panelRegistroEscuela.add(lblEscuelasTitle);
+        panelRegistroEscuela.add(new JLabel());
+        panelRegistroEscuela.add(lblNameSchool);
+        panelRegistroEscuela.add(txtNameSchool);
+        panelRegistroEscuela.add(btnRegisterSchool);
+        
+        JPanel panelConsultaEscuelas = new JPanel(new BorderLayout(10, 10));
+        panelConsultaEscuelas.setBorder(BorderFactory.createTitledBorder("Escuelas Registradas"));
+        
+        lblTituloEscuelas = new JLabel("Lista de las Escuelas:", JLabel.CENTER);
+        lblTituloEscuelas.setFont(new Font("Arial", Font.BOLD, 16));
+        panelConsultaEscuelas.add(lblTituloEscuelas, BorderLayout.NORTH);
+        
+        txtAreaEscuelas = new JTextArea();
+        txtAreaEscuelas.setEditable(false);
+        txtAreaEscuelas.setFont(new Font("Arial", Font.BOLD, 20));
+        txtAreaEscuelas.setBorder(BorderFactory.createEtchedBorder());
+        
+        scrollPaneEscuelas = new JScrollPane(txtAreaEscuelas);
+        panelConsultaEscuelas.add(scrollPaneEscuelas, BorderLayout.CENTER);
+        
+        JPanel contentEscuelas = new JPanel(new BorderLayout(10, 10));
+        contentEscuelas.add(panelRegistroEscuela, BorderLayout.NORTH);
+        contentEscuelas.add(panelConsultaEscuelas, BorderLayout.CENTER);
+        
+        escuelasPanel.add(contentEscuelas, BorderLayout.CENTER);
+    }
 
 	// Componentes de Cursos
 	private JPanel panelRegistroCursos;
@@ -710,7 +712,7 @@ public class MainView extends JFrame {
 
 		JTextArea areaMostrar = new JTextArea(10, 20);
 		areaMostrar.setEditable(false);
-		areaMostrar.setFont(new Font("Arial", Font.BOLD, 14));
+		areaMostrar.setFont(new Font("Arial", Font.PLAIN, 14));
 
 		JScrollPane scrollResultado = new JScrollPane(areaMostrar);
 		varPanelFormulario.add(scrollResultado, BorderLayout.CENTER);
@@ -750,7 +752,7 @@ public class MainView extends JFrame {
 
 		txtAreaDirectores = new JTextArea();
 		txtAreaDirectores.setEditable(false);
-		txtAreaDirectores.setFont(new Font("Arial", Font.BOLD, 14));
+		txtAreaDirectores.setFont(new Font("Arial", Font.PLAIN, 14));
 		txtAreaDirectores.setBorder(BorderFactory.createEtchedBorder());
 
 		scrollPaneDirectores = new JScrollPane(txtAreaDirectores);
@@ -764,6 +766,45 @@ public class MainView extends JFrame {
 
 		panelConsultaDirectores.add(panelContenidoDirectores, BorderLayout.CENTER);
 	}
+	
+	// Panel de consulta de escuelas
+	private JPanel panelConsultaEscuelas;
+	public JTextArea txtAreaConsultaEscuelas;
+	private JScrollPane scrollPanelConsultaEscuelas;
+	public JButton btnRegresarEscuelas;
+
+	private void ConsultaEscuelasPanel() {
+		panelConsultaEscuelas = new JPanel(new BorderLayout(10, 10));
+		panelConsultaEscuelas.setBorder(new EmptyBorder(10, 10, 10, 10));
+
+		JLabel lblTitulo = new JLabel("Consulta de Escuelas", JLabel.CENTER);
+		lblTitulo.setFont(new Font("Arial", Font.BOLD, 18));
+		panelConsultaEscuelas.add(lblTitulo, BorderLayout.NORTH);
+
+		JPanel panelContenido = new JPanel(new BorderLayout(10, 10));
+		panelContenido.setBorder(BorderFactory.createTitledBorder("Escuelas y Cursos"));
+
+		JLabel lblDescripcion = new JLabel("Listado de cursos por escuela y profesor asignado:", JLabel.CENTER);
+		lblDescripcion.setFont(new Font("Arial", Font.BOLD, 16));
+		panelContenido.add(lblDescripcion, BorderLayout.NORTH);
+
+		txtAreaConsultaEscuelas = new JTextArea();
+		txtAreaConsultaEscuelas.setEditable(false);
+		txtAreaConsultaEscuelas.setFont(new Font("Arial", Font.PLAIN, 14));
+		txtAreaConsultaEscuelas.setBorder(BorderFactory.createEtchedBorder());
+
+		scrollPanelConsultaEscuelas = new JScrollPane(txtAreaConsultaEscuelas);
+		panelContenido.add(scrollPanelConsultaEscuelas, BorderLayout.CENTER);
+
+		JPanel panelBoton = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		btnRegresarEscuelas = new JButton("Regresar");
+		btnRegresarEscuelas.setFont(new Font("Arial", Font.BOLD, 14));
+		panelBoton.add(btnRegresarEscuelas);
+		panelContenido.add(panelBoton, BorderLayout.SOUTH);
+
+		panelConsultaEscuelas.add(panelContenido, BorderLayout.CENTER);
+	}
+
 
 	public void showPanel(String panelName) {
 		CardLayout cl = (CardLayout) contentPanel.getLayout();
