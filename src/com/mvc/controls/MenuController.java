@@ -75,19 +75,31 @@ public class MenuController {
             }
         );
         
-        mainView.btnConsultas.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                mainView.showPanel("CONSULTAS");
-            }
-        });
-
-        // Listener para el botón Regresar del panel de consultas
         mainView.btnRegresarConsultas.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 mainView.showPanel("PROFESORES");
             }
         });
+        
+        mainView.btnConsultas.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mainView.showPanel("CONSULTAS");
+            }
+        });
+        
+         mainView.btnRegresarDirectores.addActionListener(new ActionListener() {
+             @Override
+             public void actionPerformed(ActionEvent e) {
+                 mainView.showPanel("CONSULTAS");
+             }
+         });
+        
+        
+        // Listener para el botón Regresar del panel de consultas
+        
+        
+        
     }
 }

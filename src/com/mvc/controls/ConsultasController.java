@@ -7,6 +7,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 import com.mvc.models.Courses;
+import com.mvc.models.School;
 import com.mvc.models.University;
 import com.mvc.view.MainView;
 
@@ -28,8 +29,8 @@ public class ConsultasController {
         // Suponiendo que MainView tiene estos dos paneles ya creados
         this.panelPorProfesor = mainView.panelPorProfesor;
         this.panelPorCurso = mainView.panelPorCurso;
-        this.panelPorCedula=mainView.panelPorCedula;
-        this.panelPorEscuela=mainView.panelPorEscuela;
+        this.panelPorCedula= mainView.panelPorCedula;
+        this.panelPorEscuela= mainView.panelPorEscuela;
         // Conectar eventos
         configurarEventos();
     }
@@ -68,6 +69,14 @@ public class ConsultasController {
         } else {
             System.err.println("botonBuscar es null en panelPorCurso");
         }
+        
+        mainView.btnConsultaDirectores.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	consultaDirectores();
+            }
+        });
+        
         configurarBotonVolver(panelPorProfesor);
         configurarBotonVolver(panelPorCurso);
         configurarBotonVolver(panelPorCedula);
@@ -109,13 +118,14 @@ public class ConsultasController {
                             String nombreEscuela = (String) modeloTabla.getValueAt(i, 0);
                             String descripcionCurso = (String) modeloTabla.getValueAt(i, 2);
                             
-                            String filaTexto = "Profesor: " + varNombreProfesor + " " + "\n" +
-                            		"Escuela: " + nombreEscuela +
-                                    ", Siglas: " + siglasCurso +
-                                    ", Descripción: " + descripcionCurso+"\n"+
+                            String filaTexto = 
+                            		"Profesor: " + nombreProfesorTabla + "\n" +
+                            		"Escuela: " + nombreEscuela + "\n" + 
+                                    "Siglas: " + siglasCurso + "\n" + 
+                                    "Descripción: " + descripcionCurso+"\n"+
                                     "----------------------------------------\n";
 
-                            panel.areaMostrar.append(filaTexto + "\n");
+                            panel.areaMostrar.append(filaTexto);
                             
                         }
                     }
@@ -158,7 +168,8 @@ public class ConsultasController {
                 String cedula = (String) modeloTabla.getValueAt(i, 4);
                 String grupo = (String) modeloTabla.getValueAt(i, 5);
                 
-                String filaTexto = "Profesor: " + nombreProfesor + " " + primeroApellido + " " + segudoApellido + "\n" +
+                String filaTexto = 
+                		"Profesor: " + nombreProfesor + " " + primeroApellido + " " + segudoApellido + "\n" +
                         "Cédula: " + cedula + "\n" +
                         "Grupo: " + grupo + "\n" +
                         "----------------------------------------\n";
@@ -199,7 +210,8 @@ public class ConsultasController {
                 String segudoApellido = (String) modeloTabla.getValueAt(i, 3);
                 String grupo = (String) modeloTabla.getValueAt(i, 5);
                 
-                String filaTexto = "Profesor: " + nombreProfesor + " " + primeroApellido + " " + segudoApellido + "\n" +
+                String filaTexto = 
+                		"Profesor: " + nombreProfesor + " " + primeroApellido + " " + segudoApellido + "\n" +
                         "Cédula: " + varNumeroCedula + "\n" +
                         "Grupo: " + grupo + "\n" +
                         "----------------------------------------\n";
@@ -248,7 +260,9 @@ public class ConsultasController {
                         String cedula = (String) modeloProfesores.getValueAt(j, 4);
                         String grupo = (String) modeloProfesores.getValueAt(j, 5);
 
-                        String filaTexto = "Escuela: " + nombreEscuela + "\n" +"Curso:"+cursoSiglas+""+"\n"+
+                        String filaTexto =
+                        		"Escuela: " + nombreEscuela + "\n" +
+                        		"Curso: "+cursoSiglas+"\n"+
                                 "Profesor: " + nombreProfesor + " " + primerApellido + " " + segundoApellido + "\n" +
                                 "Cédula: " + cedula + "\n" +
                                 "Grupo: " + grupo + "\n" +
@@ -270,8 +284,51 @@ public class ConsultasController {
                     "Éxito", JOptionPane.INFORMATION_MESSAGE);
         }
     }
-
     
+    public void consultaDirectores() {
+        mainView.txtAreaDirectores.setText(""); // Limpiar el área de texto
+        
+        // Acceder al modelo de la universidad para obtener las escuelas y sus directores
+        University universidad = universidadController.getUniversidad();
+        
+        if (universidad == null || universidad.getEscuelas().isEmpty()) {
+            mainView.txtAreaDirectores.setText("No hay escuelas registradas o universidad no creada.");
+            JOptionPane.showMessageDialog(mainView, 
+                    "No se encontraron escuelas registradas.", 
+                    "Sin datos", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        boolean hayDirectores = false;
+        String filaTexto = "";
+        
+        for (int i = 0; i < universidad.getEscuelas().size(); i++) {
+            School escuela = universidad.getEscuelas().get(i);
+            
+            if (escuela.getVarDirector() != null) {
+            	
+            	hayDirectores = true;
+            	
+            	filaTexto = 
+            			"Director de la Escuela " + escuela.getVarName() + "...\n" +
+                        "Profesor:  " + escuela.getVarDirector() + " " ;
+            					/*+ + " " +  + " " +  + "\n" +
+                        "Cédula: " +  + "\n" +
+                        "Grupo: " +  + "\n" +
+                        "----------------------------------------\n";*/
+            }
+        } 
+        
+        if (!hayDirectores) {
+            mainView.txtAreaDirectores.setText("No hay directores asignados a ninguna escuela.");
+        } else {
+            mainView.txtAreaDirectores.setText(filaTexto);
+           
+        }
+        
+        // Mostrar el panel de directores
+        mainView.showPanel("DIRECTORES");
+    }
     
     
 }

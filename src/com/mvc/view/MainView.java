@@ -53,22 +53,22 @@ public class MainView extends JFrame {
         BusquedaPanel();
         ProfesoresPanel();
         ConsultasPanel();
-        
-     // En MainView (o donde construyes la vista)
-       
+        DirectoresPanel();
 
         //Añadir paneles al contenido
         contentPanel.add(universidadPanel, "UNIVERSIDAD");
         contentPanel.add(escuelasPanel, "ESCUELAS");
         contentPanel.add(cursosPanel, "CURSOS");
         contentPanel.add(panelBusqueda, "BUSQUEDA");
-        contentPanel.add(profesoresPanel, "PROFESORES"); //
+        contentPanel.add(profesoresPanel, "PROFESORES"); 
         contentPanel.add(consultasPanel, "CONSULTAS");
+        contentPanel.add(panelConsultaDirectores, "DIRECTORES");
+        
         /// anadir los objetos 
-        this.panelPorProfesor = BusquedaPanelConsultas("Buscar Cursos por Profesor","Debes de ingresar un nombre de un profesor");
-        this.panelPorCurso = BusquedaPanelConsultas("Buscar Profesor por Sigla de Curso","Debes de ingresar un nombre de un curso");
-        this.panelPorCedula =BusquedaPanelConsultas("Buscar profesor por cedula", "Debes de ingresar un numero de cedula");
-        this.panelPorEscuela =BusquedaPanelConsultas("Buscar profesores por Escuela", "Debes de ingresar el nombre de la escuerla");
+        this.panelPorProfesor = BusquedaPanelConsultas("Buscar Cursos por Profesor","Debes de ingresar el nombre de un profesor: ");
+        this.panelPorCurso = BusquedaPanelConsultas("Buscar Profesor por Sigla de Curso","Debes de ingresar las siglas de un curso: ");
+        this.panelPorCedula =BusquedaPanelConsultas("Buscar Profesor por Cedula", "Debes de ingresar un numero de cedula: ");
+        this.panelPorEscuela =BusquedaPanelConsultas("Buscar Profesores por Escuela", "Debes de ingresar el nombre de una escuela: ");
         contentPanel.add(panelPorProfesor.panel, "CONSULTASPANEL");
         contentPanel.add(panelPorCurso.panel, "CONSULTASPANELPORCURSO");
         contentPanel.add(panelPorCedula.panel, "CONSULAPORCEDULA");
@@ -590,6 +590,7 @@ public class MainView extends JFrame {
             btn.setEnabled(false);
             buttonsPanelProf.add(btn);
         }
+        btnConsultas.setEnabled(true);
         
         panelOpcionesProfesores.add(buttonsPanelProf, BorderLayout.CENTER);
         
@@ -611,6 +612,7 @@ public class MainView extends JFrame {
     public JButton btnConsultarCursosPorProfesor;
     public JButton btnConsultarProfesoresPorCurso;
     public JButton btnConsultaEscuelas;
+    public JButton btnConsultaDirectores;
     public JButton btnRegresarConsultas;
 
     private void ConsultasPanel() {
@@ -639,6 +641,9 @@ public class MainView extends JFrame {
         
         btnConsultaEscuelas = new JButton("Consulta de Escuelas");
         btnConsultaEscuelas.setFont(new Font("Arial", Font.BOLD, 18));
+        btnConsultaDirectores = new JButton("Consulta de Directores");
+        btnConsultaDirectores.setFont(new Font("Arial", Font.BOLD, 18));
+        
         
         panelBotones.add(btnConsultarProfesorCedula);
         panelBotones.add(btnConsultarProfesorEscuela);
@@ -647,6 +652,7 @@ public class MainView extends JFrame {
         panelBotones.add(btnConsultarProfesoresPorCurso);
         
         panelBotones.add(btnConsultaEscuelas);
+        panelBotones.add(btnConsultaDirectores);
         
         consultasPanel.add(panelBotones, BorderLayout.CENTER);
         
@@ -657,6 +663,7 @@ public class MainView extends JFrame {
         panelRegresar.add(btnRegresarConsultas);
         consultasPanel.add(panelRegresar, BorderLayout.SOUTH);
     }
+    
     /////////////////////////////////////////////////////////
     public ControllerPanelConsultas BusquedaPanelConsultas(String titulo, String labelDescripcion) {
         JPanel panel = new JPanel(new BorderLayout(10, 10));
@@ -710,6 +717,45 @@ public class MainView extends JFrame {
         return new ControllerPanelConsultas(panel, campoBuscar, areaMostrar, botonBuscar, botonVolver);
     }
    
+    // Panel de consulta de directores
+    private JPanel panelConsultaDirectores;
+    public JTextArea txtAreaDirectores;
+    private JScrollPane scrollPaneDirectores;
+    public JButton btnRegresarDirectores;
+    
+    private void DirectoresPanel() {
+        panelConsultaDirectores = new JPanel(new BorderLayout(10, 10));
+        panelConsultaDirectores.setBorder(new EmptyBorder(10, 10, 10, 10));
+        
+        JLabel lblTitleDirectores = new JLabel("Consulta de Directores", JLabel.CENTER);
+        lblTitleDirectores.setFont(new Font("Arial", Font.BOLD, 18));
+        panelConsultaDirectores.add(lblTitleDirectores, BorderLayout.NORTH);
+        
+        JPanel panelContenidoDirectores = new JPanel(new BorderLayout(10, 10));
+        panelContenidoDirectores.setBorder(BorderFactory.createTitledBorder("Directores Registrados"));
+        
+        JLabel lblTituloDirectores = new JLabel("Lista de Directores por Escuela:", JLabel.CENTER);
+        lblTituloDirectores.setFont(new Font("Arial", Font.BOLD, 16));
+        panelContenidoDirectores.add(lblTituloDirectores, BorderLayout.NORTH);
+        
+        txtAreaDirectores = new JTextArea();
+        txtAreaDirectores.setEditable(false);
+        txtAreaDirectores.setFont(new Font("Arial", Font.BOLD, 14));
+        txtAreaDirectores.setBorder(BorderFactory.createEtchedBorder());
+        
+        scrollPaneDirectores = new JScrollPane(txtAreaDirectores);
+        panelContenidoDirectores.add(scrollPaneDirectores, BorderLayout.CENTER);
+        
+        JPanel panelBotonRegresar = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        btnRegresarDirectores = new JButton("Regresar");
+        btnRegresarDirectores.setFont(new Font("Arial", Font.BOLD, 14));
+        panelBotonRegresar.add(btnRegresarDirectores);
+        panelContenidoDirectores.add(panelBotonRegresar, BorderLayout.SOUTH);
+        
+        panelConsultaDirectores.add(panelContenidoDirectores, BorderLayout.CENTER);
+    }
+    
+    
     public void showPanel(String panelName) {
         CardLayout cl = (CardLayout) contentPanel.getLayout();
         cl.show(contentPanel, panelName);
