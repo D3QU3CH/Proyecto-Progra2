@@ -6,6 +6,7 @@ import com.mvc.models.Teacher;
 import com.mvc.models.University;
 import com.mvc.view.MainView;
 
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,6 +17,8 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -25,17 +28,18 @@ public class TeacherController {
 
 	private MainView mainView;
 	private UniversityController universityController;
-	
+
 	public TeacherController(MainView mainView, UniversityController universityController) {
 		this.mainView = mainView;
 		this.universityController = universityController;
 		modificarProfesorActionListener();
 		asignarProfesorActionListener();
 		desasignarProfesorActionListener();
-		asignarDirectorActionListener();		
+		asignarDirectorActionListener();
 		setupTableSelectionListener();
 		setupBtnDeseleccionarTablaActionListener();
-		
+		setupVerCursosDisponiblesButtonListener();
+
 	}
 
 	// agregar Profesor action Listener
@@ -178,11 +182,11 @@ public class TeacherController {
 			JOptionPane.showMessageDialog(mainView, "¡No se seleccionó el profesor!", "¡Advertencia!",
 					JOptionPane.WARNING_MESSAGE);
 		}
-		
+
 		limpiarPanelProfesor();
 
 	}
-	
+
 	private void asignarDirectorActionListener() {
 		mainView.btnAsignarDirector.addActionListener(new ActionListener() {
 			@Override
@@ -191,108 +195,103 @@ public class TeacherController {
 			}
 		});
 	}
-	
+
 	private void asignarDirector() {
-	    String varSiglasCursoProf = mainView.txtSiglasCurso.getText().trim();
-	    String nombreDirector = mainView.txtNombreProfesor.getText().trim();
-	    
-	    // Validar que los campos no estén vacíos
-	    if (varSiglasCursoProf.isEmpty() || nombreDirector.isEmpty()) {
-	        JOptionPane.showMessageDialog(mainView, "¡Debe ingresar las siglas del curso y el nombre del director!", 
-	                                    "¡Advertencia!", JOptionPane.WARNING_MESSAGE);
-	        return;
-	    }
-	    
-	    // Buscar el curso en la tabla de cursos para obtener el nombre de la escuela
-	    DefaultTableModel modeloCursos = (DefaultTableModel) mainView.tablaCursos.getModel();
-	    String nombreEscuela = null;
-	    boolean cursoEncontrado = false;
-	    
-	    for (int i = 0; i < modeloCursos.getRowCount(); i++) {
-	        String siglasRegistradas = (String) modeloCursos.getValueAt(i, 1); // Columna 1: siglas
-	        if (varSiglasCursoProf.equalsIgnoreCase(siglasRegistradas)) {
-	            nombreEscuela = (String) modeloCursos.getValueAt(i, 0); // Columna 0: nombre de escuela
-	            cursoEncontrado = true;
-	            break;
-	        }
-	    }
-	    
-	    // Validar que se encontró el curso
-	    if (!cursoEncontrado) {
-	        JOptionPane.showMessageDialog(mainView, "¡No se encontró el curso con las siglas especificadas!", 
-	                                    "¡Error!", JOptionPane.ERROR_MESSAGE);
-	        return;
-	    }
-	    
-	    // Crear panel personalizado para solicitar el período
-	    JPanel panelPeriodo = new JPanel();
-	    panelPeriodo.setLayout(new FlowLayout());
-	    
-	    JLabel labelPeriodo = new JLabel("Período en años:");
-	    JTextField txtPeriodo = new JTextField(10);
-	    
-	    panelPeriodo.add(labelPeriodo);
-	    panelPeriodo.add(txtPeriodo);
-	    
-	    // Mostrar el JOptionPane con el panel personalizado
-	    int resultado = JOptionPane.showConfirmDialog(
-	        mainView,
-	        panelPeriodo,
-	        "Asignar Director - Período",
-	        JOptionPane.OK_CANCEL_OPTION,
-	        JOptionPane.QUESTION_MESSAGE
-	    );
-	    
-	    // Verificar si el usuario presionó OK (O aceptar)
-	    if (resultado == JOptionPane.OK_OPTION) {
-	        String periodoTexto = txtPeriodo.getText().trim();
-	        
-	        // Validar que el período no esté vacío
-	        if (periodoTexto.isEmpty()) {
-	            JOptionPane.showMessageDialog(mainView, "¡Debe ingresar el período en años!", 
-	                                        "¡Advertencia!", JOptionPane.WARNING_MESSAGE);
-	            return;
-	        }
-	        
-	        // Validar que el período sea un número válido
-	        try {
-	            int periodoAnios = Integer.parseInt(periodoTexto);
-	            
-	            if (periodoAnios <= 0) {
-	                JOptionPane.showMessageDialog(mainView, "¡El período debe ser un número mayor a 0!", 
-	                                            "¡Error!", JOptionPane.ERROR_MESSAGE);
-	                return;
-	            }
-	            
-	            // Proceder con la asignación del director
-	            try {
-	                University universidad = universityController.getUniversidad();
-	                if (universidad != null && universidad.getEscuelas() != null) {
-	                    for (School escuela : universidad.getEscuelas()) {
-	                        if (escuela.getVarName().equalsIgnoreCase(nombreEscuela)) {
-	                            escuela.setVarDirector(nombreDirector);
-	                            JOptionPane.showMessageDialog(mainView, 
-	                                "¡Director " + nombreDirector + " asignado exitosamente a la escuela " + nombreEscuela + 
-	                                " por un período de " + periodoAnios + " años!", 
-	                                "¡Éxito!", JOptionPane.INFORMATION_MESSAGE);
-	                            limpiarPanelProfesor();
-	                            return;
-	                        }
-	                    }
-	                }
-	            } catch (Exception e) {
-	                JOptionPane.showMessageDialog(mainView, "¡Error al asignar el director!", 
-	                                            "¡Error!", JOptionPane.ERROR_MESSAGE);
-	            }
-	            
-	        } catch (NumberFormatException e) {
-	            JOptionPane.showMessageDialog(mainView, "¡El período debe ser un número válido!", 
-	                                        "¡Error!", JOptionPane.ERROR_MESSAGE);
-	        }
-	    }
-	    // Si el usuario presiona Cancel, no hace nada y regresa
+		String varSiglasCursoProf = mainView.txtSiglasCurso.getText().trim();
+		String nombreDirector = mainView.txtNombreProfesor.getText().trim();
+
+		// Validar que los campos no estén vacíos
+		if (varSiglasCursoProf.isEmpty() || nombreDirector.isEmpty()) {
+			JOptionPane.showMessageDialog(mainView, "¡Debe ingresar las siglas del curso y el nombre del director!",
+					"¡Advertencia!", JOptionPane.WARNING_MESSAGE);
+			return;
+		}
+
+		// Buscar el curso en la tabla de cursos para obtener el nombre de la escuela
+		DefaultTableModel modeloCursos = (DefaultTableModel) mainView.tablaCursos.getModel();
+		String nombreEscuela = null;
+		boolean cursoEncontrado = false;
+
+		for (int i = 0; i < modeloCursos.getRowCount(); i++) {
+			String siglasRegistradas = (String) modeloCursos.getValueAt(i, 1); // Columna 1: siglas
+			if (varSiglasCursoProf.equalsIgnoreCase(siglasRegistradas)) {
+				nombreEscuela = (String) modeloCursos.getValueAt(i, 0); // Columna 0: nombre de escuela
+				cursoEncontrado = true;
+				break;
+			}
+		}
+
+		// Validar que se encontró el curso
+		if (!cursoEncontrado) {
+			JOptionPane.showMessageDialog(mainView, "¡No se encontró el curso con las siglas especificadas!", "¡Error!",
+					JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+
+		// Crear panel personalizado para solicitar el período
+		JPanel panelPeriodo = new JPanel();
+		panelPeriodo.setLayout(new FlowLayout());
+
+		JLabel labelPeriodo = new JLabel("Período en años:");
+		JTextField txtPeriodo = new JTextField(10);
+
+		panelPeriodo.add(labelPeriodo);
+		panelPeriodo.add(txtPeriodo);
+
+		// Mostrar el JOptionPane con el panel personalizado
+		int resultado = JOptionPane.showConfirmDialog(mainView, panelPeriodo, "Asignar Director - Período",
+				JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+
+		// Verificar si el usuario presionó OK (O aceptar)
+		if (resultado == JOptionPane.OK_OPTION) {
+			String periodoTexto = txtPeriodo.getText().trim();
+
+			// Validar que el período no esté vacío
+			if (periodoTexto.isEmpty()) {
+				JOptionPane.showMessageDialog(mainView, "¡Debe ingresar el período en años!", "¡Advertencia!",
+						JOptionPane.WARNING_MESSAGE);
+				return;
+			}
+
+			// Validar que el período sea un número válido
+			try {
+				int periodoAnios = Integer.parseInt(periodoTexto);
+
+				if (periodoAnios <= 0) {
+					JOptionPane.showMessageDialog(mainView, "¡El período debe ser un número mayor a 0!", "¡Error!",
+							JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+
+				// Proceder con la asignación del director
+				try {
+					University universidad = universityController.getUniversidad();
+					if (universidad != null && universidad.getEscuelas() != null) {
+						for (School escuela : universidad.getEscuelas()) {
+							if (escuela.getVarName().equalsIgnoreCase(nombreEscuela)) {
+								escuela.setVarDirector(nombreDirector);
+								JOptionPane.showMessageDialog(mainView,
+										"¡Director " + nombreDirector + " asignado exitosamente a la escuela "
+												+ nombreEscuela + " por un período de " + periodoAnios + " años!",
+										"¡Éxito!", JOptionPane.INFORMATION_MESSAGE);
+								limpiarPanelProfesor();
+								return;
+							}
+						}
+					}
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(mainView, "¡Error al asignar el director!", "¡Error!",
+							JOptionPane.ERROR_MESSAGE);
+				}
+
+			} catch (NumberFormatException e) {
+				JOptionPane.showMessageDialog(mainView, "¡El período debe ser un número válido!", "¡Error!",
+						JOptionPane.ERROR_MESSAGE);
+			}
+		}
+		// Si el usuario presiona Cancel, no hace nada y regresa
 	}
-	
+
 	private void setupTableSelectionListener() {
 		mainView.tablaProfesores.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 			@Override
@@ -327,12 +326,12 @@ public class TeacherController {
 			mainView.txtCedula.setText(cedula);
 			mainView.txtNombreGrupoProf.setText(grupo);
 
-			// Actualizar estado de los botones 
+			// Actualizar estado de los botones
 			mainView.btnAsignarProfesor.setEnabled(false);
 			mainView.txtCedula.setEnabled(false);
 			mainView.txtSiglasCurso.setEnabled(false);
 			mainView.txtNombreGrupoProf.setEnabled(false);
-			
+
 			mainView.btnModificarProfesor.setEnabled(true);
 			mainView.btnDeseleccionarTablaProf.setEnabled(true);
 			mainView.btnDesasignar.setEnabled(true);
@@ -380,6 +379,47 @@ public class TeacherController {
 		mainView.btnDesasignar.setEnabled(false);
 		mainView.btnAsignarDirector.setEnabled(false);
 
+	}
+
+	private void setupVerCursosDisponiblesButtonListener() {
+		mainView.btnVerCursosDisponibles.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				verCursosDisponibles();
+			}
+		});
+	}
+
+	// metodo para que el profesor pueda ver los cursos disponibles
+	public void verCursosDisponibles() {
+		DefaultTableModel modelo = (DefaultTableModel) mainView.tablaCursos.getModel();
+
+		if (modelo.getRowCount() == 0) {
+			JOptionPane.showMessageDialog(mainView, "No hay cursos registrados aún.", "Cursos disponibles",
+					JOptionPane.INFORMATION_MESSAGE);
+			return;
+		}
+
+		StringBuilder cursosDisponibles = new StringBuilder("Cursos disponibles:\n\n");
+
+		for (int i = 0; i < modelo.getRowCount(); i++) {
+			String escuela = modelo.getValueAt(i, 0).toString();
+			String sigla = modelo.getValueAt(i, 1).toString();
+			String descripcion = modelo.getValueAt(i, 2).toString();
+
+			cursosDisponibles.append("Escuela: ").append(escuela).append(", Sigla: ").append(sigla)
+					.append(", Descripción: ").append(descripcion).append("\n");
+		}
+
+		JTextArea textArea = new JTextArea(cursosDisponibles.toString());
+		textArea.setEditable(false);
+		textArea.setWrapStyleWord(true);
+		textArea.setLineWrap(true);
+
+		JScrollPane scrollPane = new JScrollPane(textArea);
+		scrollPane.setPreferredSize(new Dimension(400, 250));
+
+		JOptionPane.showMessageDialog(mainView, scrollPane, "Cursos disponibles", JOptionPane.INFORMATION_MESSAGE);
 	}
 
 }
