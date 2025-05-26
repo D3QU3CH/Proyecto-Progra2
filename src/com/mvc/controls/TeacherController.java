@@ -94,6 +94,7 @@ public class TeacherController {
 
 		// Verificar si ya existe un profesor con esa cédula
 		DefaultTableModel modeloProfesores = (DefaultTableModel) mainView.tablaProfesores.getModel();
+		/*
 		for (int i = 0; i < modeloProfesores.getRowCount(); i++) {
 			String cedulaRegistrada = (String) modeloProfesores.getValueAt(i, 4);
 			if (cedula.equalsIgnoreCase(cedulaRegistrada)) {
@@ -102,7 +103,8 @@ public class TeacherController {
 				return;
 			}
 		}
-
+		*/
+		
 		// Registrar profesor
 		Object[] fila = { siglasCurso, nombre, apellido1, apellido2, cedula, grupo };
 		modeloProfesores.addRow(fila);
