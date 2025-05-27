@@ -6,6 +6,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Reader;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
@@ -15,11 +23,15 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.mvc.models.Courses;
 import com.mvc.models.School;
 import com.mvc.models.University;
 import com.mvc.view.MainView;
 
+import com.google.gson.reflect.TypeToken;
+import java.lang.reflect.Type;
 public class CoursesController {
 
 	private MainView mainView;
@@ -38,6 +50,7 @@ public class CoursesController {
 		ActionListenerBusquedaPorEscuela();
 		setupVerEscuelasButtonListener();
 		setupVerBtnRegresarACursos();
+		cargarDesdeJsonCursos();
 	}
 
 	// AGREGAR CURSO
@@ -107,7 +120,8 @@ public class CoursesController {
 			varCursosRegistrar = new Courses(varSiglasCurso, varDescipcionDeCursos, nombreEscuelaExacto);
 			Object[][] datos = { { nombreEscuelaExacto, varSiglasCurso, varDescipcionDeCursos } };
 			agregarDatosTabla(datos);
-
+			EscribirDataCursos();
+			
 			mainView.enableCursosControls(true);
 
 			JOptionPane.showMessageDialog(mainView, "¡Curso registrado exitosamente!", "¡Éxito!",
@@ -156,9 +170,11 @@ public class CoursesController {
 			Object valorCelda = modeloTabla.getValueAt(i, 1);
 			if (valorCelda != null && valorCelda.toString().equalsIgnoreCase(varSiglasCurso)) {
 				modeloTabla.removeRow(i);
+				EscribirDataCursos();
 				JOptionPane.showMessageDialog(mainView, "¡Se eliminó el curso!", "¡Éxito!",
 						JOptionPane.INFORMATION_MESSAGE);
 				seleccionado = true;
+				
 				break;
 			}
 		}
@@ -226,7 +242,7 @@ public class CoursesController {
 			if (!varDescipcionDeCursos.isEmpty()) {
 				// Actualizar datos en la tabla
 				mainView.tablaCursos.setValueAt(varDescipcionDeCursos, fila, 2);
-
+				EscribirDataCursos();
 				JOptionPane.showMessageDialog(mainView, "¡Curso actualizado exitosamente!", "¡Éxito!",
 						JOptionPane.INFORMATION_MESSAGE);
 				limpiarPanelCurso();
@@ -363,7 +379,68 @@ public class CoursesController {
 		});
 	}
 	
+	public void EscribirDataCursos() {
+		
+		DefaultTableModel modelo = (DefaultTableModel) mainView.tablaCursos.getModel();
+		List<Courses> cursos = new ArrayList<>();// SE HACE UNALISTA PARA ITERAR 
+		for(int i =0;i<modelo.getRowCount();i++) {
+			String varEscuela = modelo.getValueAt(i, 0).toString();
+			String varSiglas = modelo.getValueAt(i, 1).toString();
+			String varDescripcion = modelo.getValueAt(i, 2).toString();
+			
+			cursos.add(new Courses(varSiglas,varDescripcion,varEscuela));
+		}
+		try(FileWriter writer = new FileWriter("Cursos.json")){
+			 Gson gson = new Gson();
+			 gson.toJson(cursos,writer);
+			 JOptionPane.showMessageDialog(mainView, "¡Cursos guardados correctamente en JSON!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+			
+			
+		}catch(IOException e) {
+			 e.printStackTrace();
+		        JOptionPane.showMessageDialog(mainView, "Error al guardar cursos en JSON.", "Error", JOptionPane.ERROR_MESSAGE);
+		}
 	
+	}
+	
+	public void cargarDesdeJsonCursos(){
+		
+		File varArchivoJson =new File("Cursos.json");
+		if (!varArchivoJson.exists()) {
+			return;
+		}
+		
+		try(Reader reader = new FileReader(varArchivoJson)){
+			
+			Gson gson = new Gson();
+			
+			Type tipoLista = new TypeToken<List<Courses>>() {}.getType();// se usa para indicarle a gson que tipo de estructura leer
+	        List<Courses> cursos = gson.fromJson(reader, tipoLista);
+	        
+	        DefaultTableModel modelo = (DefaultTableModel) mainView.tablaCursos.getModel();
+	        
+	        modelo.setRowCount(0);
+	        
+	        for(Courses curso: cursos) {
+	        	modelo.addRow(new Object[]{
+	                    curso.getVarNombreEscuela(),
+	                    curso.getVarSiglas(),
+	                    curso.getVarDescripcion()
+	                });
+	        }
+			
+			
+		}catch(IOException e) {
+			e.printStackTrace();
+	        JOptionPane.showMessageDialog(mainView, "Error al cargar cursos desde JSON.", "Error", JOptionPane.ERROR_MESSAGE);
+		}
+		
+		
+		
+		
+		
+		
+	}
 	
 
 }

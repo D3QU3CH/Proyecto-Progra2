@@ -1,0 +1,10 @@
+{
+    "name": "UNA",
+    "adress": "SARAPIQUI",
+    "phoneNumber": "1111",
+    "escuelas": [
+        {
+            "varName": "MATE"
+        }
+    ]
+}
