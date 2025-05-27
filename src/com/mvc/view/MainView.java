@@ -53,6 +53,7 @@ public class MainView extends JFrame {
 		CursosPanel();
 		BusquedaPanel();
 		ProfesoresPanel();
+		AsignacionPanel();
 		ConsultasPanel();
 		DirectoresPanel();
 		ConsultaEscuelasPanel();
@@ -63,6 +64,7 @@ public class MainView extends JFrame {
 		contentPanel.add(cursosPanel, "CURSOS");
 		contentPanel.add(panelBusqueda, "BUSQUEDA");
 		contentPanel.add(profesoresPanel, "PROFESORES");
+		contentPanel.add(asignacionPanel, "ASIGNACION PROFESORES");
 		contentPanel.add(consultasPanel, "CONSULTAS");
 		contentPanel.add(panelConsultaDirectores, "CONSULTA DIRECTORES");
 		contentPanel.add(panelConsultaEscuelas, "CONSULTA ESCUELAS");
@@ -455,168 +457,283 @@ public class MainView extends JFrame {
 		panelBusqueda.add(panelBusquedaForm, BorderLayout.CENTER);
 	}
 
-	// Componentes de Profesores - AGREGAR ESTAS DECLARACIONES
-	private JPanel profesoresPanel;
-	private JPanel panelRegistroProfesores;
-	private JPanel panelConsultaProfesores;
-	private JPanel panelOpcionesProfesores;
+	// Componentes de Profesores - DECLARACIONES MODIFICADAS
+		private JPanel profesoresPanel;
+		private JPanel panelRegistroProfesores;
+		private JPanel panelConsultaProfesores;
+		private JPanel panelOpcionesProfesores;
 
-	// Campos del formulario de profesores
-	private JLabel lblNombreProfesor;
-	private JLabel lblPrimerApe;
-	private JLabel lblSegundoApe;
-	private JLabel lblCedula;
-	private JLabel lblNombreGrupo;
-	private JLabel lblSiglasCurso;
+		// Campos del formulario de profesores (sin siglas y grupo)
+		private JLabel lblNombreProfesor;
+		private JLabel lblPrimerApe;
+		private JLabel lblSegundoApe;
+		private JLabel lblCedula;
 
-	public JTextField txtNombreProfesor;
-	public JTextField txtPrimerApe;
-	public JTextField txtSegundoApe;
-	public JTextField txtCedula;
-	public JTextField txtNombreGrupoProf;
-	public JTextField txtSiglasCurso;
+		public JTextField txtNombreProfesor;
+		public JTextField txtPrimerApe;
+		public JTextField txtSegundoApe;
+		public JTextField txtCedula;
 
-	// Botones de profesores
-	public JButton btnAsignarProfesor;
-	public JButton btnDesasignar;
-	public JButton btnDeseleccionarTablaProf;
-	public JButton btnAsignarDirector;
-	public JButton btnConsultas;
-	public JButton btnModificarProfesor;
-	public JButton btnVerCursosDisponibles;
+		// Botones de profesores (modificados)
+		public JButton btnVerCursos;
+		public JButton btnAgregarProfesor;
+		public JButton btnEliminarProfesor;
+		public JButton btnDeseleccionarTablaProf;
+		public JButton btnAsignacionProfesores;
+		public JButton btnConsultas;
+		public JButton btnModificarProfesor;
 
-	// Tabla de profesores
-	public JTable tablaProfesores;
-	private JScrollPane scrollPaneProfesores;
-	private JLabel lblTituloProfesores;
+		// Tabla de profesores
+		public JTable tablaProfesores;
+		private JScrollPane scrollPaneProfesores;
+		private JLabel lblTituloProfesores;
 
-	// MÉTODO COMPLETO DEL PANEL DE PROFESORES
-	private void ProfesoresPanel() {
-		profesoresPanel = new JPanel(new BorderLayout(10, 10));
-		profesoresPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+		// MÉTODO COMPLETO DEL PANEL DE PROFESORES MODIFICADO
+		private void ProfesoresPanel() {
+			profesoresPanel = new JPanel(new BorderLayout(10, 10));
+			profesoresPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
-		JLabel lblTitleProfesores = new JLabel("Gestión de Profesores", JLabel.CENTER);
-		lblTitleProfesores.setFont(new Font("Arial", Font.BOLD, 18));
-		profesoresPanel.add(lblTitleProfesores, BorderLayout.NORTH);
+			JLabel lblTitleProfesores = new JLabel("Gestión de Profesores", JLabel.CENTER);
+			lblTitleProfesores.setFont(new Font("Arial", Font.BOLD, 18));
+			profesoresPanel.add(lblTitleProfesores, BorderLayout.NORTH);
 
-		// Panel de registro de profesores
-		panelRegistroProfesores = new JPanel(new GridLayout(6, 2, 10, 10));
-		panelRegistroProfesores.setBorder(BorderFactory.createTitledBorder("Registro de Profesores"));
+			// Panel de registro de profesores (solo datos básicos)
+			panelRegistroProfesores = new JPanel(new GridLayout(4, 2, 10, 10));
+			panelRegistroProfesores.setBorder(BorderFactory.createTitledBorder("Registro de Profesores"));
 
-		lblNombreProfesor = new JLabel("Nombre Profesor:");
-		lblNombreProfesor.setFont(new Font("Arial", Font.BOLD, 14));
-		txtNombreProfesor = new JTextField();
+			lblNombreProfesor = new JLabel("Nombre Profesor:");
+			lblNombreProfesor.setFont(new Font("Arial", Font.BOLD, 14));
+			txtNombreProfesor = new JTextField();
 
-		lblPrimerApe = new JLabel("Primer Apellido:");
-		lblPrimerApe.setFont(new Font("Arial", Font.BOLD, 14));
-		txtPrimerApe = new JTextField();
+			lblPrimerApe = new JLabel("Primer Apellido:");
+			lblPrimerApe.setFont(new Font("Arial", Font.BOLD, 14));
+			txtPrimerApe = new JTextField();
 
-		lblSegundoApe = new JLabel("Segundo Apellido:");
-		lblSegundoApe.setFont(new Font("Arial", Font.BOLD, 14));
-		txtSegundoApe = new JTextField();
+			lblSegundoApe = new JLabel("Segundo Apellido:");
+			lblSegundoApe.setFont(new Font("Arial", Font.BOLD, 14));
+			txtSegundoApe = new JTextField();
 
-		lblCedula = new JLabel("Cédula:");
-		lblCedula.setFont(new Font("Arial", Font.BOLD, 14));
-		txtCedula = new JTextField();
+			lblCedula = new JLabel("Cédula:");
+			lblCedula.setFont(new Font("Arial", Font.BOLD, 14));
+			
+			// Panel para el campo de texto y el botón de ver cursos
+			JPanel cedulaPanel = new JPanel(new BorderLayout(5, 0));
+			txtCedula = new JTextField();
+			btnVerCursos = new JButton("Ver Cursos");
+			btnVerCursos.setFont(new Font("Arial", Font.PLAIN, 12));
+			cedulaPanel.add(txtCedula, BorderLayout.CENTER);
+			cedulaPanel.add(btnVerCursos, BorderLayout.EAST);
 
-		lblNombreGrupo = new JLabel("Nombre del Grupo (G1, G2, G3, etc...):");
-		lblNombreGrupo.setFont(new Font("Arial", Font.BOLD, 14));
-		txtNombreGrupoProf = new JTextField();
+			// Agregar elementos al panel en el orden correcto
+			panelRegistroProfesores.add(lblNombreProfesor);
+			panelRegistroProfesores.add(txtNombreProfesor);
+			panelRegistroProfesores.add(lblPrimerApe);
+			panelRegistroProfesores.add(txtPrimerApe);
+			panelRegistroProfesores.add(lblSegundoApe);
+			panelRegistroProfesores.add(txtSegundoApe);
+			panelRegistroProfesores.add(lblCedula);
+			panelRegistroProfesores.add(cedulaPanel);
 
-		lblSiglasCurso = new JLabel("Siglas de Curso:");
-		lblSiglasCurso.setFont(new Font("Arial", Font.BOLD, 14));
-		txtSiglasCurso = new JTextField();
+			// Panel de consulta de profesores
+			panelConsultaProfesores = new JPanel(new BorderLayout(10, 10));
+			panelConsultaProfesores.setBorder(BorderFactory.createTitledBorder("Profesores Registrados"));
 
-		panelRegistroProfesores.add(lblNombreProfesor);
-		panelRegistroProfesores.add(txtNombreProfesor);
-		panelRegistroProfesores.add(lblPrimerApe);
-		panelRegistroProfesores.add(txtPrimerApe);
-		panelRegistroProfesores.add(lblSegundoApe);
-		panelRegistroProfesores.add(txtSegundoApe);
-		panelRegistroProfesores.add(lblCedula);
-		panelRegistroProfesores.add(txtCedula);
-		panelRegistroProfesores.add(lblNombreGrupo);
-		panelRegistroProfesores.add(txtNombreGrupoProf);
-		panelRegistroProfesores.add(lblSiglasCurso);
-		panelRegistroProfesores.add(txtSiglasCurso);
+			lblTituloProfesores = new JLabel("Lista de Profesores...", JLabel.CENTER);
+			lblTituloProfesores.setFont(new Font("Arial", Font.BOLD, 16));
+			panelConsultaProfesores.add(lblTituloProfesores, BorderLayout.NORTH);
 
-		// Panel de consulta de profesores
-		panelConsultaProfesores = new JPanel(new BorderLayout(10, 10));
-		panelConsultaProfesores.setBorder(BorderFactory.createTitledBorder("Profesores Registrados"));
+			// Tabla de profesores con columnas básicas (sin siglas y grupo)
+			String[] columnasProfesores = { "Nombre Profesor", "Apellido 1", "Apellido 2", "Cédula" };
+			DefaultTableModel modeloProfesores = new DefaultTableModel(columnasProfesores, 0);
+			tablaProfesores = new JTable(modeloProfesores);
+			tablaProfesores.setFont(new Font("Arial", Font.PLAIN, 14));
+			tablaProfesores.setEnabled(true);
+			tablaProfesores.setDefaultEditor(Object.class, null);
 
-		lblTituloProfesores = new JLabel("Lista de Profesores Asignados...", JLabel.CENTER);
-		lblTituloProfesores.setFont(new Font("Arial", Font.BOLD, 16));
-		panelConsultaProfesores.add(lblTituloProfesores, BorderLayout.NORTH);
+			scrollPaneProfesores = new JScrollPane(tablaProfesores);
+			panelConsultaProfesores.add(scrollPaneProfesores, BorderLayout.CENTER);
 
-		// Tabla de profesores con las columnas especificadas
-		String[] columnasProfesores = { "Siglas Curso", "Nombre Profesor", "Apellido 1", "Apellido 2", "Cédula",
-				"Grupo" };
-		DefaultTableModel modeloProfesores = new DefaultTableModel(columnasProfesores, 0);
-		tablaProfesores = new JTable(modeloProfesores);
-		tablaProfesores.setFont(new Font("Arial", Font.PLAIN, 14));
-		tablaProfesores.setEnabled(true);
-		tablaProfesores.setDefaultEditor(Object.class, null);
+			// Panel de botones principales (modificado)
+			JPanel panelBotonesPrincipales = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+			btnAgregarProfesor = new JButton("Agregar Profesor");
+			btnAgregarProfesor.setFont(new Font("Arial", Font.BOLD, 13));
+			btnAgregarProfesor.setEnabled(true);
 
-		scrollPaneProfesores = new JScrollPane(tablaProfesores);
-		panelConsultaProfesores.add(scrollPaneProfesores, BorderLayout.CENTER);
+			btnEliminarProfesor = new JButton("Eliminar Profesor");
+			btnEliminarProfesor.setFont(new Font("Arial", Font.BOLD, 13));
+			btnEliminarProfesor.setEnabled(false);
 
-		// Panel de botones principales
-		JPanel panelBotonesPrincipales = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
-		btnAsignarProfesor = new JButton("Asignar Profesor");
-		btnAsignarProfesor.setFont(new Font("Arial", Font.BOLD, 13));
-		btnAsignarProfesor.setEnabled(true);
+			btnDeseleccionarTablaProf = new JButton("Deseleccionar Tabla");
+			btnDeseleccionarTablaProf.setFont(new Font("Arial", Font.BOLD, 13));
+			btnDeseleccionarTablaProf.setEnabled(false);
 
-		btnDesasignar = new JButton("Desasignar Profesor");
-		btnDesasignar.setFont(new Font("Arial", Font.BOLD, 13));
-		btnDesasignar.setEnabled(false);
+			panelBotonesPrincipales.add(btnAgregarProfesor);
+			panelBotonesPrincipales.add(btnEliminarProfesor);
+			panelBotonesPrincipales.add(btnDeseleccionarTablaProf);
 
-		btnDeseleccionarTablaProf = new JButton("Deseleccionar Tabla");
-		btnDeseleccionarTablaProf.setFont(new Font("Arial", Font.BOLD, 13));
-		btnDeseleccionarTablaProf.setEnabled(false);
+			// Panel de opciones adicionales (modificado)
+			panelOpcionesProfesores = new JPanel(new BorderLayout(5, 5));
+			panelOpcionesProfesores.setBorder(BorderFactory.createTitledBorder("Opciones"));
 
-		btnVerCursosDisponibles = new JButton("Ver Cursos");
-		btnVerCursosDisponibles.setFont(new Font("Arial", Font.PLAIN, 14));
-		btnVerCursosDisponibles.setPreferredSize(new Dimension(100, 60));
-		btnVerCursosDisponibles.setMargin(new Insets(3, 5, 3, 5)); // Reduce padding interno
+			JPanel buttonsPanelProf = new JPanel(new GridLayout(3, 1, 10, 10));
 
-		// Agregamos el boton directamente a la derecha del campo de texto
-		txtSiglasCurso.setLayout(new BorderLayout());
-		txtSiglasCurso.add(btnVerCursosDisponibles, BorderLayout.EAST);
+			btnModificarProfesor = new JButton("Modificar Profesor");
+			btnAsignacionProfesores = new JButton("Asignación de Profesores");
+			btnConsultas = new JButton("Consultas");
 
-		panelBotonesPrincipales.add(btnAsignarProfesor);
-		panelBotonesPrincipales.add(btnDesasignar);
-		panelBotonesPrincipales.add(btnDeseleccionarTablaProf);
+			JButton[] botonesProfesores = { btnModificarProfesor, btnAsignacionProfesores, btnConsultas };
+			for (JButton btn : botonesProfesores) {
+				btn.setFont(new Font("Arial", Font.BOLD, 12));
+				btn.setEnabled(false);
+				buttonsPanelProf.add(btn);
+			}
+			btnConsultas.setEnabled(true);
 
-		// Panel de opciones adicionales
-		panelOpcionesProfesores = new JPanel(new BorderLayout(5, 5));
-		panelOpcionesProfesores.setBorder(BorderFactory.createTitledBorder("Opciones"));
+			panelOpcionesProfesores.add(buttonsPanelProf, BorderLayout.CENTER);
 
-		JPanel buttonsPanelProf = new JPanel(new GridLayout(3, 1, 10, 10));
+			// Ensamblaje del panel principal de profesores
+			JPanel contentProfesores = new JPanel(new BorderLayout(10, 10));
+			contentProfesores.add(panelRegistroProfesores, BorderLayout.NORTH);
+			contentProfesores.add(panelConsultaProfesores, BorderLayout.CENTER);
+			contentProfesores.add(panelBotonesPrincipales, BorderLayout.SOUTH);
+			contentProfesores.add(panelOpcionesProfesores, BorderLayout.EAST);
 
-		btnModificarProfesor = new JButton("Modificar Profesor");
-		btnAsignarDirector = new JButton("Asignar Director");
-		btnConsultas = new JButton("Consultas");
-
-		JButton[] botonesProfesores = { btnModificarProfesor, btnAsignarDirector, btnConsultas };
-		for (JButton btn : botonesProfesores) {
-			btn.setFont(new Font("Arial", Font.BOLD, 12));
-			btn.setEnabled(false);
-			buttonsPanelProf.add(btn);
+			profesoresPanel.add(contentProfesores, BorderLayout.CENTER);
 		}
-		btnConsultas.setEnabled(true);
+		
+		// Componentes del Panel de Asignación de Profesores - AGREGAR ESTAS DECLARACIONES
+		private JPanel asignacionPanel;
+		private JTextArea txtAreaProfesores;
+		private JTextArea txtAreaCursos;
+		private JScrollPane scrollPaneProfesoresArea;
+		private JScrollPane scrollPaneCursosArea;
+		private JTextField txtCedulaAsignar;
+		private JTextField txtSiglasAsignar;
+		private JTextField txtGrupoAsignar;
+		private JTable tablaAsignaciones;
+		private JScrollPane scrollPaneAsignaciones;
 
-		panelOpcionesProfesores.add(buttonsPanelProf, BorderLayout.CENTER);
+		// Botones del panel de asignación
+		public JButton btnAsignarProfesorAsig;
+		public JButton btnDesasignarProfesorAsig;
+		public JButton btnAsignarDirectorAsig;
+		public JButton btnDeseleccionarTablaAsig;
+		public JButton btnRegresarAsignacionProf;
 
-		// Ensamblaje del panel principal de profesores
-		JPanel contentProfesores = new JPanel(new BorderLayout(10, 10));
-		contentProfesores.add(panelRegistroProfesores, BorderLayout.NORTH);
-		contentProfesores.add(panelConsultaProfesores, BorderLayout.CENTER);
-		contentProfesores.add(panelBotonesPrincipales, BorderLayout.SOUTH);
-		contentProfesores.add(panelOpcionesProfesores, BorderLayout.EAST);
+		// MÉTODO COMPLETO DEL PANEL DE ASIGNACIÓN
+		private void AsignacionPanel() {
+		    asignacionPanel = new JPanel(new BorderLayout(10, 10));
+		    asignacionPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
-		profesoresPanel.add(contentProfesores, BorderLayout.CENTER);
-	}
+		    JLabel lblTitleAsignacion = new JLabel("Asignación de Profesores a Cursos", JLabel.CENTER);
+		    lblTitleAsignacion.setFont(new Font("Arial", Font.BOLD, 18));
+		    asignacionPanel.add(lblTitleAsignacion, BorderLayout.NORTH);
 
+		    // Panel superior con los TextAreas
+		    JPanel panelTextAreas = new JPanel(new GridLayout(1, 2, 10, 10));
+
+		    // Panel de profesores
+		    JPanel panelProfesores = new JPanel(new BorderLayout(5, 5));
+		    panelProfesores.setBorder(BorderFactory.createTitledBorder("Profesores Disponibles"));
+
+		    txtAreaProfesores = new JTextArea(10, 30);
+		    txtAreaProfesores.setFont(new Font("Arial", Font.PLAIN, 12));
+		    txtAreaProfesores.setEditable(false);
+		    scrollPaneProfesoresArea = new JScrollPane(txtAreaProfesores);
+		    panelProfesores.add(scrollPaneProfesoresArea, BorderLayout.CENTER);
+
+		    // Panel de cursos
+		    JPanel panelCursos = new JPanel(new BorderLayout(5, 5));
+		    panelCursos.setBorder(BorderFactory.createTitledBorder("Cursos Disponibles"));
+
+		    txtAreaCursos = new JTextArea(10, 30);
+		    txtAreaCursos.setFont(new Font("Arial", Font.PLAIN, 12));
+		    txtAreaCursos.setEditable(false);
+		    scrollPaneCursosArea = new JScrollPane(txtAreaCursos);
+		    panelCursos.add(scrollPaneCursosArea, BorderLayout.CENTER);
+
+		    panelTextAreas.add(panelProfesores);
+		    panelTextAreas.add(panelCursos);
+
+		    // Panel de campos de entrada en fila con etiquetas
+		    JPanel panelCampos = new JPanel(new GridLayout(2, 3, 10, 5));
+
+		    JLabel lblCedulaAsignar = new JLabel(" Cédula del profesor que quiere asignar:");
+		    lblCedulaAsignar.setFont(new Font("Arial", Font.BOLD, 12));
+		    txtCedulaAsignar = new JTextField();
+
+		    JLabel lblGrupoAsignar = new JLabel(" Nombre del grupo (G1, G2, etc):");
+		    lblGrupoAsignar.setFont(new Font("Arial", Font.BOLD, 12));
+		    txtGrupoAsignar = new JTextField();
+
+		    JLabel lblSiglasAsignar = new JLabel(" Siglas del curso que le quiere asignar:");
+		    lblSiglasAsignar.setFont(new Font("Arial", Font.BOLD, 12));
+		    txtSiglasAsignar = new JTextField();
+
+		    // Fila superior: etiquetas
+		    panelCampos.add(lblCedulaAsignar);
+		    panelCampos.add(lblGrupoAsignar);
+		    panelCampos.add(lblSiglasAsignar);
+		    
+		    // Fila inferior: campos de texto
+		    panelCampos.add(txtCedulaAsignar);
+		    panelCampos.add(txtGrupoAsignar);
+		    panelCampos.add(txtSiglasAsignar);
+
+		    // Panel superior completo
+		    JPanel panelSuperior = new JPanel(new BorderLayout(10, 10));
+		    panelSuperior.add(panelTextAreas, BorderLayout.NORTH);
+		    panelSuperior.add(panelCampos, BorderLayout.SOUTH);
+
+		    // Panel central con la tabla de asignaciones
+		    JPanel panelCentral = new JPanel(new BorderLayout(10, 10));
+		    panelCentral.setBorder(BorderFactory.createTitledBorder("Asignaciones Realizadas"));
+
+		    String[] columnasAsignaciones = { "Escuela", "Cédula del Profesor", "Siglas del Curso" };
+		    DefaultTableModel modeloAsignaciones = new DefaultTableModel(columnasAsignaciones, 0);
+		    tablaAsignaciones = new JTable(modeloAsignaciones);
+		    tablaAsignaciones.setFont(new Font("Arial", Font.PLAIN, 14));
+		    tablaAsignaciones.setEnabled(true);
+		    tablaAsignaciones.setDefaultEditor(Object.class, null);
+
+		    scrollPaneAsignaciones = new JScrollPane(tablaAsignaciones);
+		    panelCentral.add(scrollPaneAsignaciones, BorderLayout.CENTER);
+
+		    // Panel inferior con botones
+		    JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+
+		    btnAsignarProfesorAsig = new JButton("Asignar Profesor");
+		    btnAsignarProfesorAsig.setFont(new Font("Arial", Font.BOLD, 13));
+		    btnAsignarProfesorAsig.setEnabled(true);
+
+		    btnDesasignarProfesorAsig = new JButton("Desasignar Profesor");
+		    btnDesasignarProfesorAsig.setFont(new Font("Arial", Font.BOLD, 13));
+		    btnDesasignarProfesorAsig.setEnabled(false);
+
+		    btnAsignarDirectorAsig = new JButton("Asignar Director");
+		    btnAsignarDirectorAsig.setFont(new Font("Arial", Font.BOLD, 13));
+		    btnAsignarDirectorAsig.setEnabled(false);
+
+		    btnDeseleccionarTablaAsig = new JButton("Deseleccionar Tabla");
+		    btnDeseleccionarTablaAsig.setFont(new Font("Arial", Font.BOLD, 13));
+		    btnDeseleccionarTablaAsig.setEnabled(false);
+
+		    btnRegresarAsignacionProf = new JButton("Regresar");
+		    btnRegresarAsignacionProf.setFont(new Font("Arial", Font.BOLD, 13));
+		    btnRegresarAsignacionProf.setEnabled(true);
+
+		    panelBotones.add(btnAsignarProfesorAsig);
+		    panelBotones.add(btnDesasignarProfesorAsig);
+		    panelBotones.add(btnAsignarDirectorAsig);
+		    panelBotones.add(btnDeseleccionarTablaAsig);
+		    panelBotones.add(btnRegresarAsignacionProf);
+
+		    // Ensamblaje del panel principal
+		    asignacionPanel.add(panelSuperior, BorderLayout.NORTH);
+		    asignacionPanel.add(panelCentral, BorderLayout.CENTER);
+		    asignacionPanel.add(panelBotones, BorderLayout.SOUTH);
+		}
+		 
 	// Panel de consultas
 	private JPanel consultasPanel;
 	public JButton btnConsultarProfesorCedula;
@@ -822,14 +939,16 @@ public class MainView extends JFrame {
 
 	// Metodo para configurar listeners de los botones del menu
 	public void setupMenuListeners(ActionListener universidadListener, ActionListener escuelasListener,
-			ActionListener cursosListener, ActionListener profesoresListener, ActionListener busquedaPorEscuela,
+			ActionListener cursosListener, ActionListener busquedaPorEscuela, ActionListener profesoresListener, 
+			ActionListener asignacionProfesores,
 			ActionListener consultasListener, ActionListener busquedaDeProfesorPorCurso,
 			ActionListener busquedaPorCedula, ActionListener busquedaPorEscuelaConsultas) {
 		btnUniversidad.addActionListener(universidadListener);
 		btnEscuelas.addActionListener(escuelasListener);
-		btnCursos.addActionListener(cursosListener);
-		btnProfesores.addActionListener(profesoresListener); // NUEVO
+		btnCursos.addActionListener(cursosListener); 
 		varBtnBuscarPorEscuela.addActionListener(busquedaPorEscuela);
+		btnProfesores.addActionListener(profesoresListener);
+		btnAsignacionProfesores.addActionListener(asignacionProfesores);
 		btnConsultarCursosPorProfesor.addActionListener(consultasListener);
 		btnConsultarProfesoresPorCurso.addActionListener(busquedaDeProfesorPorCurso);
 		btnConsultarProfesorCedula.addActionListener(busquedaPorCedula);

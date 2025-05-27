@@ -35,6 +35,13 @@ public class MenuController {
                     mainView.showPanel("CURSOS");
                 }
             },
+            //Listener para el boton Buscar por escuela
+            new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    mainView.showPanel("BUSQUEDA");
+                }
+            },
             //Listener para el boton Profesores - NUEVO
             new ActionListener() {
                 @Override
@@ -42,11 +49,10 @@ public class MenuController {
                     mainView.showPanel("PROFESORES");
                 }
             },
-            //Listener para el boton Buscar por escuela
             new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    mainView.showPanel("BUSQUEDA");
+                    mainView.showPanel("ASIGNACION PROFESORES");
                 }
             },
             new ActionListener() {
@@ -76,6 +82,13 @@ public class MenuController {
         );
         
         mainView.btnRegresarConsultas.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mainView.showPanel("PROFESORES");
+            }
+        });
+        
+        mainView.btnRegresarAsignacionProf.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 mainView.showPanel("PROFESORES");

@@ -33,8 +33,8 @@ public class TeacherController {
 		this.mainView = mainView;
 		this.universityController = universityController;
 		modificarProfesorActionListener();
-		asignarProfesorActionListener();
-		desasignarProfesorActionListener();
+		agregarProfesorActionListener();
+		eliminarProfesorActionListener();
 		asignarDirectorActionListener();
 		setupTableSelectionListener();
 		setupBtnDeseleccionarTablaActionListener();
@@ -43,27 +43,24 @@ public class TeacherController {
 	}
 
 	// agregar Profesor action Listener
-	private void asignarProfesorActionListener() {
-		mainView.btnAsignarProfesor.addActionListener(new ActionListener() {
+	private void agregarProfesorActionListener() {
+		mainView.btnAgregarProfesor.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				asignarProfesor();
+				agregarProfesor();
 			}
 		});
 	}
 
 	// metodo de agregar y asignar profesor
-	public void asignarProfesor() {
+	public void agregarProfesor() {
 		String nombre = mainView.txtNombreProfesor.getText().trim();
 		String apellido1 = mainView.txtPrimerApe.getText().trim();
 		String apellido2 = mainView.txtSegundoApe.getText().trim();
 		String cedula = mainView.txtCedula.getText().trim();
-		String grupo = mainView.txtNombreGrupoProf.getText().trim();
-		String siglasCurso = mainView.txtSiglasCurso.getText().trim();
 
 		// Validar campos vacíos
-		if (nombre.isEmpty() || apellido1.isEmpty() || apellido2.isEmpty() || cedula.isEmpty() || grupo.isEmpty()
-				|| siglasCurso.isEmpty()) {
+		if (nombre.isEmpty() || apellido1.isEmpty() || apellido2.isEmpty() || cedula.isEmpty()) {
 			JOptionPane.showMessageDialog(mainView, "¡Todos los campos son obligatorios!", "¡Advertencia!",
 					JOptionPane.WARNING_MESSAGE);
 			return;
@@ -76,42 +73,26 @@ public class TeacherController {
 			return;
 		}
 
-		// Validar si existe el curso con esas siglas
-		DefaultTableModel modeloCursos = (DefaultTableModel) mainView.tablaCursos.getModel();
-		boolean cursoExiste = false;
-		for (int i = 0; i < modeloCursos.getRowCount(); i++) {
-			String siglasRegistradas = (String) modeloCursos.getValueAt(i, 1); // columna de siglas
-			if (siglasCurso.equalsIgnoreCase(siglasRegistradas)) {
-				cursoExiste = true;
-				break;
-			}
-		}
-		if (!cursoExiste) {
-			JOptionPane.showMessageDialog(mainView, "¡El curso con las siglas ingresadas no existe!", "¡Advertencia!",
-					JOptionPane.WARNING_MESSAGE);
-			return;
-		}
-
 		// Verificar si ya existe un profesor con esa cédula
 		DefaultTableModel modeloProfesores = (DefaultTableModel) mainView.tablaProfesores.getModel();
-		/*
+		
 		for (int i = 0; i < modeloProfesores.getRowCount(); i++) {
-			String cedulaRegistrada = (String) modeloProfesores.getValueAt(i, 4);
+			String cedulaRegistrada = (String) modeloProfesores.getValueAt(i, 3);
 			if (cedula.equalsIgnoreCase(cedulaRegistrada)) {
 				JOptionPane.showMessageDialog(mainView, "¡Ya existe un profesor con esa cédula!", "¡Error!",
 						JOptionPane.ERROR_MESSAGE);
 				return;
 			}
 		}
-		*/
 		
 		// Registrar profesor
-		Object[] fila = { siglasCurso, nombre, apellido1, apellido2, cedula, grupo };
+		Object[] fila = { nombre, apellido1, apellido2, cedula };
 		modeloProfesores.addRow(fila);
 
-		JOptionPane.showMessageDialog(mainView, "¡Profesor registrado exitosamente!", "¡Éxito!",
+		JOptionPane.showMessageDialog(mainView, "¡Profesor agregado exitosamente!", "¡Éxito!",
 				JOptionPane.INFORMATION_MESSAGE);
 		mainView.btnConsultas.setEnabled(true);
+		mainView.btnAsignacionProfesores.setEnabled(true);
 		limpiarCamposProfesor();
 	}
 
@@ -155,25 +136,25 @@ public class TeacherController {
 		limpiarPanelProfesor();
 	}
 
-	private void desasignarProfesorActionListener() {
-		mainView.btnDesasignar.addActionListener(new ActionListener() {
+	private void eliminarProfesorActionListener() {
+		mainView.btnEliminarProfesor.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				desasignarProfesor();
+				eliminarProfesor();
 			}
 		});
 	}
 
-	public void desasignarProfesor() {
+	public void eliminarProfesor() {
 		String varCedulaProf = mainView.txtCedula.getText().trim();
 		DefaultTableModel modeloTablaProf = (DefaultTableModel) mainView.tablaProfesores.getModel();
 		boolean seleccionado = false;
 
 		for (int i = 0; i < modeloTablaProf.getRowCount(); i++) {
-			Object valorCelda = modeloTablaProf.getValueAt(i, 4);
-			if (valorCelda != null && valorCelda.toString().equalsIgnoreCase(varCedulaProf)) {
+			Object valorCedula = modeloTablaProf.getValueAt(i, 3);
+			if (valorCedula != null && valorCedula.toString().equalsIgnoreCase(varCedulaProf)) {
 				modeloTablaProf.removeRow(i);
-				JOptionPane.showMessageDialog(mainView, "¡Se desasigno el profesor!", "¡Éxito!",
+				JOptionPane.showMessageDialog(mainView, "¡Se eliminó el profesor!", "¡Éxito!",
 						JOptionPane.INFORMATION_MESSAGE);
 				seleccionado = true;
 				break;
@@ -189,13 +170,129 @@ public class TeacherController {
 
 	}
 
-	private void asignarDirectorActionListener() {
-		mainView.btnAsignarDirector.addActionListener(new ActionListener() {
+	
+
+	private void setupTableSelectionListener() {
+		mainView.tablaProfesores.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				asignarDirector();
+			public void valueChanged(ListSelectionEvent e) {
+				if (!e.getValueIsAdjusting()) {
+					llenarFormularioDesdeTabla();
+				}
 			}
 		});
+
+	}
+
+	private void llenarFormularioDesdeTabla() {
+		int filaSeleccionada = mainView.tablaProfesores.getSelectedRow();
+
+		if (filaSeleccionada != -1) {
+			DefaultTableModel modelo = (DefaultTableModel) mainView.tablaProfesores.getModel();
+
+			// Obtener los valores de la fila seleccionada
+			String nombre = (String) modelo.getValueAt(filaSeleccionada, 0);
+			String apellido1 = (String) modelo.getValueAt(filaSeleccionada, 1);
+			String apellido2 = (String) modelo.getValueAt(filaSeleccionada, 2);
+			String cedula = (String) modelo.getValueAt(filaSeleccionada, 3);
+
+			// Cargar los datos en los campos de texto
+			mainView.txtNombreProfesor.setText(nombre);
+			mainView.txtPrimerApe.setText(apellido1);
+			mainView.txtSegundoApe.setText(apellido2);
+			mainView.txtCedula.setText(cedula);
+
+			// Actualizar estado de los botones
+			mainView.btnAgregarProfesor.setEnabled(false);
+			mainView.txtCedula.setEnabled(false);
+
+			mainView.btnModificarProfesor.setEnabled(true);
+			mainView.btnDeseleccionarTablaProf.setEnabled(true);
+			mainView.btnEliminarProfesor.setEnabled(true);
+		}
+	}
+
+	// Limpiar campos del formulario
+	private void limpiarCamposProfesor() {
+		mainView.txtNombreProfesor.setText("");
+		mainView.txtPrimerApe.setText("");
+		mainView.txtSegundoApe.setText("");
+		mainView.txtCedula.setText("");
+		
+	}
+
+	private void setupBtnDeseleccionarTablaActionListener() {
+		mainView.btnDeseleccionarTablaProf.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				limpiarPanelProfesor();
+			}
+		});
+	}
+
+	private void limpiarPanelProfesor() {
+		mainView.txtNombreProfesor.setText("");
+		mainView.txtPrimerApe.setText("");
+		mainView.txtSegundoApe.setText("");
+		mainView.txtCedula.setText("");
+
+		mainView.tablaProfesores.clearSelection(); // Limpiar selección de la tabla
+
+		// Restablecer estado de los botones
+		mainView.btnAgregarProfesor.setEnabled(true);
+		mainView.txtCedula.setEnabled(true);
+
+		mainView.btnModificarProfesor.setEnabled(false);
+		mainView.btnDeseleccionarTablaProf.setEnabled(false);
+		mainView.btnEliminarProfesor.setEnabled(false);
+
+	}
+
+	private void setupVerCursosDisponiblesButtonListener() {
+		mainView.btnVerCursos.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				verCursosDisponibles();
+			}
+		});
+	}
+
+	// metodo para que el profesor pueda ver los cursos disponibles
+	public void verCursosDisponibles() {
+		DefaultTableModel modelo = (DefaultTableModel) mainView.tablaCursos.getModel();
+
+		if (modelo.getRowCount() == 0) {
+			JOptionPane.showMessageDialog(mainView, "No hay cursos registrados aún.", "Cursos disponibles",
+					JOptionPane.INFORMATION_MESSAGE);
+			return;
+		}
+
+		StringBuilder cursosDisponibles = new StringBuilder("Cursos disponibles:\n\n");
+
+		for (int i = 0; i < modelo.getRowCount(); i++) {
+			String escuela = modelo.getValueAt(i, 0).toString();
+			String sigla = modelo.getValueAt(i, 1).toString();
+			String descripcion = modelo.getValueAt(i, 2).toString();
+
+			cursosDisponibles.append("Escuela: ").append(escuela).append(", Sigla: ").append(sigla)
+					.append(", Descripción: ").append(descripcion).append("\n");
+		}
+
+		JTextArea textArea = new JTextArea(cursosDisponibles.toString());
+		textArea.setEditable(false);
+		textArea.setWrapStyleWord(true);
+		textArea.setLineWrap(true);
+
+		JScrollPane scrollPane = new JScrollPane(textArea);
+		scrollPane.setPreferredSize(new Dimension(400, 250));
+
+		JOptionPane.showMessageDialog(mainView, scrollPane, "Cursos disponibles", JOptionPane.INFORMATION_MESSAGE);
+	}
+	
+	
+	
+	private void asignarDirectorActionListener() {
+		
 	}
 
 	private void asignarDirector() {
@@ -314,135 +411,4 @@ public class TeacherController {
 	        }
 	    }
 	}
-
-	private void setupTableSelectionListener() {
-		mainView.tablaProfesores.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-			@Override
-			public void valueChanged(ListSelectionEvent e) {
-				if (!e.getValueIsAdjusting()) {
-					llenarFormularioDesdeTabla();
-				}
-			}
-		});
-
-	}
-
-	private void llenarFormularioDesdeTabla() {
-		int filaSeleccionada = mainView.tablaProfesores.getSelectedRow();
-
-		if (filaSeleccionada != -1) {
-			DefaultTableModel modelo = (DefaultTableModel) mainView.tablaProfesores.getModel();
-
-			// Obtener los valores de la fila seleccionada
-			String siglasCurso = (String) modelo.getValueAt(filaSeleccionada, 0);
-			String nombre = (String) modelo.getValueAt(filaSeleccionada, 1);
-			String apellido1 = (String) modelo.getValueAt(filaSeleccionada, 2);
-			String apellido2 = (String) modelo.getValueAt(filaSeleccionada, 3);
-			String cedula = (String) modelo.getValueAt(filaSeleccionada, 4);
-			String grupo = (String) modelo.getValueAt(filaSeleccionada, 5);
-
-			// Cargar los datos en los campos de texto
-			mainView.txtSiglasCurso.setText(siglasCurso);
-			mainView.txtNombreProfesor.setText(nombre);
-			mainView.txtPrimerApe.setText(apellido1);
-			mainView.txtSegundoApe.setText(apellido2);
-			mainView.txtCedula.setText(cedula);
-			mainView.txtNombreGrupoProf.setText(grupo);
-
-			// Actualizar estado de los botones
-			mainView.btnAsignarProfesor.setEnabled(false);
-			mainView.txtCedula.setEnabled(false);
-			mainView.txtSiglasCurso.setEnabled(false);
-			mainView.txtNombreGrupoProf.setEnabled(false);
-
-			mainView.btnModificarProfesor.setEnabled(true);
-			mainView.btnDeseleccionarTablaProf.setEnabled(true);
-			mainView.btnDesasignar.setEnabled(true);
-			mainView.btnAsignarDirector.setEnabled(true);
-		}
-	}
-
-	// Limpiar campos del formulario
-	private void limpiarCamposProfesor() {
-		mainView.txtNombreProfesor.setText("");
-		mainView.txtPrimerApe.setText("");
-		mainView.txtSegundoApe.setText("");
-		mainView.txtCedula.setText("");
-		mainView.txtNombreGrupoProf.setText("");
-		mainView.txtSiglasCurso.setText("");
-	}
-
-	private void setupBtnDeseleccionarTablaActionListener() {
-		mainView.btnDeseleccionarTablaProf.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				limpiarPanelProfesor();
-			}
-		});
-	}
-
-	private void limpiarPanelProfesor() {
-		mainView.txtNombreProfesor.setText("");
-		mainView.txtPrimerApe.setText("");
-		mainView.txtSegundoApe.setText("");
-		mainView.txtCedula.setText("");
-		mainView.txtNombreGrupoProf.setText("");
-		mainView.txtSiglasCurso.setText("");
-
-		mainView.tablaProfesores.clearSelection(); // Limpiar selección de la tabla
-
-		// Restablecer estado de los botones
-		mainView.btnAsignarProfesor.setEnabled(true);
-		mainView.txtSiglasCurso.setEnabled(true);
-		mainView.txtCedula.setEnabled(true);
-		mainView.txtNombreGrupoProf.setEnabled(true);
-
-		mainView.btnModificarProfesor.setEnabled(false);
-		mainView.btnDeseleccionarTablaProf.setEnabled(false);
-		mainView.btnDesasignar.setEnabled(false);
-		mainView.btnAsignarDirector.setEnabled(false);
-
-	}
-
-	private void setupVerCursosDisponiblesButtonListener() {
-		mainView.btnVerCursosDisponibles.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				verCursosDisponibles();
-			}
-		});
-	}
-
-	// metodo para que el profesor pueda ver los cursos disponibles
-	public void verCursosDisponibles() {
-		DefaultTableModel modelo = (DefaultTableModel) mainView.tablaCursos.getModel();
-
-		if (modelo.getRowCount() == 0) {
-			JOptionPane.showMessageDialog(mainView, "No hay cursos registrados aún.", "Cursos disponibles",
-					JOptionPane.INFORMATION_MESSAGE);
-			return;
-		}
-
-		StringBuilder cursosDisponibles = new StringBuilder("Cursos disponibles:\n\n");
-
-		for (int i = 0; i < modelo.getRowCount(); i++) {
-			String escuela = modelo.getValueAt(i, 0).toString();
-			String sigla = modelo.getValueAt(i, 1).toString();
-			String descripcion = modelo.getValueAt(i, 2).toString();
-
-			cursosDisponibles.append("Escuela: ").append(escuela).append(", Sigla: ").append(sigla)
-					.append(", Descripción: ").append(descripcion).append("\n");
-		}
-
-		JTextArea textArea = new JTextArea(cursosDisponibles.toString());
-		textArea.setEditable(false);
-		textArea.setWrapStyleWord(true);
-		textArea.setLineWrap(true);
-
-		JScrollPane scrollPane = new JScrollPane(textArea);
-		scrollPane.setPreferredSize(new Dimension(400, 250));
-
-		JOptionPane.showMessageDialog(mainView, scrollPane, "Cursos disponibles", JOptionPane.INFORMATION_MESSAGE);
-	}
-
 }
