@@ -50,7 +50,7 @@ public class SchoolController {
                 }
 
                 if (escuelaExiste) {
-                    JOptionPane.showMessageDialog(mainView, "¡La escuela ya existe!", "¡Error!", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(mainView, "Â¡La escuela ya existe!", "Â¡Error!", JOptionPane.WARNING_MESSAGE);
                 } else {
                     // Si no existe, agregar la nueva escuela
                 	School nuevaEscuela = new School(nombreEscuela);
@@ -61,17 +61,17 @@ public class SchoolController {
                     mainView.txtNameSchool.setText("");
 
                     // Guardar cambios en Universidad.json
-                    universidadController.escribirDataEnJson(); // <- Este método ya está listo
+                    universidadController.escribirDataEnJson(); // <- Este mï¿½todo ya estï¿½ listo
 
-                    // Opcional: Guardar también en Escuelas.json
+                    // Opcional: Guardar tambiï¿½n en Escuelas.json
                     escribirDataEnJsonEscuelas();
                 }
 
             } else {
-                JOptionPane.showMessageDialog(mainView, "¡El nombre de la escuela es obligatorio!", "¡Error!", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(mainView, "Â¡El nombre de la escuela es obligatorio!", "Â¡Error!", JOptionPane.WARNING_MESSAGE);
             }
         } else {
-            JOptionPane.showMessageDialog(mainView, "¡Primero se debe registrar una universidad!", "¡Error!", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(mainView, "Â¡Primero se debe registrar una universidad!", "Â¡Error!", JOptionPane.WARNING_MESSAGE);
         }
     }
 

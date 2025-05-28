@@ -23,7 +23,7 @@ public class UniversityController {
     
     private MainView mainView;
     private University varUniversidadRegistrada;
-    private SchoolController schoolController;
+    
     public UniversityController(MainView mainView) {
         this.mainView = mainView;
         registerUniversityActionListener();

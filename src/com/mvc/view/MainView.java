@@ -95,8 +95,8 @@ public class MainView extends JFrame {
 	public JButton btnUniversidad;
 	public JButton btnEscuelas;
 	public JButton btnCursos;
-	// En la declaración de botones del menú, agregar:
 	public JButton btnProfesores;
+	public JButton btnEstudiantes;
 
 	private void MenuPanel() {
 		menuPanel = new JPanel();
@@ -116,9 +116,12 @@ public class MainView extends JFrame {
 		btnCursos.setBorderPainted(false);
 		btnProfesores = new JButton("Profesores");
 		btnProfesores.setBorderPainted(false);
+		btnEstudiantes = new JButton("Estudiantes"); 
+		btnEstudiantes.setBorderPainted(false);
+
 
 		// Configuracion de los botones
-		JButton[] buttons = { btnUniversidad, btnEscuelas, btnCursos, btnProfesores };
+		JButton[] buttons = { btnUniversidad, btnEscuelas, btnCursos, btnProfesores, btnEstudiantes};
 		for (JButton btn : buttons) {
 			btn.setMaximumSize(new Dimension(140, 40));
 			btn.setFont(new Font("Arial", Font.BOLD, 12));
@@ -134,9 +137,10 @@ public class MainView extends JFrame {
 		menuPanel.add(btnEscuelas);
 		menuPanel.add(Box.createVerticalStrut(10));
 		menuPanel.add(btnCursos);
-
 		menuPanel.add(Box.createVerticalStrut(10));
-		menuPanel.add(btnProfesores); // AAA
+		menuPanel.add(btnProfesores); 
+		menuPanel.add(Box.createVerticalStrut(10));
+		menuPanel.add(btnEstudiantes); 
 	}
 
 	// Componentes de Universidad (Registrar y Actualizar)

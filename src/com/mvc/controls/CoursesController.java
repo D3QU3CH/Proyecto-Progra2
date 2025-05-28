@@ -51,6 +51,7 @@ public class CoursesController {
 		setupVerEscuelasButtonListener();
 		setupVerBtnRegresarACursos();
 		cargarDesdeJsonCursos();
+		mostrarCursosEnTextArea();
 	}
 
 	// AGREGAR CURSO
@@ -127,6 +128,7 @@ public class CoursesController {
 			JOptionPane.showMessageDialog(mainView, "¡Curso registrado exitosamente!", "¡Éxito!",
 					JOptionPane.INFORMATION_MESSAGE);
 			limpiarPanelCurso();
+			mostrarCursosEnTextArea();
 		} else {
 			// Si algún campo está vacío, mostrar advertencia
 			JOptionPane.showMessageDialog(mainView, "¡Todos los campos son obligatorios!", "¡Advertencia!",
@@ -185,7 +187,7 @@ public class CoursesController {
 		}
 
 		limpiarPanelCurso(); 
-		
+		mostrarCursosEnTextArea();
 	}
 
 	// SELECCIONAR CURSO
@@ -249,6 +251,7 @@ public class CoursesController {
 				JOptionPane.showMessageDialog(mainView, "¡Curso actualizado exitosamente!", "¡Éxito!",
 						JOptionPane.INFORMATION_MESSAGE);
 				limpiarPanelCurso();
+				mostrarCursosEnTextArea();
 			} else {
 				JOptionPane.showMessageDialog(mainView, "¡Todos los campos son obligatorios!", "¡Advertencia!",
 						JOptionPane.WARNING_MESSAGE);
@@ -342,14 +345,14 @@ public class CoursesController {
 	
 	
 	//ARREGLAR ESTA COCHINADA DE MIERDA QUE NO SIRVE Y A LA VEZ SI
-	public void mostrarCursosEnTextArea() {
+	private void mostrarCursosEnTextArea() {
+		mainView.txtAreaCursos.setText("");
 		DefaultTableModel modeloCursos = (DefaultTableModel) mainView.tablaCursos.getModel();
-		mainView.txtAreaCursos.setText(""); // Limpiar antes de cargar
 
 		for (int i = 0; i < modeloCursos.getRowCount(); i++) {
 			String escuela = modeloCursos.getValueAt(i, 0).toString();
 			String siglas = modeloCursos.getValueAt(i, 1).toString();
-			String nombreCurso = modeloCursos.getValueAt(i, 1).toString();
+			String nombreCurso = modeloCursos.getValueAt(i, 2).toString();
 
 			mainView.txtAreaCursos
 					.append("Escuela: " + escuela + " | Siglas: " + siglas + " | Descrpción: " + nombreCurso + "\n");
@@ -416,7 +419,6 @@ public class CoursesController {
 			 gson.toJson(cursos,writer);
 			 JOptionPane.showMessageDialog(mainView, "¡Cursos guardados correctamente en JSON!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
 			
-			
 		}catch(IOException e) {
 			 e.printStackTrace();
 		        JOptionPane.showMessageDialog(mainView, "Error al guardar cursos en JSON.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -449,7 +451,6 @@ public class CoursesController {
 	                    curso.getVarDescripcion()
 	                });
 	        }
-			
 			
 		}catch(IOException e) {
 			e.printStackTrace();
