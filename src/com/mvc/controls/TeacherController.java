@@ -298,7 +298,7 @@ public class TeacherController {
 		String grupo = mainView.txtGrupoAsignar.getText().trim();
 
 		if (cedula.isEmpty() || sigla.isEmpty() || grupo.isEmpty()) {
-			JOptionPane.showMessageDialog(mainView, "¡Todos los campos son obligatorios!", "Advertencia",
+			JOptionPane.showMessageDialog(mainView, "�Todos los campos son obligatorios!", "Advertencia",
 					JOptionPane.WARNING_MESSAGE);
 			return;
 		}
@@ -315,7 +315,7 @@ public class TeacherController {
 		}
 
 		if (!profesorExiste) {
-			JOptionPane.showMessageDialog(mainView, "¡No existe un profesor con la cédula: " + cedula + "!", "Error",
+			JOptionPane.showMessageDialog(mainView, "�No existe un profesor con la c�dula: " + cedula + "!", "Error",
 					JOptionPane.ERROR_MESSAGE);
 			return;
 		}
@@ -335,7 +335,7 @@ public class TeacherController {
 		}
 
 		if (!cursoExiste) {
-			JOptionPane.showMessageDialog(mainView, "¡No existe un curso con las siglas: " + sigla + "!", "Error",
+			JOptionPane.showMessageDialog(mainView, "�No existe un curso con las siglas: " + sigla + "!", "Error",
 					JOptionPane.ERROR_MESSAGE);
 			return;
 		}
@@ -350,14 +350,14 @@ public class TeacherController {
 			if (cedula.equalsIgnoreCase(cedulaExistente) && sigla.equalsIgnoreCase(siglaExistente)
 					&& grupo.equalsIgnoreCase(grupoExistente)) {
 
-				JOptionPane.showMessageDialog(mainView, "¡Esta asignación ya existe!", "Error",
+				JOptionPane.showMessageDialog(mainView, "�Esta asignación ya existe!", "Error",
 						JOptionPane.ERROR_MESSAGE);
 				return;
 			}
 		}
 
 		modelo.addRow(new Object[] { nombreEscuela, cedula, siglasCurso, grupo });
-		JOptionPane.showMessageDialog(mainView, "¡Asignación registrada exitosamente!", "¡Éxito!",
+		JOptionPane.showMessageDialog(mainView, "�Asignación registrada exitosamente!", "¡Éxito!",
 				JOptionPane.INFORMATION_MESSAGE);
 		limpiarCamposAsignacion();
 	}

@@ -21,7 +21,7 @@ public class StudentView extends JFrame {
         setVisible(false);
     }
 
-    private JPanel estudiantesPanel;
+    public JPanel estudiantesPanel;
     private JPanel panelRegistroEstudiantes;
     private JPanel panelConsultaEstudiantes;
     private JPanel panelOpcionesEstudiantes;

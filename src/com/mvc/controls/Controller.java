@@ -16,6 +16,7 @@ public class Controller {
 	private CoursesController cursosController;
 	private TeacherController teacherController;
 	private ConsultasController consultasController;
+	private StudentController studentController;
 
 	public Controller(MainView mainView, StudentView studentView) {
 		this.mainView = mainView;
@@ -27,6 +28,8 @@ public class Controller {
 		escuelaController = new SchoolController(mainView, universidadController);
 		cursosController = new CoursesController(mainView, universidadController);
 		teacherController = new TeacherController(mainView, universidadController );
+		studentController = new StudentController(studentView);
+		
 		
 		consultasController = new ConsultasController(mainView, universidadController, teacherController);
 		
