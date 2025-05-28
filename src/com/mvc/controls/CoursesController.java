@@ -185,6 +185,7 @@ public class CoursesController {
 		}
 
 		limpiarPanelCurso(); 
+		
 	}
 
 	// SELECCIONAR CURSO
@@ -219,6 +220,8 @@ public class CoursesController {
 			mainView.varTxtSigla.setEnabled(false);
 
 			mainView.varBtnModificar.setEnabled(true);
+			mainView.varBtnEliminar.setEnabled(true);
+			mainView.btnBuscar.setEnabled(true);
 			mainView.varBtnDeseleccionarTabla.setEnabled(true);
 		}
 	}
@@ -332,7 +335,25 @@ public class CoursesController {
 
 		mainView.varBtnModificar.setEnabled(false);
 		mainView.varBtnDeseleccionarTabla.setEnabled(false);
+		mainView.varBtnEliminar.setEnabled(false);
+		
 
+	}
+	
+	
+	//ARREGLAR ESTA COCHINADA DE MIERDA QUE NO SIRVE Y A LA VEZ SI
+	public void mostrarCursosEnTextArea() {
+		DefaultTableModel modeloCursos = (DefaultTableModel) mainView.tablaCursos.getModel();
+		mainView.txtAreaCursos.setText(""); // Limpiar antes de cargar
+
+		for (int i = 0; i < modeloCursos.getRowCount(); i++) {
+			String escuela = modeloCursos.getValueAt(i, 0).toString();
+			String siglas = modeloCursos.getValueAt(i, 1).toString();
+			String nombreCurso = modeloCursos.getValueAt(i, 1).toString();
+
+			mainView.txtAreaCursos
+					.append("Escuela: " + escuela + " | Siglas: " + siglas + " | Descrpción: " + nombreCurso + "\n");
+		}
 	}
 
 	private void setupVerEscuelasButtonListener() {
