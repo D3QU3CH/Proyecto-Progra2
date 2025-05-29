@@ -10,7 +10,7 @@ public class StudentView extends JFrame {
     private static final long serialVersionUID = 1L;
 
     public StudentView() {
-        setTitle("Gestión de Estudiantes");
+        setTitle("Gestion de Estudiantes");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(800, 600);
         setLocationRelativeTo(null);
@@ -99,7 +99,7 @@ public class StudentView extends JFrame {
         estudiantesPanel = new JPanel(new BorderLayout(10, 10));
         estudiantesPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
-        JLabel lblTitleEstudiantes = new JLabel("Agregación de Estudiantes", JLabel.CENTER);
+        JLabel lblTitleEstudiantes = new JLabel("Agregacion de Estudiantes", JLabel.CENTER);
         lblTitleEstudiantes.setFont(new Font("Arial", Font.BOLD, 18));
         estudiantesPanel.add(lblTitleEstudiantes, BorderLayout.NORTH);
 
@@ -218,7 +218,7 @@ public class StudentView extends JFrame {
         matriculaPanel = new JPanel(new BorderLayout(10, 10));
         matriculaPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
-        JLabel lblTitleMatricula = new JLabel("Matrícula de Estudiantes", JLabel.CENTER);
+        JLabel lblTitleMatricula = new JLabel("Matricula de Estudiantes", JLabel.CENTER);
         lblTitleMatricula.setFont(new Font("Arial", Font.BOLD, 18));
         matriculaPanel.add(lblTitleMatricula, BorderLayout.NORTH);
 
@@ -251,11 +251,11 @@ public class StudentView extends JFrame {
         // Panel de campos de entrada en fila con etiquetas
         JPanel panelCampos = new JPanel(new GridLayout(2, 3, 10, 5));
 
-        JLabel lblCedulaEstudianteMatricula = new JLabel("Cédula de estudiante:");
+        JLabel lblCedulaEstudianteMatricula = new JLabel("Cedula de estudiante:");
         lblCedulaEstudianteMatricula.setFont(new Font("Arial", Font.BOLD, 12));
         txtCedulaEstudianteMatricula = new JTextField();
 
-        JLabel lblCedulaProfesorMatricula = new JLabel("Cédula Profesor:");
+        JLabel lblCedulaProfesorMatricula = new JLabel("Cedula Profesor:");
         lblCedulaProfesorMatricula.setFont(new Font("Arial", Font.BOLD, 12));
         txtCedulaProfesorMatricula = new JTextField();
 
@@ -280,9 +280,9 @@ public class StudentView extends JFrame {
 
         // Panel de la tabla
         JPanel panelTabla = new JPanel(new BorderLayout(5, 5));
-        panelTabla.setBorder(BorderFactory.createTitledBorder("Matrículas Realizadas"));
+        panelTabla.setBorder(BorderFactory.createTitledBorder("Matriculas Realizadas"));
 
-        String[] columnasMatriculas = { "Escuela", "Cédula Estudiante", "Cédula Profesor", "Siglas Curso", "Créditos" };
+        String[] columnasMatriculas = { "Escuela", "Cedula Estudiante", "Cedula Profesor", "Siglas Curso", "Creditos" };
         DefaultTableModel modeloMatriculas = new DefaultTableModel(columnasMatriculas, 0);
         tablaMatriculas = new JTable(modeloMatriculas);
         tablaMatriculas.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -300,7 +300,7 @@ public class StudentView extends JFrame {
 
         btnEstudiantesMatriculados = new JButton("Estudiantes matriculados");
         btnConsultaCursosPorEstudiante = new JButton("Consulta de cursos por estudiante");
-        btnPagoCreditos = new JButton("Pago de créditos");
+        btnPagoCreditos = new JButton("Pago de creditos");
 
         JButton[] botonesMatricula = { btnEstudiantesMatriculados, btnConsultaCursosPorEstudiante, btnPagoCreditos };
         for (JButton btn : botonesMatricula) {
@@ -354,3 +354,7 @@ public class StudentView extends JFrame {
         cl.show(mainPanel, panelName);
     }
 }
+
+
+
+

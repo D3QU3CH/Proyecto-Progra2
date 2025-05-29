@@ -59,6 +59,14 @@ public class Teacher {
 		this.varSiglasCourses = varSiglasCourses;
 	}
 
+	public String getVarFirstSurname() {
+		return varFirstSurname;
+	}
+
+	public void setVarFirstSurname(String varFirstSurname) {
+		this.varFirstSurname = varFirstSurname;
+	}
+
 	@Override
 	public String toString() {
 		return "Teacher [varName=" + varName + ", varFirstSurname=" + varFirstSurname + ", varSecondSurname="
