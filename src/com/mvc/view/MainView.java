@@ -404,7 +404,7 @@ public class MainView extends JFrame {
 			btn.setEnabled(false);
 			buttonsPanel.add(btn);
 		}
-
+		varBtnBuscarPorEscuela.setEnabled(true);
 		panelOpcionesCursos.add(buttonsPanel, BorderLayout.CENTER);
 		JPanel contentCursos = new JPanel(new BorderLayout(10, 10));
 		contentCursos.add(panelRegistroCursos, BorderLayout.NORTH);
@@ -584,10 +584,10 @@ public class MainView extends JFrame {
 		JButton[] botonesProfesores = { btnModificarProfesor, btnAsignacionProfesores, btnConsultas };
 		for (JButton btn : botonesProfesores) {
 			btn.setFont(new Font("Arial", Font.BOLD, 12));
-			btn.setEnabled(false);
+			btn.setEnabled(true);
 			buttonsPanelProf.add(btn);
 		}
-		btnConsultas.setEnabled(true);
+		btnModificarProfesor.setEnabled(false);
 
 		panelOpcionesProfesores.add(buttonsPanelProf, BorderLayout.CENTER);
 
@@ -821,7 +821,7 @@ public class MainView extends JFrame {
 
 		JTextArea areaMostrar = new JTextArea(10, 20);
 		areaMostrar.setEditable(false);
-		areaMostrar.setFont(new Font("Arial", Font.PLAIN, 14));
+		areaMostrar.setFont(new Font("Arial", Font.PLAIN, 20));
 
 		JScrollPane scrollResultado = new JScrollPane(areaMostrar);
 		varPanelFormulario.add(scrollResultado, BorderLayout.CENTER);
@@ -861,7 +861,7 @@ public class MainView extends JFrame {
 
 		txtAreaDirectores = new JTextArea();
 		txtAreaDirectores.setEditable(false);
-		txtAreaDirectores.setFont(new Font("Arial", Font.PLAIN, 14));
+		txtAreaDirectores.setFont(new Font("Arial", Font.PLAIN, 20));
 		txtAreaDirectores.setBorder(BorderFactory.createEtchedBorder());
 
 		scrollPaneDirectores = new JScrollPane(txtAreaDirectores);
@@ -899,7 +899,7 @@ public class MainView extends JFrame {
 
 		txtAreaConsultaEscuelas = new JTextArea();
 		txtAreaConsultaEscuelas.setEditable(false);
-		txtAreaConsultaEscuelas.setFont(new Font("Arial", Font.PLAIN, 14));
+		txtAreaConsultaEscuelas.setFont(new Font("Arial", Font.PLAIN, 20));
 		txtAreaConsultaEscuelas.setBorder(BorderFactory.createEtchedBorder());
 
 		scrollPanelConsultaEscuelas = new JScrollPane(txtAreaConsultaEscuelas);
@@ -921,11 +921,6 @@ public class MainView extends JFrame {
 
 	public void setUniversityName(String name) {
 		lblEscuelasTitle.setText("Universidad: " + name);
-	}
-
-	public void enableCursosControls(boolean enable) {
-		varBtnEliminar.setEnabled(enable);
-		varBtnBuscarPorEscuela.setEnabled(enable);
 	}
 
 	// Metodo para configurar listeners de los botones del menu

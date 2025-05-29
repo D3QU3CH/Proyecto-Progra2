@@ -22,8 +22,8 @@ public class Controller {
 		this.mainView = mainView;
 		this.studentView = studentView;
 		
-		// Inicializar los controladores específicos
-		menuController = new MenuController(mainView);
+		// Inicializar los controladores especï¿½ficos
+		menuController = new MenuController(mainView, studentView);
 		universidadController = new UniversityController(mainView);
 		escuelaController = new SchoolController(mainView, universidadController);
 		cursosController = new CoursesController(mainView, universidadController);

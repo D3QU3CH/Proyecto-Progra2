@@ -42,7 +42,7 @@ public class ConsultasController {
         // Botón buscar por profesor
         if (panelPorProfesor.botonBuscar != null) {
             panelPorProfesor.botonBuscar.addActionListener(e -> {
-                consultasPorProfesor(panelPorProfesor);
+                consultarCursosPorProfesor(panelPorProfesor);
             });
         } else {
             System.err.println("botonBuscar es null en panelPorProfesor");
@@ -51,7 +51,7 @@ public class ConsultasController {
         // Botón buscar por curso
         if (panelPorCurso.botonBuscar != null) {
             panelPorCurso.botonBuscar.addActionListener(e -> {
-                consultaDeProfesoresPorCurso(panelPorCurso);
+                consultarProfesoresPorCurso(panelPorCurso);
             });
         } else {
             System.err.println("botonBuscar es null en panelPorCurso");
@@ -59,7 +59,7 @@ public class ConsultasController {
         //configuara bonton por cedula
         if (panelPorCedula.botonBuscar != null) {
         	panelPorCedula.botonBuscar.addActionListener(e -> {
-        		busquedaPorNumeroDeCedula(panelPorCedula);
+        		consultarProfesorPorCedula(panelPorCedula);
             });
         } else {
             System.err.println("botonBuscar es null en panelPorCurso");
@@ -67,7 +67,7 @@ public class ConsultasController {
         //configurar el boton de buscar por escuela
         if (panelPorEscuela.botonBuscar != null) {
         	panelPorEscuela.botonBuscar.addActionListener(e -> {
-        		busquedaPorEscuela(panelPorEscuela);
+        		consultarProfesorPorEscuela(panelPorEscuela);
             });
         } else {
             System.err.println("botonBuscar es null en panelPorCurso");
@@ -116,84 +116,206 @@ public class ConsultasController {
         }
     }
 
+    public void consultarProfesorPorCedula(ControllerPanelConsultas panel) {
+        String varNumeroCedula = panel.campoBuscar.getText().trim();
 
-    
-    
-    public void consultasPorProfesor(ControllerPanelConsultas panel) {
-        String varNombreProfesor = panel.campoBuscar.getText().trim(); 
-        DefaultTableModel modeloTabla = (DefaultTableModel) mainView.tablaProfesores.getModel();
-        DefaultTableModel modeloTablaCursos = (DefaultTableModel) mainView.tablaCursos.getModel();
+        DefaultTableModel modeloTablaProf = (DefaultTableModel) mainView.tablaProfesores.getModel();
+        
+        boolean cedulaExiste = false;
+        boolean coincidencia = false;
 
-        boolean profesorExiste = false;
-        boolean coincidenciaEncontrada = false;
+        panel.areaMostrar.setText("");
 
-        panel.areaMostrar.setText(""); 
-
-        // Primero validamos si el profesor existe
-        for (int i = 0; i < modeloTabla.getRowCount(); i++) {
-            String nombreProfesorTabla = (String) modeloTabla.getValueAt(i, 1);
-            if (varNombreProfesor.equalsIgnoreCase(nombreProfesorTabla)) {
-                profesorExiste = true;
+        // Validar si la cédula existe en la tabla
+        for (int i = 0; i < modeloTablaProf.getRowCount(); i++) {
+            String cedula = (String) modeloTablaProf.getValueAt(i, 3);
+            if (varNumeroCedula.equalsIgnoreCase(cedula)) {
+                cedulaExiste = true;
                 break;
             }
         }
 
+        if (!cedulaExiste) {
+            JOptionPane.showMessageDialog(mainView,
+                    "¡El profesor con la cédula '" + varNumeroCedula + "' no existe en el sistema!", "Cédula no encontrada",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Buscar profesor por cédula (si existe)
+        for (int i = 0; i < modeloTablaProf.getRowCount(); i++) {
+            String varTomarCedula = (String) modeloTablaProf.getValueAt(i, 3);
+
+            if (varNumeroCedula.equalsIgnoreCase(varTomarCedula)) {
+                coincidencia = true;
+
+                String nombreProfesor = (String) modeloTablaProf.getValueAt(i, 0);
+                String primeroApellido = (String) modeloTablaProf.getValueAt(i, 1);
+                String segundoApellido = (String) modeloTablaProf.getValueAt(i, 2);
+                String filaTexto =
+                        "Profesor: " + nombreProfesor + " " + primeroApellido + " " + segundoApellido + "\n" +
+                        "Cédula: " + varNumeroCedula + "\n" +
+                        "----------------------------------------\n";
+
+                panel.areaMostrar.append(filaTexto);
+            }
+        }
+
+        if (coincidencia) {
+            JOptionPane.showMessageDialog(mainView,
+                    "¡Se encontró coincidencia con el número de cédula: '" + varNumeroCedula + "'!", "Éxito",
+                    JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+    
+    public void consultarProfesorPorEscuela(ControllerPanelConsultas panel) {
+        String varNombreEscuela = panel.campoBuscar.getText().trim();
+        DefaultTableModel modeloTablaCursos = (DefaultTableModel) mainView.tablaCursos.getModel();
+        DefaultTableModel modeloTablaProfesores = (DefaultTableModel) mainView.tablaProfesores.getModel();
+        DefaultTableModel modeloTablaAsignar = (DefaultTableModel) mainView.tablaAsignaciones.getModel();
+        boolean escuelaExiste = false;
+        boolean coincidencia = false;
+        panel.areaMostrar.setText("");
+        
+        // Validar si la escuela existe en la tabla de cursos
+        for (int i = 0; i < modeloTablaCursos.getRowCount(); i++) {
+            String nombreEscuela = (String) modeloTablaCursos.getValueAt(i, 0);
+            if (varNombreEscuela.equalsIgnoreCase(nombreEscuela)) {
+                escuelaExiste = true;
+                break;
+            }
+        }
+        
+        if (!escuelaExiste) {
+            JOptionPane.showMessageDialog(mainView,
+                    "¡La escuela '" + varNombreEscuela + "' no existe en el sistema!", "Escuela no encontrada",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        // Buscar profesores relacionados con la escuela
+        for (int i = 0; i < modeloTablaAsignar.getRowCount(); i++) {
+            String nombreEscuela = (String) modeloTablaAsignar.getValueAt(i, 0);
+            String cedula = (String) modeloTablaAsignar.getValueAt(i, 1);
+            
+            if (nombreEscuela.equalsIgnoreCase(varNombreEscuela)) {
+                // Validar si esta cédula ya fue mostrada para esta escuela
+                boolean yaFueMostrado = false;
+                String textoActual = panel.areaMostrar.getText();
+                
+                if (textoActual.contains("Cédula: " + cedula)) {
+                    yaFueMostrado = true;
+                }
+                
+                if (!yaFueMostrado) {
+                    coincidencia = true;
+                    String nombreProfesor = "";
+                    String primerApellido = "";
+                    String segundoApellido = "";
+                    
+                    for (int j = 0; j < modeloTablaProfesores.getRowCount(); j++) {
+                        String cedulaRegistrada = (String) modeloTablaProfesores.getValueAt(j, 3); 
+                        if (cedula.equalsIgnoreCase(cedulaRegistrada)) {
+                            nombreProfesor = (String) modeloTablaProfesores.getValueAt(j, 0); 
+                            primerApellido = (String) modeloTablaProfesores.getValueAt(j, 1);
+                            segundoApellido = (String) modeloTablaProfesores.getValueAt(j, 2);
+                            break;
+                        }
+                    }
+                    
+                    String filaTexto =
+                            "Escuela: " + nombreEscuela + "\n" +
+                            "Profesor: " + nombreProfesor + " " + primerApellido + " " + segundoApellido + "\n" +
+                            "Cédula: " + cedula + "\n" +
+                            "----------------------------------------\n";
+                    panel.areaMostrar.append(filaTexto);
+                }
+            }
+        }
+        
+        if (!coincidencia) {
+            JOptionPane.showMessageDialog(mainView,
+                    "No hay profesores asignados a la escuela: '" + varNombreEscuela + "'",
+                    "Sin profesores", JOptionPane.WARNING_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(mainView,
+                    "¡Se encontraron profesores en la escuela: '" + varNombreEscuela + "'!",
+                    "Éxito", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+    
+    public void consultarCursosPorProfesor(ControllerPanelConsultas panel) {
+        String varNombreProfesor = panel.campoBuscar.getText().trim(); 
+        DefaultTableModel modeloTablaProf = (DefaultTableModel) mainView.tablaProfesores.getModel();
+        DefaultTableModel modeloTablaAsignar = (DefaultTableModel) mainView.tablaAsignaciones.getModel();
+        DefaultTableModel modeloTablaCursos = (DefaultTableModel) mainView.tablaCursos.getModel();
+        boolean profesorExiste = false;
+        boolean cursosEncontrados = false;
+        panel.areaMostrar.setText(""); 
+        
+        // Primero validamos si el profesor existe
+        String cedulaProfesorExistente = "";
+        String nombreProfesorTabla = "";
+        for (int i = 0; i < modeloTablaProf.getRowCount(); i++) {
+            nombreProfesorTabla = (String) modeloTablaProf.getValueAt(i, 0);
+            if (varNombreProfesor.equalsIgnoreCase(nombreProfesorTabla)) {
+                cedulaProfesorExistente = (String) modeloTablaProf.getValueAt(i, 3); 
+                profesorExiste = true;
+                break;
+            }
+        }
+        
         if (!profesorExiste) {
             JOptionPane.showMessageDialog(mainView,
                     "¡El profesor '" + varNombreProfesor + "' no existe en el sistema!", "Profesor no encontrado",
                     JOptionPane.ERROR_MESSAGE);
             return;
         }
-
-        // Si el profesor existe, buscamos sus cursos
-        for (int i = 0; i < modeloTabla.getRowCount(); i++) {
-            String nombreProfesorTabla = (String) modeloTabla.getValueAt(i, 1);
-
-            if (varNombreProfesor.equalsIgnoreCase(nombreProfesorTabla)) {
-                String siglasCurso = (String) modeloTabla.getValueAt(i, 0);
-                coincidenciaEncontrada = true;
-
-                if (siglasCurso != null && !siglasCurso.isEmpty()) {
-                    for (int j = 0; j < modeloTablaCursos.getRowCount(); j++) {
-                        String siglasCursoTabla = (String) modeloTablaCursos.getValueAt(j, 1);
-
-                        if (siglasCurso.equalsIgnoreCase(siglasCursoTabla)) {
-                            String nombreEscuela = (String) modeloTablaCursos.getValueAt(i, 0);
-                            String descripcionCurso = (String) modeloTablaCursos.getValueAt(i, 2);
-
-                            String filaTexto =
-                                    "Profesor: " + nombreProfesorTabla + "\n" +
-                                    "Escuela: " + nombreEscuela + "\n" +
-                                    "Siglas: " + siglasCurso + "\n" +
-                                    "Descripción: " + descripcionCurso + "\n" +
-                                    "----------------------------------------\n";
-
-                            panel.areaMostrar.append(filaTexto);
-                        }
+        
+        for (int i = 0; i < modeloTablaAsignar.getRowCount(); i++) {
+            String nombreEscuela = (String) modeloTablaAsignar.getValueAt(i, 0);
+            String cedula = (String) modeloTablaAsignar.getValueAt(i, 1);
+            
+            if (cedula.equalsIgnoreCase(cedulaProfesorExistente)) {
+                String siglaCurso = (String) modeloTablaAsignar.getValueAt(i, 2);
+                
+                for (int j = 0; j < modeloTablaCursos.getRowCount(); j++) {
+                    String siglasCursoTabla = (String) modeloTablaCursos.getValueAt(j, 1);
+                    
+                    if (siglaCurso.equalsIgnoreCase(siglasCursoTabla)) {
+                        cursosEncontrados = true;
+                        String nombreCurso = (String) modeloTablaCursos.getValueAt(j, 2);
+                        String filaTexto =
+                                "Profesor: " + nombreProfesorTabla + "\n" +
+                                "Escuela: " + nombreEscuela + "\n" +
+                                "Siglas: " + siglasCursoTabla + "\n" +
+                                "Nombre del curso: " + nombreCurso + "\n" +
+                                "----------------------------------------\n";
+                        panel.areaMostrar.append(filaTexto);
                     }
                 }
-            }
+            }	
         }
-
-        // Validación final
-        if (!coincidenciaEncontrada) {
+        
+        if (!cursosEncontrados) {
             JOptionPane.showMessageDialog(mainView,
-                    "¡El profesor '" + varNombreProfesor + "' no tiene cursos asociados!", "Sin cursos",
-                    JOptionPane.WARNING_MESSAGE);
+                    "No hay cursos asignados para el profesor: '" + varNombreProfesor + "'",
+                    "Sin cursos", JOptionPane.WARNING_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(mainView,
-                    "¡Se encontraron cursos para el profesor '" + varNombreProfesor + "'!", "Éxito",
+                    "¡Se encontraron cursos asignados para el profesor '" + varNombreProfesor + "'!", "Éxito",
                     JOptionPane.INFORMATION_MESSAGE);
         }
     }
     
     
     
-    public void consultaDeProfesoresPorCurso(ControllerPanelConsultas panel) {
+    public void consultarProfesoresPorCurso(ControllerPanelConsultas panel) {
         String varSiglasCurso = panel.campoBuscar.getText().trim();
 
-        DefaultTableModel modeloTablaProfesores = (DefaultTableModel) mainView.tablaProfesores.getModel();
         DefaultTableModel modeloTablaCursos = (DefaultTableModel) mainView.tablaCursos.getModel();
+        DefaultTableModel modeloTablaProfesores = (DefaultTableModel) mainView.tablaProfesores.getModel();
+        DefaultTableModel modeloTablaAsignar = (DefaultTableModel) mainView.tablaAsignaciones.getModel();
 
         boolean cursoExiste = false;
         boolean coincidencia = false;
@@ -217,17 +339,31 @@ public class ConsultasController {
         }
 
         // Si el curso existe, buscamos profesores asignados a ese curso
-        for (int i = 0; i < modeloTablaProfesores.getRowCount(); i++) {
-            String varTomarSigla = (String) modeloTablaProfesores.getValueAt(i, 0); // columna de siglas del curso
+        for (int i = 0; i < modeloTablaAsignar.getRowCount(); i++) {
+            String varTomarSigla = (String) modeloTablaAsignar.getValueAt(i, 2); // columna de siglas del curso
 
             if (varSiglasCurso.equalsIgnoreCase(varTomarSigla)) {
                 coincidencia = true;
+                
+                String cedula = (String) modeloTablaAsignar.getValueAt(i, 1);
+                String grupo = (String) modeloTablaAsignar.getValueAt(i, 3);
+                String nombreProfesor = "";
+                String primeroApellido = "";
+                String segundoApellido = "";
+                
+                for (int j = 0; j < modeloTablaProfesores.getRowCount(); j++) {
+        	        String cedulaRegistrada = (String) modeloTablaProfesores.getValueAt(j, 3); 
 
-                String nombreProfesor = (String) modeloTablaProfesores.getValueAt(i, 1);
-                String primeroApellido = (String) modeloTablaProfesores.getValueAt(i, 2);
-                String segundoApellido = (String) modeloTablaProfesores.getValueAt(i, 3);
-                String cedula = (String) modeloTablaProfesores.getValueAt(i, 4);
-                String grupo = (String) modeloTablaProfesores.getValueAt(i, 5);
+                    
+        	        if (cedula.equalsIgnoreCase(cedulaRegistrada)) {
+        	        	nombreProfesor = (String) modeloTablaProfesores.getValueAt(j, 0); 
+        	        	primeroApellido = (String) modeloTablaProfesores.getValueAt(j, 1);
+        	        	segundoApellido = (String) modeloTablaProfesores.getValueAt(j, 2);
+        	            break;
+        	        }
+        	    }
+             
+                
 
                 String filaTexto =
                         "Profesor: " + nombreProfesor + " " + primeroApellido + " " + segundoApellido + "\n" +
@@ -249,172 +385,58 @@ public class ConsultasController {
                     JOptionPane.INFORMATION_MESSAGE);
         }
     }
-    
-    
-    public void busquedaPorNumeroDeCedula(ControllerPanelConsultas panel) {
-        String varNumeroCedula = panel.campoBuscar.getText().trim();
-
-        DefaultTableModel modeloTabla = (DefaultTableModel) mainView.tablaProfesores.getModel();
-        boolean cedulaExiste = false;
-        boolean coincidencia = false;
-
-        panel.areaMostrar.setText("");
-
-        // Validar si la cédula existe en la tabla
-        for (int i = 0; i < modeloTabla.getRowCount(); i++) {
-            String cedula = (String) modeloTabla.getValueAt(i, 4);
-            if (varNumeroCedula.equalsIgnoreCase(cedula)) {
-                cedulaExiste = true;
-                break;
-            }
-        }
-
-        if (!cedulaExiste) {
-            JOptionPane.showMessageDialog(mainView,
-                    "¡El profesor con la cédula '" + varNumeroCedula + "' no existe en el sistema!", "Cédula no encontrada",
-                    JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        // Buscar profesor por cédula (si existe)
-        for (int i = 0; i < modeloTabla.getRowCount(); i++) {
-            String varTomarCedula = (String) modeloTabla.getValueAt(i, 4);
-
-            if (varNumeroCedula.equalsIgnoreCase(varTomarCedula)) {
-                coincidencia = true;
-
-                String nombreProfesor = (String) modeloTabla.getValueAt(i, 1);
-                String primeroApellido = (String) modeloTabla.getValueAt(i, 2);
-                String segundoApellido = (String) modeloTabla.getValueAt(i, 3);
-                String grupo = (String) modeloTabla.getValueAt(i, 5);
-
-                String filaTexto =
-                        "Profesor: " + nombreProfesor + " " + primeroApellido + " " + segundoApellido + "\n" +
-                        "Cédula: " + varNumeroCedula + "\n" +
-                        "Grupo: " + grupo + "\n" +
-                        "----------------------------------------\n";
-
-                panel.areaMostrar.append(filaTexto);
-            }
-        }
-
-        if (coincidencia) {
-            JOptionPane.showMessageDialog(mainView,
-                    "¡Se encontró coincidencia con el número de cédula: '" + varNumeroCedula + "'!", "Éxito",
-                    JOptionPane.INFORMATION_MESSAGE);
-        }
-    }
-
-    
-    public void busquedaPorEscuela(ControllerPanelConsultas panel) {
-        String varNombreEscuela = panel.campoBuscar.getText().trim();
-
-        DefaultTableModel modeloProfesores = (DefaultTableModel) mainView.tablaProfesores.getModel();
-        DefaultTableModel modeloCursos = (DefaultTableModel) mainView.tablaCursos.getModel();
-
-        boolean escuelaExiste = false;
-        boolean coincidencia = false;
-
-        panel.areaMostrar.setText("");
-
-        // Validar si la escuela existe en la tabla de cursos
-        for (int i = 0; i < modeloCursos.getRowCount(); i++) {
-            String nombreEscuela = (String) modeloCursos.getValueAt(i, 0);
-            if (varNombreEscuela.equalsIgnoreCase(nombreEscuela)) {
-                escuelaExiste = true;
-                break;
-            }
-        }
-
-        if (!escuelaExiste) {
-            JOptionPane.showMessageDialog(mainView,
-                    "¡La escuela '" + varNombreEscuela + "' no existe en el sistema!", "Escuela no encontrada",
-                    JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        // Buscar profesores relacionados con la escuela
-        for (int i = 0; i < modeloCursos.getRowCount(); i++) {
-            String nombreEscuela = (String) modeloCursos.getValueAt(i, 0);
-            String siglasCurso = (String) modeloCursos.getValueAt(i, 1);
-
-            if (nombreEscuela.equalsIgnoreCase(varNombreEscuela)) {
-                for (int j = 0; j < modeloProfesores.getRowCount(); j++) {
-                    String siglasProfesor = (String) modeloProfesores.getValueAt(j, 0);
-
-                    if (siglasCurso.equalsIgnoreCase(siglasProfesor)) {
-                        coincidencia = true;
-
-                        String cursoSiglas = (String) modeloProfesores.getValueAt(j, 0);
-                        String nombreProfesor = (String) modeloProfesores.getValueAt(j, 1);
-                        String primerApellido = (String) modeloProfesores.getValueAt(j, 2);
-                        String segundoApellido = (String) modeloProfesores.getValueAt(j, 3);
-                        String cedula = (String) modeloProfesores.getValueAt(j, 4);
-                        String grupo = (String) modeloProfesores.getValueAt(j, 5);
-
-                        String filaTexto =
-                                "Escuela: " + nombreEscuela + "\n" +
-                                "Curso: " + cursoSiglas + "\n" +
-                                "Profesor: " + nombreProfesor + " " + primerApellido + " " + segundoApellido + "\n" +
-                                "Cédula: " + cedula + "\n" +
-                                "Grupo: " + grupo + "\n" +
-                                "----------------------------------------\n";
-
-                        panel.areaMostrar.append(filaTexto);
-                    }
-                }
-            }
-        }
-
-        if (!coincidencia) {
-            JOptionPane.showMessageDialog(mainView,
-                    "No hay profesores asignados a la escuela: '" + varNombreEscuela + "'",
-                    "Sin profesores", JOptionPane.WARNING_MESSAGE);
-        } else {
-            JOptionPane.showMessageDialog(mainView,
-                    "¡Se encontraron profesores en la escuela: '" + varNombreEscuela + "'!",
-                    "Éxito", JOptionPane.INFORMATION_MESSAGE);
-        }
-    }
-
-    
 
     private void mostrarInformacionEscuelas() {
         DefaultTableModel modeloCursos = (DefaultTableModel) mainView.tablaCursos.getModel();
         DefaultTableModel modeloProfesores = (DefaultTableModel) mainView.tablaProfesores.getModel();
-        JTextArea areaTexto = mainView.txtAreaConsultaEscuelas;
+        DefaultTableModel modeloAsignaciones = (DefaultTableModel) mainView.tablaAsignaciones.getModel();
 
-        areaTexto.setText(""); // Limpiar contenido anterior
+        mainView.txtAreaConsultaEscuelas.setText(""); // Limpiar contenido anterior
 
         for (int i = 0; i < modeloCursos.getRowCount(); i++) {
             String nombreEscuela = (String) modeloCursos.getValueAt(i, 0);
             String siglasCurso = (String) modeloCursos.getValueAt(i, 1);
             String descripcionCurso = (String) modeloCursos.getValueAt(i, 2);
 
-            areaTexto.append("Escuela: " + nombreEscuela + "\n");
-            areaTexto.append("Curso: " + siglasCurso + " - " + descripcionCurso + " (Siglas - Descripcion)\n");
+            mainView.txtAreaConsultaEscuelas.append("Escuela: " + nombreEscuela + "\n");
+            mainView.txtAreaConsultaEscuelas.append("Curso: " + siglasCurso + " - " + descripcionCurso + " (Siglas - Descripcion)\n");
 
             boolean profesorEncontrado = false;
-            for (int j = 0; j < modeloProfesores.getRowCount(); j++) {
-                String siglasProfesor = (String) modeloProfesores.getValueAt(j, 0);
-                if (siglasCurso.equalsIgnoreCase(siglasProfesor)) {
-                    profesorEncontrado = true;
-                    String nombre = (String) modeloProfesores.getValueAt(j, 1);
-                    String apellido1 = (String) modeloProfesores.getValueAt(j, 2);
-                    String apellido2 = (String) modeloProfesores.getValueAt(j, 3);
-                    String cedula = (String) modeloProfesores.getValueAt(j, 4);
-                    String grupo = (String) modeloProfesores.getValueAt(j, 5);
-
-                    areaTexto.append("Profesor: " + nombre + " " + apellido1 + " " + apellido2 
-                    		+ ", Cédula: " + cedula + ", Grupo: " + grupo + "\n");
+            
+            // Buscar profesores asignados a este curso usando la tabla de asignaciones
+            for (int j = 0; j < modeloAsignaciones.getRowCount(); j++) {
+                String escuelaAsignacion = (String) modeloAsignaciones.getValueAt(j, 0);
+                String cedulaAsignacion = (String) modeloAsignaciones.getValueAt(j, 1);
+                String siglaAsignacion = (String) modeloAsignaciones.getValueAt(j, 2);
+                String grupoAsignacion = (String) modeloAsignaciones.getValueAt(j, 3);
+                
+                // Si coincide la escuela y las siglas del curso
+                if (nombreEscuela.equalsIgnoreCase(escuelaAsignacion) && 
+                    siglasCurso.equalsIgnoreCase(siglaAsignacion)) {
+                    
+                    // Buscar los datos del profesor en la tabla de profesores
+                    for (int k = 0; k < modeloProfesores.getRowCount(); k++) {
+                        String cedulaProfesor = (String) modeloProfesores.getValueAt(k, 3);
+                        
+                        if (cedulaAsignacion.equalsIgnoreCase(cedulaProfesor)) {
+                            profesorEncontrado = true;
+                            String nombre = (String) modeloProfesores.getValueAt(k, 0);
+                            String apellido1 = (String) modeloProfesores.getValueAt(k, 1);
+                            String apellido2 = (String) modeloProfesores.getValueAt(k, 2);
+                            
+                            mainView.txtAreaConsultaEscuelas.append("Profesor: " + nombre + " " + apellido1 + " " + apellido2 
+                                    + ", Cédula: " + cedulaAsignacion + ", Grupo: " + grupoAsignacion + "\n");
+                            break;
+                        }
+                    }
                 }
             }
 
             if (!profesorEncontrado) {
-                areaTexto.append("Profesor: No asignado\n");
+            	mainView.txtAreaConsultaEscuelas.append("Profesor: No asignado\n");
             }
 
-            areaTexto.append("-------------------------------------------\n");
+            mainView.txtAreaConsultaEscuelas.append("-------------------------------------------\n");
         }
     }
 

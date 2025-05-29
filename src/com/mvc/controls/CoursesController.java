@@ -70,12 +70,12 @@ public class CoursesController {
 		String varDescipcionDeCursos = mainView.varTxtDescripcion.getText().trim();
 		String varNombreEscuelas = mainView.varTxtEscuelaNombres.getText().trim();
 
-		// Validar que todos los campos estÈn llenos
+		// Validar que todos los campos est√©n llenos
 		if (!varSiglasCurso.isEmpty() && !varDescipcionDeCursos.isEmpty() && !varNombreEscuelas.isEmpty()) {
 			// Obtener la universidad y su lista de escuelas
 			University universidad = universidadController.getUniversidad();
 			if (universidad == null || universidad.getEscuelas() == null || universidad.getEscuelas().isEmpty()) {
-				JOptionPane.showMessageDialog(mainView, "No hay escuelas registradas en la universidad", "°Error!",
+				JOptionPane.showMessageDialog(mainView, "No hay escuelas registradas en la universidad", "¬°Error!",
 						JOptionPane.ERROR_MESSAGE);
 				return;
 			}
@@ -84,14 +84,14 @@ public class CoursesController {
 			String nombreEscuelaExacto = null;
 			for (School escuela : universidad.getEscuelas()) {
 				if (escuela.getVarName().equalsIgnoreCase(varNombreEscuelas)) {
-					nombreEscuelaExacto = escuela.getVarName(); // Obtener el nombre exacto como est· en la lista
+					nombreEscuelaExacto = escuela.getVarName(); // Obtener el nombre exacto como est√° en la lista
 					break;
 				}
 			}
 
 			// Si no se encuentra la escuela, mostrar advertencia
 			if (nombreEscuelaExacto == null) {
-				JOptionPane.showMessageDialog(mainView, "°No se encontrÛ la Escuela!", "°Advertencia!",
+				JOptionPane.showMessageDialog(mainView, "¬°No se encontr√≥ la Escuela!", "¬°Advertencia!",
 						JOptionPane.WARNING_MESSAGE);
 				return;
 			}
@@ -111,7 +111,7 @@ public class CoursesController {
 
 			// Si las siglas ya existen, mostrar advertencia
 			if (siglasExisten) {
-				JOptionPane.showMessageDialog(mainView, "°Las siglas del curso ya est·n registradas!", "°Error!",
+				JOptionPane.showMessageDialog(mainView, "¬°Las siglas del curso ya est√°n registradas!", "¬°Error!",
 						JOptionPane.ERROR_MESSAGE);
 				return;
 			}
@@ -123,15 +123,15 @@ public class CoursesController {
 			agregarDatosTabla(datos);
 			EscribirDataCursos();
 			
-			mainView.enableCursosControls(true);
+			mainView.varBtnEliminar.setEnabled(true);
 
-			JOptionPane.showMessageDialog(mainView, "°Curso registrado exitosamente!", "°…xito!",
+			JOptionPane.showMessageDialog(mainView, "¬°Curso registrado exitosamente!", "¬°√âxito!",
 					JOptionPane.INFORMATION_MESSAGE);
 			limpiarPanelCurso();
 			mostrarCursosEnTextArea();
 		} else {
-			// Si alg˙n campo est· vacÌo, mostrar advertencia
-			JOptionPane.showMessageDialog(mainView, "°Todos los campos son obligatorios!", "°Advertencia!",
+			// Si alg√∫n campo est√° vac√≠o, mostrar advertencia
+			JOptionPane.showMessageDialog(mainView, "¬°Todos los campos son obligatorios!", "¬°Advertencia!",
 					JOptionPane.WARNING_MESSAGE);
 		}
 	}
@@ -173,7 +173,7 @@ public class CoursesController {
 			if (valorCelda != null && valorCelda.toString().equalsIgnoreCase(varSiglasCurso)) {
 				modeloTabla.removeRow(i);
 				EscribirDataCursos();
-				JOptionPane.showMessageDialog(mainView, "°Se eliminÛ el curso!", "°…xito!",
+				JOptionPane.showMessageDialog(mainView, "¬°Se elimin√≥ el curso!", "¬°√âxito!",
 						JOptionPane.INFORMATION_MESSAGE);
 				seleccionado = true;
 				
@@ -182,7 +182,7 @@ public class CoursesController {
 		}
 
 		if (!seleccionado) {
-			JOptionPane.showMessageDialog(mainView, "°No se seleccionÛ el curso!", "°Advertencia!",
+			JOptionPane.showMessageDialog(mainView, "¬°No se seleccion√≥ el curso!", "¬°Advertencia!",
 					JOptionPane.WARNING_MESSAGE);
 		}
 
@@ -248,16 +248,16 @@ public class CoursesController {
 				// Actualizar datos en la tabla
 				mainView.tablaCursos.setValueAt(varDescipcionDeCursos, fila, 2);
 				EscribirDataCursos();
-				JOptionPane.showMessageDialog(mainView, "°Curso actualizado exitosamente!", "°…xito!",
+				JOptionPane.showMessageDialog(mainView, "¬°Curso actualizado exitosamente!", "¬°√âxito!",
 						JOptionPane.INFORMATION_MESSAGE);
 				limpiarPanelCurso();
 				mostrarCursosEnTextArea();
 			} else {
-				JOptionPane.showMessageDialog(mainView, "°Todos los campos son obligatorios!", "°Advertencia!",
+				JOptionPane.showMessageDialog(mainView, "¬°Todos los campos son obligatorios!", "¬°Advertencia!",
 						JOptionPane.WARNING_MESSAGE);
 			}
 		} else {
-			JOptionPane.showMessageDialog(mainView, "°Seleccione un curso para modificar!", "°Advertencia!",
+			JOptionPane.showMessageDialog(mainView, "¬°Seleccione un curso para modificar!", "¬°Advertencia!",
 					JOptionPane.WARNING_MESSAGE);
 		}
 	}
@@ -282,9 +282,9 @@ public class CoursesController {
 
 		// Validar si la escuela existe en el JTextArea
 		if (!varContenidoTxtArea.toLowerCase().contains(varNombreEscuela.toLowerCase())) {
-			JOptionPane.showMessageDialog(mainView, "°La escuela '" + varNombreEscuela + "' no existe!",
-					"°Escuela no encontrada!", JOptionPane.WARNING_MESSAGE);
-			return; // Terminar el mÈtodo aquÌ
+			JOptionPane.showMessageDialog(mainView, "¬°La escuela '" + varNombreEscuela + "' no existe!",
+					"¬°Escuela no encontrada!", JOptionPane.WARNING_MESSAGE);
+			return; // Terminar el m√©todo aqu√≠
 		}
 
 		// Obtener el modelo de la tabla de cursos
@@ -301,10 +301,10 @@ public class CoursesController {
 				// Obtener los datos del curso asociados a la tabla
 				String nombreEscuela = (String) modeloTabla.getValueAt(i, 0); // Columna 0: Nombre de la Escuela
 				String siglasCurso = (String) modeloTabla.getValueAt(i, 1); // Columna 1: Siglas del Curso
-				String descripcionCurso = (String) modeloTabla.getValueAt(i, 2); // Columna 2: DescripciÛn del Curso
+				String descripcionCurso = (String) modeloTabla.getValueAt(i, 2); // Columna 2: Descripci√≥n del Curso
 
 				// Mostrar en el JTextArea la informacion del curso
-				String filaTexto = "Escuela: " + nombreEscuela + ", Siglas: " + siglasCurso + ", DescripciÛn: "
+				String filaTexto = "Escuela: " + nombreEscuela + ", Siglas: " + siglasCurso + ", Descripci√≥n: "
 						+ descripcionCurso;
 
 				// Agregar la fila al JTextArea
@@ -312,15 +312,15 @@ public class CoursesController {
 			}
 		}
 
-		// Validar los resultados de la b˙squeda
+		// Validar los resultados de la b√∫squeda
 		if (!coincidenciaEncontrada) {
 			JOptionPane.showMessageDialog(mainView,
-					"°La escuela '" + varNombreEscuela + "' existe, pero no tiene cursos asociados!", "°Sin cursos!",
+					"¬°La escuela '" + varNombreEscuela + "' existe, pero no tiene cursos asociados!", "¬°Sin cursos!",
 					JOptionPane.WARNING_MESSAGE);
 		} else {
 
 			JOptionPane.showMessageDialog(mainView,
-					"°SÕ se encontraron cursos para la escuela '" + varNombreEscuela + "'!", "°B˙squeda exitosa!",
+					"¬°S√ç se encontraron cursos para la escuela '" + varNombreEscuela + "'!", "¬°B√∫squeda exitosa!",
 					JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
@@ -329,7 +329,7 @@ public class CoursesController {
 		mainView.varTxtSigla.setText("");
 		mainView.varTxtDescripcion.setText("");
 		mainView.varTxtEscuelaNombres.setText("");
-		mainView.tablaCursos.clearSelection(); // Limpiar selecciÛn de la tabla
+		mainView.tablaCursos.clearSelection(); // Limpiar selecci√≥n de la tabla
 
 		// Restablecer estado de los botones
 		mainView.varBtnRegistrar.setEnabled(true);
@@ -355,7 +355,7 @@ public class CoursesController {
 			String nombreCurso = modeloCursos.getValueAt(i, 2).toString();
 
 			mainView.txtAreaCursos
-					.append("Escuela: " + escuela + " | Siglas: " + siglas + " | DescrpciÛn: " + nombreCurso + "\n");
+					.append("Escuela: " + escuela + " | Siglas: " + siglas + " | Nombre: " + nombreCurso + "\n");
 		}
 	}
 
@@ -371,7 +371,7 @@ public class CoursesController {
 	private void mostrarEscuelasDisponibles() {
 		String contenido = mainView.txtAreaEscuelas.getText().trim();
 		if (contenido.isEmpty()) {
-			JOptionPane.showMessageDialog(mainView, "°No hay escuelas registradas todavÌa!", "Escuelas Disponibles",
+			JOptionPane.showMessageDialog(mainView, "¬°No hay escuelas registradas todav√≠a!", "Escuelas Disponibles",
 					JOptionPane.INFORMATION_MESSAGE);
 			return;
 		}
@@ -417,7 +417,7 @@ public class CoursesController {
 		try(FileWriter writer = new FileWriter("Cursos.json")){
 			 Gson gson = new Gson();
 			 gson.toJson(cursos,writer);
-			 JOptionPane.showMessageDialog(mainView, "°Cursos guardados correctamente en JSON!", "…xito", JOptionPane.INFORMATION_MESSAGE);
+			 JOptionPane.showMessageDialog(mainView, "¬°Cursos guardados correctamente en JSON!", "√âxito", JOptionPane.INFORMATION_MESSAGE);
 			
 		}catch(IOException e) {
 			 e.printStackTrace();

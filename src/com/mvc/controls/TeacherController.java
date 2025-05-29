@@ -86,8 +86,6 @@ public class TeacherController {
 
 		JOptionPane.showMessageDialog(mainView, "¡Profesor agregado exitosamente!", "¡Éxito!",
 				JOptionPane.INFORMATION_MESSAGE);
-		mainView.btnConsultas.setEnabled(true);
-		mainView.btnAsignacionProfesores.setEnabled(true);
 		limpiarCamposProfesor();
 		mostrarProfesoresEnTextArea();
 	}
@@ -296,14 +294,12 @@ public class TeacherController {
 		String cedula = mainView.txtCedulaAsignar.getText().trim();
 		String sigla = mainView.txtSiglasAsignar.getText().trim();
 		String grupo = mainView.txtGrupoAsignar.getText().trim();
-
 		if (cedula.isEmpty() || sigla.isEmpty() || grupo.isEmpty()) {
-			JOptionPane.showMessageDialog(mainView, "�Todos los campos son obligatorios!", "Advertencia",
+			JOptionPane.showMessageDialog(mainView, "¡Todos los campos son obligatorios!", "Advertencia",
 					JOptionPane.WARNING_MESSAGE);
 			return;
 		}
-
-		// Validaci�n de existencia del profesor
+		// Validación de existencia del profesor
 		boolean profesorExiste = false;
 		DefaultTableModel modeloProfesores = (DefaultTableModel) mainView.tablaProfesores.getModel();
 		for (int i = 0; i < modeloProfesores.getRowCount(); i++) {
@@ -313,14 +309,12 @@ public class TeacherController {
 				break;
 			}
 		}
-
 		if (!profesorExiste) {
-			JOptionPane.showMessageDialog(mainView, "�No existe un profesor con la c�dula: " + cedula + "!", "Error",
+			JOptionPane.showMessageDialog(mainView, "¡No existe un profesor con la cédula: " + cedula + "!", "Error",
 					JOptionPane.ERROR_MESSAGE);
 			return;
 		}
-
-		// Validaci�n y obtenci�n del nombre de la escuela
+		// Validación y obtención del nombre de la escuela
 		boolean cursoExiste = false;
 		String nombreEscuela = "";
 		String siglasCurso = "";
@@ -333,31 +327,43 @@ public class TeacherController {
 				break;
 			}
 		}
-
 		if (!cursoExiste) {
-			JOptionPane.showMessageDialog(mainView, "�No existe un curso con las siglas: " + sigla + "!", "Error",
+			JOptionPane.showMessageDialog(mainView, "¡No existe un curso con las siglas: " + sigla + "!", "Error",
 					JOptionPane.ERROR_MESSAGE);
 			return;
 		}
-
-		// Validar si ya existe la asignaci�n
-		DefaultTableModel modelo = (DefaultTableModel) mainView.tablaAsignaciones.getModel();
-		for (int i = 0; i < modelo.getRowCount(); i++) {
-			String cedulaExistente = modelo.getValueAt(i, 1).toString();
-			String siglaExistente = modelo.getValueAt(i, 2).toString();
-			String grupoExistente = modelo.getValueAt(i, 3).toString();
-
+		
+		// Validacion de verificar si el profesor ya está asignado a otra escuela
+		DefaultTableModel modeloAsignaciones = (DefaultTableModel) mainView.tablaAsignaciones.getModel();
+		for (int i = 0; i < modeloAsignaciones.getRowCount(); i++) {
+			String cedulaExistente = modeloAsignaciones.getValueAt(i, 1).toString();
+			if (cedula.equalsIgnoreCase(cedulaExistente)) {
+				String escuelaExistente = modeloAsignaciones.getValueAt(i, 0).toString();
+				if (!nombreEscuela.equalsIgnoreCase(escuelaExistente)) {
+					JOptionPane.showMessageDialog(mainView, 
+						"¡El profesor con cédula " + cedula + " ya está asignado a la escuela: " + escuelaExistente + 
+						"!\nUn profesor solo puede pertenecer a una escuela.", "Error de Asignación",
+						JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+			}
+		}
+		
+		// Validar si ya existe la asignación específica (mismo profesor, curso y grupo)
+		for (int i = 0; i < modeloAsignaciones.getRowCount(); i++) {
+			String cedulaExistente = modeloAsignaciones.getValueAt(i, 1).toString();
+			String siglaExistente = modeloAsignaciones.getValueAt(i, 2).toString();
+			String grupoExistente = modeloAsignaciones.getValueAt(i, 3).toString();
 			if (cedula.equalsIgnoreCase(cedulaExistente) && sigla.equalsIgnoreCase(siglaExistente)
 					&& grupo.equalsIgnoreCase(grupoExistente)) {
-
-				JOptionPane.showMessageDialog(mainView, "�Esta asignación ya existe!", "Error",
+				JOptionPane.showMessageDialog(mainView, "¡Esta asignación ya existe!", "Error",
 						JOptionPane.ERROR_MESSAGE);
 				return;
 			}
 		}
-
-		modelo.addRow(new Object[] { nombreEscuela, cedula, siglasCurso, grupo });
-		JOptionPane.showMessageDialog(mainView, "�Asignación registrada exitosamente!", "¡Éxito!",
+		
+		modeloAsignaciones.addRow(new Object[] { nombreEscuela, cedula, siglasCurso, grupo });
+		JOptionPane.showMessageDialog(mainView, "¡Asignación registrada exitosamente!", "¡Éxito!",
 				JOptionPane.INFORMATION_MESSAGE);
 		limpiarCamposAsignacion();
 	}
@@ -439,7 +445,7 @@ public class TeacherController {
 	    JPanel panelPeriodo = new JPanel();
 	    panelPeriodo.setLayout(new FlowLayout());
 
-	    JLabel labelPeriodo = new JLabel("Per�odo en a�os:");
+	    JLabel labelPeriodo = new JLabel("Período en años:");
 	    JTextField txtPeriodo = new JTextField(10);
 
 	    panelPeriodo.add(labelPeriodo);
@@ -503,7 +509,7 @@ public class TeacherController {
 	            }
 
 	        } catch (NumberFormatException e) {
-	            JOptionPane.showMessageDialog(mainView, "¡El per�odo debe ser un n�mero válido!", "¡Error!",
+	            JOptionPane.showMessageDialog(mainView, "¡El período debe ser un número válido!", "¡Error!",
 	                    JOptionPane.ERROR_MESSAGE);
 	        }
 	    }

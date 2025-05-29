@@ -2,13 +2,16 @@ package com.mvc.controls;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import com.mvc.view.MainView;
+import com.mvc.view.StudentView;
 
 public class MenuController {
     
     private MainView mainView;
+    private StudentView studentView;
     
-    public MenuController(MainView mainView) {
+    public MenuController(MainView mainView, StudentView studentView) {
         this.mainView = mainView;
+        this.studentView = studentView;
         setupMenuListeners();
     }
     
@@ -102,11 +105,19 @@ public class MenuController {
             }
         });
         
+        studentView.btnMatricular.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	studentView.showPanel("MATRICULA");
+            }
+        });
         
-        
-        // Listener para el botón Regresar del panel de consultas
-        
-        
+        studentView.btnRegresarMatricula.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	studentView.showPanel("ESTUDIANTES");
+            }
+        });
         
     }
 }
