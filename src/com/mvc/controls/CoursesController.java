@@ -1,13 +1,9 @@
 package com.mvc.controls;
 
 import java.awt.Dimension;
-import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -18,7 +14,6 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
@@ -29,14 +24,11 @@ import com.mvc.models.Courses;
 import com.mvc.models.School;
 import com.mvc.models.University;
 import com.mvc.view.MainView;
-
-import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 public class CoursesController {
 
 	private MainView mainView;
 	private Courses varCursosRegistrar;
-	private University varUniversidad;
 	private UniversityController universidadController;
 
 	public CoursesController(MainView mainView, UniversityController universidadController) {
@@ -417,7 +409,6 @@ public class CoursesController {
 		try(FileWriter writer = new FileWriter("Cursos.json")){
 			 Gson gson = new Gson();
 			 gson.toJson(cursos,writer);
-			 JOptionPane.showMessageDialog(mainView, "¡Cursos guardados correctamente en JSON!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
 			
 		}catch(IOException e) {
 			 e.printStackTrace();
@@ -456,10 +447,6 @@ public class CoursesController {
 			e.printStackTrace();
 	        JOptionPane.showMessageDialog(mainView, "Error al cargar cursos desde JSON.", "Error", JOptionPane.ERROR_MESSAGE);
 		}
-		
-		
-		
-		
 		
 		
 	}

@@ -263,7 +263,12 @@ public class TeacherController {
             mainView.txtCedulaAsignar.setText((String) modelo.getValueAt(fila, 1));
             mainView.txtSiglasAsignar.setText((String) modelo.getValueAt(fila, 2));
             mainView.txtGrupoAsignar.setText((String) modelo.getValueAt(fila, 3));
-
+            
+            mainView.btnAsignarProfesorAsig.setEnabled(false);
+			mainView.txtCedulaAsignar.setEnabled(false);
+			mainView.txtSiglasAsignar.setEnabled(false);
+			mainView.txtGrupoAsignar.setEnabled(false);
+            
             mainView.btnAsignarProfesorAsig.setEnabled(false);
             mainView.btnDesasignarProfesorAsig.setEnabled(true);
             mainView.btnAsignarDirectorAsig.setEnabled(true);

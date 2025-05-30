@@ -151,7 +151,6 @@ public class UniversityController {
             gson.toJson(varUniversidadRegistrada, writer);
             writer.flush();
             System.out.println("Objeto guardado en: " + nombreDelArchivoJson);
-            JOptionPane.showMessageDialog(mainView, "¡Universidad guardada correctamente!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
         } catch (IOException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(mainView, "Error al guardar el archivo.", "Error", JOptionPane.ERROR_MESSAGE);

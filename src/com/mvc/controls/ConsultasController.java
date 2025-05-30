@@ -4,10 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JOptionPane;
-import javax.swing.JTextArea;
 import javax.swing.table.DefaultTableModel;
 
-import com.mvc.models.Courses;
 import com.mvc.models.School;
 import com.mvc.models.University;
 import com.mvc.view.MainView;
@@ -16,7 +14,6 @@ public class ConsultasController {
 
     private MainView mainView;
     private UniversityController universidadController;
-    private TeacherController profesorController;
 
     // Paneles específicos que vienen desde MainView
     private ControllerPanelConsultas panelPorProfesor;
@@ -24,10 +21,9 @@ public class ConsultasController {
     private ControllerPanelConsultas panelPorCedula;
     private ControllerPanelConsultas panelPorEscuela;
 
-    public ConsultasController(MainView mainView, UniversityController universidadController, TeacherController profesorController) {
+    public ConsultasController(MainView mainView, UniversityController universidadController) {
         this.mainView = mainView;
         this.universidadController = universidadController;
-        this.profesorController = profesorController;
 
    
         this.panelPorProfesor = mainView.panelPorProfesor;
@@ -170,7 +166,6 @@ public class ConsultasController {
     
     public void consultarProfesorPorEscuela(ControllerPanelConsultas panel) {
         String varNombreEscuela = panel.campoBuscar.getText().trim();
-        DefaultTableModel modeloTablaCursos = (DefaultTableModel) mainView.tablaCursos.getModel();
         DefaultTableModel modeloTablaProfesores = (DefaultTableModel) mainView.tablaProfesores.getModel();
         DefaultTableModel modeloTablaAsignar = (DefaultTableModel) mainView.tablaAsignaciones.getModel();
         boolean escuelaExiste = false;
@@ -178,9 +173,9 @@ public class ConsultasController {
         panel.areaMostrar.setText("");
         
         // Validar si la escuela existe en la tabla de cursos
-        for (int i = 0; i < modeloTablaCursos.getRowCount(); i++) {
-            String nombreEscuela = (String) modeloTablaCursos.getValueAt(i, 0);
-            if (varNombreEscuela.equalsIgnoreCase(nombreEscuela)) {
+        University universidad = universidadController.getUniversidad();
+        for (School esc : universidad.getEscuelas()) {
+            if (varNombreEscuela.equalsIgnoreCase(esc.getVarName())) {
                 escuelaExiste = true;
                 break;
             }

@@ -31,7 +31,7 @@ public class Controller {
 		studentController = new StudentController(studentView);
 		
 		
-		consultasController = new ConsultasController(mainView, universidadController, teacherController);
+		consultasController = new ConsultasController(mainView, universidadController);
 		
 		mainView.btnEstudiantes.addActionListener(new ActionListener() {
             @Override

@@ -17,6 +17,7 @@ public class SchoolController {
     
     private MainView mainView;
     private UniversityController universidadController;
+	private University universidad;
     
     public SchoolController(MainView mainView, UniversityController universidadController) {
         this.mainView = mainView;
@@ -93,7 +94,7 @@ public class SchoolController {
     	Gson gson = new Gson();
     	String nombreDelArchivoJson = "Escuelas.json";
     	
-    	 University universidad = universidadController.getUniversidad();
+    	 universidad = universidadController.getUniversidad();
     	  
     	if(universidad !=null || universidad.getEscuelas().isEmpty()) {
     		// JOptionPane.showMessageDialog(mainView, "No hay escuelas para guardar.", "Error", JOptionPane.WARNING_MESSAGE);

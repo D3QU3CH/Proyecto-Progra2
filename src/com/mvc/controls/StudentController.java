@@ -249,7 +249,7 @@ public class StudentController {
 			studentView.txtCarnet.setText(carnet);
 			studentView.boxNacionalidad.setSelectedItem(nacionalidad);
 
-			if (!porcentaje.equalsIgnoreCase("No aplica")) {
+			if (!porcentaje.equalsIgnoreCase("No aplica")) { 
 				studentView.txtPorcentajeBeca.setText(porcentaje.replace("%", ""));
 			} else {
 				studentView.txtPorcentajeBeca.setText("");
