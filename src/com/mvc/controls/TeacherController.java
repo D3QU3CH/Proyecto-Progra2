@@ -3,6 +3,7 @@ package com.mvc.controls;
 import com.google.gson.Gson;
 import com.mvc.models.Teacher;
 import com.mvc.view.MainView;
+import com.mvc.view.StudentView;
 import com.mvc.models.University;
 import com.mvc.models.School;
 import com.mvc.controls.UniversityController;
@@ -25,10 +26,13 @@ public class TeacherController {
 
     private MainView mainView;
     private UniversityController universityController;
+    private StudentView studentView;
 
-    public TeacherController(MainView mainView, UniversityController universityController) {
+    public TeacherController(MainView mainView, UniversityController universityController, StudentView studentView
+) {
         this.mainView = mainView;
         this.universityController = universityController;
+        this.studentView = studentView;
 
         // Acciones normales
         agregarProfesorActionListener();
@@ -60,48 +64,52 @@ public class TeacherController {
         });
     }
 
- // Método de agregar y asignar profesor
+ // Método de agregar profesor
     public void agregarProfesor() {
-    	String nombre = mainView.txtNombreProfesor.getText().trim();
-    	String apellido1 = mainView.txtPrimerApe.getText().trim();
-    	String apellido2 = mainView.txtSegundoApe.getText().trim();
-    	String cedula = mainView.txtCedula.getText().trim();
+        String nombre = mainView.txtNombreProfesor.getText().trim();
+        String apellido1 = mainView.txtPrimerApe.getText().trim();
+        String apellido2 = mainView.txtSegundoApe.getText().trim();
+        String cedula = mainView.txtCedula.getText().trim();
 
-    	// Validar campos vacíos
-    	if (nombre.isEmpty() || apellido1.isEmpty() || apellido2.isEmpty() || cedula.isEmpty()) {
-    		JOptionPane.showMessageDialog(mainView, "¡Todos los campos son obligatorios!", "¡Advertencia!",
-    				JOptionPane.WARNING_MESSAGE);
-    		return;
-    	}
+        if (nombre.isEmpty() || apellido1.isEmpty() || apellido2.isEmpty() || cedula.isEmpty()) {
+            JOptionPane.showMessageDialog(mainView, "Todos los campos son obligatorios", "Advertencia",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
 
-    	// Validar que la cédula contenga solo números
-    	if (!cedula.matches("\\d+")) {
-    		JOptionPane.showMessageDialog(mainView, "¡La cédula debe contener solo números!", "¡Error!",
-    				JOptionPane.ERROR_MESSAGE);
-    		return;
-    	}
+        if (!cedula.matches("\\d+")) {
+            JOptionPane.showMessageDialog(mainView, "La cédula debe contener solo números", "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
-    	// Verificar si ya existe un profesor con esa cédula
-    	DefaultTableModel modeloProfesores = (DefaultTableModel) mainView.tablaProfesores.getModel();
+        // Validar que no exista un profesor con esa cédula
+        DefaultTableModel modeloProfesores = (DefaultTableModel) mainView.tablaProfesores.getModel();
+        for (int i = 0; i < modeloProfesores.getRowCount(); i++) {
+            if (modeloProfesores.getValueAt(i, 3).equals(cedula)) {
+                JOptionPane.showMessageDialog(mainView, "Ya existe un profesor con esa cédula", "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        }
 
-    	for (int i = 0; i < modeloProfesores.getRowCount(); i++) {
-    		String cedulaRegistrada = (String) modeloProfesores.getValueAt(i, 3);
-    		if (cedula.equalsIgnoreCase(cedulaRegistrada)) {
-    			JOptionPane.showMessageDialog(mainView, "¡Ya existe un profesor con esa cédula!", "¡Error!",
-    					JOptionPane.ERROR_MESSAGE);
-    			return;
-    		}
-    	}
+        // Validar que no exista un estudiante con esa cédula
+        DefaultTableModel modeloEstudiantes = (DefaultTableModel) studentView.tablaEstudiantes.getModel();
+        for (int i = 0; i < modeloEstudiantes.getRowCount(); i++) {
+            if (modeloEstudiantes.getValueAt(i, 2).equals(cedula)) { 
+                JOptionPane.showMessageDialog(mainView, "Ya existe un estudiante con esa cédula", "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        }
 
-    	// Registrar profesor
-    	Object[] fila = { nombre, apellido1, apellido2, cedula };
-    	modeloProfesores.addRow(fila);
-
-    	JOptionPane.showMessageDialog(mainView, "¡Profesor agregado exitosamente!", "¡Éxito!",
-    			JOptionPane.INFORMATION_MESSAGE);
-    	limpiarCamposProfesor();
-    	mostrarProfesoresEnTextArea();
-    	escribirDataProfesores();
+        // Agregar profesor
+        modeloProfesores.addRow(new Object[]{nombre, apellido1, apellido2, cedula});
+        JOptionPane.showMessageDialog(mainView, "Profesor agregado exitosamente", "Éxito",
+                JOptionPane.INFORMATION_MESSAGE);
+        limpiarCamposProfesor();
+        mostrarProfesoresEnTextArea();
+        escribirDataProfesores();
     }
 
     private void modificarProfesorActionListener() {

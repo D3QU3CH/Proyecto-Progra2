@@ -21,9 +21,10 @@ public class StudentController {
 	private StudentView studentView;
 	private ArrayList<Student> estudiantesList = new ArrayList<>();
 
-	public StudentController(StudentView studentView,MainView pMainview) {
+	public StudentController(StudentView studentView, MainView pMainview) {
 		this.studentView = studentView;
-		this.mainView=pMainview;
+		this.mainView = pMainview;
+
 		nacionalidadComboBoxActionListener();
 		limpiarFormularioEstudiante();
 		agregarEstudianteActionListener();
@@ -33,23 +34,28 @@ public class StudentController {
 		eliminarEstudianteActionListener();
 		setupTableEstudiantesgSelectionListener();
 		setupBtnDeseleccionarTablaActionListener();
+
+		matricularEstudianteActionListener();
+		setupBtnDeseleccionarTablaMatriculaActionListener();
+		setupTableMatriculaSelectionListener();
+		desmatricularEstudianteActionListener();
 	}
-	
+
 	private void nacionalidadComboBoxActionListener() {
-	    studentView.boxNacionalidad.addActionListener(new ActionListener() {
-	        @Override
-	        public void actionPerformed(ActionEvent e) {
-	            String nacionalidadSeleccionada = (String) studentView.boxNacionalidad.getSelectedItem();
-	            if ("Extranjero".equals(nacionalidadSeleccionada)) {
-	                studentView.txtPorcentajeBeca.setEnabled(false);
-	                studentView.txtPorcentajeBeca.setText(""); 
-	            } else {
-	                studentView.txtPorcentajeBeca.setEnabled(true);
-	            }
-	        }
-	    });
+		studentView.boxNacionalidad.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String nacionalidadSeleccionada = (String) studentView.boxNacionalidad.getSelectedItem();
+				if ("Extranjero".equals(nacionalidadSeleccionada)) {
+					studentView.txtPorcentajeBeca.setEnabled(false);
+					studentView.txtPorcentajeBeca.setText("");
+				} else {
+					studentView.txtPorcentajeBeca.setEnabled(true);
+				}
+			}
+		});
 	}
-	
+
 	// agregar estudiante action Listener
 	private void agregarEstudianteActionListener() {
 		studentView.btnAgregarEstudiante.addActionListener(new ActionListener() {
@@ -60,9 +66,7 @@ public class StudentController {
 			}
 		});
 	}
-	
-	
-	
+
 	public void agregarEstudiante() {
 		String cedula = studentView.txtCedula.getText().trim();
 		String carnet = studentView.txtCarnet.getText().trim();
@@ -70,71 +74,83 @@ public class StudentController {
 		String apellidos = studentView.txtApellidos.getText().trim();
 		String nacionalidad = (String) studentView.boxNacionalidad.getSelectedItem();
 		String porcentajeBecaTexto = studentView.txtPorcentajeBeca.getText().trim();
-		
-		if (!cedula.trim().matches("\\d+")) {
-			JOptionPane.showMessageDialog(studentView.estudiantesPanel, "La cedula debe contener solo números.",
+
+		boolean esExtranjero = "Extranjero".equalsIgnoreCase(nacionalidad);
+
+		// Validación de campos obligatorios
+		if (cedula.isEmpty() || carnet.isEmpty() || nombre.isEmpty() || apellidos.isEmpty()
+				|| (!esExtranjero && porcentajeBecaTexto.isEmpty())) {
+			JOptionPane.showMessageDialog(studentView.estudiantesPanel,
+					"¡Todos los campos obligatorios deben estar llenos!", "Advertencia", JOptionPane.WARNING_MESSAGE);
+			return;
+		}
+
+		// Validación: Solo números para cédula y carnet
+		if (!cedula.matches("\\d+")) {
+			JOptionPane.showMessageDialog(studentView.estudiantesPanel, "La cédula debe contener solo números.",
 					"Error", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 
-		if (!carnet.trim().matches("\\d+")) {
+		if (!carnet.matches("\\d+")) {
 			JOptionPane.showMessageDialog(studentView.estudiantesPanel, "El carnet debe contener solo números.",
 					"Error", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 
-
-		// Validaci�n: Todos los campos obligatorios llenos
-		if (!cedula.isEmpty() && !carnet.isEmpty() && !nombre.isEmpty() && !apellidos.isEmpty()) {
-
-			// Validaci�n: No permitir c�dula ni carnet repetido
-			for (Student s : estudiantesList) {
-				if (s.getVarId().equalsIgnoreCase(cedula)) {
-					JOptionPane.showMessageDialog(studentView.estudiantesPanel,
-							"Ya existe un estudiante con esa cedula.", "Error", JOptionPane.ERROR_MESSAGE);
-					return;
-				}
-				if (s.getVarCarnet().equalsIgnoreCase(carnet)) {
-					JOptionPane.showMessageDialog(studentView.estudiantesPanel,
-							"Ya existe un estudiante con ese carnet.", "Error", JOptionPane.ERROR_MESSAGE);
-					return;
-				}
+		// Validación: No permitir cédula ni carnet repetido
+		for (Student s : estudiantesList) {
+			if (s.getVarId().equalsIgnoreCase(cedula)) {
+				JOptionPane.showMessageDialog(studentView.estudiantesPanel, "Ya existe un estudiante con esa cédula.",
+						"Error", JOptionPane.ERROR_MESSAGE);
+				return;
 			}
-
-			Student estudiante;
-
-			if ("Nacional".equalsIgnoreCase(nacionalidad)) {
-				double porcentajeBeca = 0.0;
-				if (!porcentajeBecaTexto.isEmpty()) {
-					try {
-						porcentajeBeca = Double.parseDouble(porcentajeBecaTexto);
-					} catch (NumberFormatException e) {
-						JOptionPane.showMessageDialog(studentView.estudiantesPanel, "Porcentaje de beca inv�lido",
-								"Error", JOptionPane.ERROR_MESSAGE);
-						return;
-					}
-				}
-				estudiante = new StudentNational(cedula, carnet, nombre, apellidos, nacionalidad, porcentajeBeca);
-			} else {
-				estudiante = new StudentForeign(cedula, carnet, nombre, apellidos, nacionalidad);
+			if (s.getVarCarnet().equalsIgnoreCase(carnet)) {
+				JOptionPane.showMessageDialog(studentView.estudiantesPanel, "Ya existe un estudiante con ese carnet.",
+						"Error", JOptionPane.ERROR_MESSAGE);
+				return;
 			}
-
-			// Agregar a la tabla
-			DefaultTableModel modelo = (DefaultTableModel) studentView.tablaEstudiantes.getModel();
-			modelo.addRow(new Object[] { estudiante.getVarName(), estudiante.getVarLastnames(), estudiante.getVarId(),
-					estudiante.getVarCarnet(), estudiante.getVarNationality(),
-					estudiante instanceof StudentNational
-							? ((StudentNational) estudiante).getVarScholarshipPercentage() + "%"
-							: "No aplica" });
-
-			estudiantesList.add(estudiante);
-			JOptionPane.showMessageDialog(studentView.estudiantesPanel, "!Estudiante registrado exitosamente!", "!Éxito",
-					JOptionPane.INFORMATION_MESSAGE);
-			limpiarFormularioEstudiante();
-		} else {
-			JOptionPane.showMessageDialog(studentView.estudiantesPanel,
-					"!Todos los campos obligatorios deben estar llenos!", "Advertencia", JOptionPane.WARNING_MESSAGE);
 		}
+
+		// Validación: No permitir que la cédula coincida con un profesor
+		DefaultTableModel modeloProfesores = (DefaultTableModel) mainView.tablaProfesores.getModel();
+		for (int i = 0; i < modeloProfesores.getRowCount(); i++) {
+			String cedulaProfesor = modeloProfesores.getValueAt(i, 3).toString();
+			if (cedula.equalsIgnoreCase(cedulaProfesor)) {
+				JOptionPane.showMessageDialog(studentView.estudiantesPanel, "Ya existe un profesor con esa cédula.",
+						"Error", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+		}
+
+		// Crear estudiante
+		Student estudiante;
+		if (esExtranjero) {
+			estudiante = new StudentForeign(cedula, carnet, nombre, apellidos, nacionalidad);
+		} else {
+			double porcentajeBeca;
+			try {
+				porcentajeBeca = Double.parseDouble(porcentajeBecaTexto);
+			} catch (NumberFormatException e) {
+				JOptionPane.showMessageDialog(studentView.estudiantesPanel, "Porcentaje de beca inválido", "Error",
+						JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			estudiante = new StudentNational(cedula, carnet, nombre, apellidos, nacionalidad, porcentajeBeca);
+		}
+
+		// Agregar a tabla y lista
+		DefaultTableModel modelo = (DefaultTableModel) studentView.tablaEstudiantes.getModel();
+		modelo.addRow(new Object[] { estudiante.getVarName(), estudiante.getVarLastnames(), estudiante.getVarId(),
+				estudiante.getVarCarnet(), estudiante.getVarNationality(),
+				(estudiante instanceof StudentNational)
+						? ((StudentNational) estudiante).getVarScholarshipPercentage() + "%"
+						: "No aplica" });
+		estudiantesList.add(estudiante);
+
+		JOptionPane.showMessageDialog(studentView.estudiantesPanel, "¡Estudiante registrado exitosamente!", "Éxito",
+				JOptionPane.INFORMATION_MESSAGE);
+		limpiarFormularioEstudiante();
 	}
 
 	// modificar estudiante action Listener
@@ -153,32 +169,74 @@ public class StudentController {
 			String nombre = studentView.txtNombre.getText().trim();
 			String apellidos = studentView.txtApellidos.getText().trim();
 			String nacionalidad = (String) studentView.boxNacionalidad.getSelectedItem();
+			String porcentajeBecaTexto = studentView.txtPorcentajeBeca.getText().trim();
+			boolean esExtranjero = "Extranjero".equalsIgnoreCase(nacionalidad);
 
 			if (!nombre.isEmpty() && !apellidos.isEmpty()) {
 				String cedula = (String) studentView.tablaEstudiantes.getValueAt(fila, 2);
 
-				for (Student estudiante : estudiantesList) {
+				for (int i = 0; i < estudiantesList.size(); i++) {
+					Student estudiante = estudiantesList.get(i);
 					if (estudiante.getVarId().equalsIgnoreCase(cedula)) {
 						estudiante.setVarName(nombre);
 						estudiante.setVarLastnames(apellidos);
 						estudiante.setVarNationality(nacionalidad);
 
+						// Si antes era nacional y ahora es extranjero, convertirlo
+						if (esExtranjero && estudiante instanceof StudentNational) {
+							estudiante = new StudentForeign(estudiante.getVarId(), estudiante.getVarCarnet(), nombre,
+									apellidos, nacionalidad);
+							estudiantesList.set(i, estudiante);
+							studentView.txtPorcentajeBeca.setText("No aplica");
+							studentView.txtPorcentajeBeca.setEditable(false);
+
+						} else if (!esExtranjero && estudiante instanceof StudentForeign) {
+							// Convertir de extranjero a nacional con beca
+							double porcentaje;
+							try {
+								porcentaje = Double.parseDouble(porcentajeBecaTexto);
+							} catch (NumberFormatException e) {
+								JOptionPane.showMessageDialog(studentView.estudiantesPanel,
+										"Porcentaje de beca inválido.", "Error", JOptionPane.ERROR_MESSAGE);
+								return;
+							}
+
+							estudiante = new StudentNational(estudiante.getVarId(), estudiante.getVarCarnet(), nombre,
+									apellidos, nacionalidad, porcentaje);
+							estudiantesList.set(i, estudiante);
+							studentView.txtPorcentajeBeca.setEditable(true);
+						} else if (estudiante instanceof StudentNational) {
+							// Si sigue siendo nacional, solo actualizar porcentaje
+							try {
+								double porcentaje = Double.parseDouble(porcentajeBecaTexto);
+								((StudentNational) estudiante).setVarScholarshipPercentage(porcentaje);
+							} catch (NumberFormatException e) {
+								JOptionPane.showMessageDialog(studentView.estudiantesPanel,
+										"Porcentaje de beca inválido.", "Error", JOptionPane.ERROR_MESSAGE);
+								return;
+							}
+						}
+
+						// Actualizar tabla visual
 						DefaultTableModel modelo = (DefaultTableModel) studentView.tablaEstudiantes.getModel();
 						modelo.setValueAt(nombre, fila, 0);
 						modelo.setValueAt(apellidos, fila, 1);
 						modelo.setValueAt(nacionalidad, fila, 4);
+						modelo.setValueAt(estudiante instanceof StudentNational
+								? ((StudentNational) estudiante).getVarScholarshipPercentage() + "%"
+								: "No aplica", fila, 5);
 
 						JOptionPane.showMessageDialog(studentView.estudiantesPanel,
-								"!Estudiante modificado exitosamente!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+								"¡Estudiante modificado exitosamente!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
 						return;
 					}
 				}
 			} else {
 				JOptionPane.showMessageDialog(studentView.estudiantesPanel,
-						"!Nombre y apellidos no pueden estar vac�os!", "Advertencia", JOptionPane.WARNING_MESSAGE);
+						"¡Nombre y apellidos no pueden estar vacíos!", "Advertencia", JOptionPane.WARNING_MESSAGE);
 			}
 		} else {
-			JOptionPane.showMessageDialog(studentView.estudiantesPanel, "!Seleccione un estudiante para modificar!",
+			JOptionPane.showMessageDialog(studentView.estudiantesPanel, "¡Seleccione un estudiante para modificar!",
 					"Advertencia", JOptionPane.WARNING_MESSAGE);
 		}
 	}
@@ -219,6 +277,7 @@ public class StudentController {
 		}
 
 		limpiarFormularioEstudiante();
+		limpiarPanelEstudiante();
 	}
 
 	private void setupTableEstudiantesgSelectionListener() {
@@ -252,7 +311,7 @@ public class StudentController {
 			studentView.txtCarnet.setText(carnet);
 			studentView.boxNacionalidad.setSelectedItem(nacionalidad);
 
-			if (!porcentaje.equalsIgnoreCase("No aplica")) { 
+			if (!porcentaje.equalsIgnoreCase("No aplica")) {
 				studentView.txtPorcentajeBeca.setText(porcentaje.replace("%", ""));
 			} else {
 				studentView.txtPorcentajeBeca.setText("");
@@ -282,32 +341,42 @@ public class StudentController {
 	}
 
 	public void buscarEstudiante() {
-		String cedula = studentView.txtCedula.getText().trim();
-		String carnet = studentView.txtCarnet.getText().trim();
+		String cedula = studentView.txtBuscarEstudiante.getText().trim();
+
+		if (cedula.isEmpty()) {
+			JOptionPane.showMessageDialog(studentView.panelBusquedaEstudiante, "Debe ingresar una cédula.", "Error",
+					JOptionPane.ERROR_MESSAGE);
+			return;
+		}
 
 		for (Student estudiante : estudiantesList) {
-			if (estudiante.getVarId().equalsIgnoreCase(cedula) || estudiante.getVarCarnet().equalsIgnoreCase(carnet)) {
-				studentView.txtNombre.setText(estudiante.getVarName());
-				studentView.txtApellidos.setText(estudiante.getVarLastnames());
-				studentView.txtCedula.setText(estudiante.getVarId());
-				studentView.txtCarnet.setText(estudiante.getVarCarnet());
-				studentView.boxNacionalidad.setSelectedItem(estudiante.getVarNationality());
+			if (estudiante.getVarId().equalsIgnoreCase(cedula)) {
+				StringBuilder datos = new StringBuilder();
+				datos.append("Nombre: ").append(estudiante.getVarName()).append(" ")
+						.append(estudiante.getVarLastnames()).append("\n");
+				datos.append("Cédula: ").append(estudiante.getVarId()).append("\n");
+				datos.append("Carnet: ").append(estudiante.getVarCarnet()).append("\n");
+				datos.append("Nacionalidad: ").append(estudiante.getVarNationality()).append("\n");
 
 				if (estudiante instanceof StudentNational) {
-					studentView.txtPorcentajeBeca
-							.setText(String.valueOf(((StudentNational) estudiante).getVarScholarshipPercentage()));
+					datos.append("Porcentaje de beca: ")
+							.append(((StudentNational) estudiante).getVarScholarshipPercentage()).append("%\n");
 				} else {
-					studentView.txtPorcentajeBeca.setText("");
+					datos.append("Porcentaje de beca: No aplica\n");
 				}
 
-				JOptionPane.showMessageDialog(studentView.estudiantesPanel, "!Estudiante encontrado!", "�xito",
+				studentView.showTextAreaEstudiante.setText(datos.toString());
+
+				JOptionPane.showMessageDialog(studentView.panelBusquedaEstudiante, "¡Estudiante encontrado!", "Éxito",
 						JOptionPane.INFORMATION_MESSAGE);
 				return;
 			}
 		}
 
-		JOptionPane.showMessageDialog(studentView.estudiantesPanel, "!Estudiante no encontrado!", "Error",
+		// Si no se encontró el estudiante
+		JOptionPane.showMessageDialog(studentView.panelBusquedaEstudiante, "Estudiante no encontrado.", "Error",
 				JOptionPane.ERROR_MESSAGE);
+		studentView.showTextAreaEstudiante.setText("");
 	}
 
 	private void setupBtnDeseleccionarTablaActionListener() {
@@ -327,7 +396,7 @@ public class StudentController {
 		studentView.txtPorcentajeBeca.setText("");
 		studentView.boxNacionalidad.setSelectedIndex(0);
 
-		studentView.tablaEstudiantes.clearSelection(); // Limpiar selecci�n de tabla
+		studentView.tablaEstudiantes.clearSelection();
 
 		// Restaurar botones y campos
 		studentView.btnAgregarEstudiante.setEnabled(true);
@@ -350,108 +419,353 @@ public class StudentController {
 		studentView.txtPorcentajeBeca.setText("");
 		studentView.boxNacionalidad.setSelectedIndex(0);
 	}
-	
+
 	public void mostrarEstudiadesEnPanelMatricula() {
-		
-		
+
 		studentView.txtAreaEstudiantes.setText("");
 		DefaultTableModel modeloEstudiantes = (DefaultTableModel) studentView.tablaEstudiantes.getModel();
-		
-		for(int i =0;i<modeloEstudiantes.getRowCount();i++) {
-			
+
+		for (int i = 0; i < modeloEstudiantes.getRowCount(); i++) {
+
 			String nombre = (String) modeloEstudiantes.getValueAt(i, 0);
 			String apellidos = (String) modeloEstudiantes.getValueAt(i, 1);
 			String cedula = (String) modeloEstudiantes.getValueAt(i, 2);
 			String carnet = (String) modeloEstudiantes.getValueAt(i, 3);
 			String nacionalidad = (String) modeloEstudiantes.getValueAt(i, 4);
 			String porcentaje = (String) modeloEstudiantes.getValueAt(i, 5);
-			
-			
-			String toString = "Nombre: " + nombre +
-	                 " | Apellidos: " + apellidos +
-	                 " | Cedula: " + cedula +
-	                 " | Carnet: " + carnet +
-	                 " | Nacionalidad: " + nacionalidad +
-	                 " | Porcentaje: " + porcentaje + "\n";
-			
+
+			String toString = "Nombre: " + nombre + " | Apellidos: " + apellidos + " | Cedula: " + cedula
+					+ " | Carnet: " + carnet + " | Nacionalidad: " + nacionalidad + " | Porcentaje: " + porcentaje
+					+ "\n";
+
 			studentView.txtAreaEstudiantes.append(toString);
-			
+
 		}
-		
+
 	}
-	
+
 	public void mostrarEstudiadesEnPanelMatriculaCursosDisponibles() {
 		studentView.txtAreaCursosDisponibles.setText("");
-	    DefaultTableModel modeloProfesoresAsignados = (DefaultTableModel) mainView.tablaAsignaciones.getModel();
-	    DefaultTableModel modeloTablaCursos = (DefaultTableModel) mainView.tablaCursos.getModel();
-	    DefaultTableModel modeloTablaProfesores = (DefaultTableModel) mainView.tablaProfesores.getModel();
+		DefaultTableModel modeloProfesoresAsignados = (DefaultTableModel) mainView.tablaAsignaciones.getModel();
+		DefaultTableModel modeloTablaCursos = (DefaultTableModel) mainView.tablaCursos.getModel();
+		DefaultTableModel modeloTablaProfesores = (DefaultTableModel) mainView.tablaProfesores.getModel();
 
-	    String resultado = ""; // Variable String en vez de StringBuilder
+		String resultado = ""; // Variable String en vez de StringBuilder
 
-	    for (int i = 0; i < modeloProfesoresAsignados.getRowCount(); i++) {
+		for (int i = 0; i < modeloProfesoresAsignados.getRowCount(); i++) {
 
-	        String getSiglasCurso = (String) modeloProfesoresAsignados.getValueAt(i, 2);
-	        String getCedulaProfesor = (String) modeloProfesoresAsignados.getValueAt(i, 1);
+			String getSiglasCurso = (String) modeloProfesoresAsignados.getValueAt(i, 2);
+			String getCedulaProfesor = (String) modeloProfesoresAsignados.getValueAt(i, 1);
 
-	        // Validar siglas
-	        if (getSiglasCurso == null || getSiglasCurso.trim().isEmpty()) {
-	            System.out.println("Siglas vacías en fila " + i);
-	            continue;
-	        }
+			// Validar siglas
+			if (getSiglasCurso == null || getSiglasCurso.trim().isEmpty()) {
+				System.out.println("Siglas vacías en fila " + i);
+				continue;
+			}
 
-	        // Buscar curso por siglas
-	        boolean cursoEncontrado = false;
-	        for (int j = 0; j < modeloTablaCursos.getRowCount(); j++) {
-	            String siglasEnCursos = (String) modeloTablaCursos.getValueAt(j, 1);
-	            if (siglasEnCursos != null && siglasEnCursos.equalsIgnoreCase(getSiglasCurso)) {
-	                String escuela = (String) modeloTablaCursos.getValueAt(j, 0);
-	                String nombreCurso = (String) modeloTablaCursos.getValueAt(j, 2);
+			// Buscar curso por siglas
+			boolean cursoEncontrado = false;
+			for (int j = 0; j < modeloTablaCursos.getRowCount(); j++) {
+				String siglasEnCursos = (String) modeloTablaCursos.getValueAt(j, 1);
+				if (siglasEnCursos != null && siglasEnCursos.equalsIgnoreCase(getSiglasCurso)) {
+					String escuela = (String) modeloTablaCursos.getValueAt(j, 0);
+					String nombreCurso = (String) modeloTablaCursos.getValueAt(j, 2);
 
+					// Concatenamos al String
+					resultado += "Curso: " + nombreCurso + " | Escuela: " + escuela + " | Siglas: " + siglasEnCursos
+							+ "\n";
 
-	                // Concatenamos al String
-	                resultado += "Curso: " + nombreCurso
-	                           + " | Escuela: " + escuela
-	                           + " | Siglas: " + siglasEnCursos + "\n";
+					cursoEncontrado = true;
+					break;
+				}
+			}
 
-	                cursoEncontrado = true;
-	                break;
-	            }
-	        }
+			if (!cursoEncontrado) {
+				resultado += "Curso no encontrado para siglas: " + getSiglasCurso + "\n";
+			}
 
-	        if (!cursoEncontrado) {
-	            resultado += "Curso no encontrado para siglas: " + getSiglasCurso + "\n";
-	        }
+			// Buscar profesor por cédula
+			boolean profesorEncontrado = false;
+			for (int k = 0; k < modeloTablaProfesores.getRowCount(); k++) {
 
-	        // Buscar profesor por cédula
-	        boolean profesorEncontrado = false;
-	        for (int k = 0; k < modeloTablaProfesores.getRowCount(); k++) {
-	        	
-	            String cedulaProfesor = (String) modeloTablaProfesores.getValueAt(k, 3);
-	            if (cedulaProfesor != null && cedulaProfesor.equalsIgnoreCase(getCedulaProfesor)) {
-	                String nombre = (String) modeloTablaProfesores.getValueAt(k, 0);
-	                String apellido1 = (String) modeloTablaProfesores.getValueAt(k, 1);
-	                String apellido2 = (String) modeloTablaProfesores.getValueAt(k, 2);
+				String cedulaProfesor = (String) modeloTablaProfesores.getValueAt(k, 3);
+				if (cedulaProfesor != null && cedulaProfesor.equalsIgnoreCase(getCedulaProfesor)) {
+					String nombre = (String) modeloTablaProfesores.getValueAt(k, 0);
+					String apellido1 = (String) modeloTablaProfesores.getValueAt(k, 1);
+					String apellido2 = (String) modeloTablaProfesores.getValueAt(k, 2);
 
-	                resultado += "Profesor: " + nombre + " " + apellido1 + " " + apellido2
-	                           + " | Cédula: " + cedulaProfesor + "\n\n"; // Salto de línea al final
+					resultado += "Profesor: " + nombre + " " + apellido1 + " " + apellido2 + " | Cédula: "
+							+ cedulaProfesor + "\n\n"; // Salto de línea al final
 
-	                profesorEncontrado = true;
-	                break;
-	            }
-	        }
+					profesorEncontrado = true;
+					break;
+				}
+			}
 
-	        if (!profesorEncontrado) {
-	            resultado += "Profesor no encontrado para cedula: " + getCedulaProfesor + "\n\n";
-	        }
-	    }
+			if (!profesorEncontrado) {
+				resultado += "Profesor no encontrado para cedula: " + getCedulaProfesor + "\n\n";
+			}
+		}
 		studentView.txtAreaCursosDisponibles.append(resultado);
-	    // Mostrar el resultado final
-	    System.out.print(resultado); // o usar .println si prefieres línea nueva automática
+		// Mostrar el resultado final
+		System.out.print(resultado); // o usar .println si prefieres línea nueva automática
 	}
-	
-	
-	
-	
-	
+
+	// metodos de matricula de estudiante
+
+	private void matricularEstudianteActionListener() {
+		studentView.btnMatricularEstudiante.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				matricularEstudiante();
+			}
+		});
+	}
+
+	public void matricularEstudiante() {
+		String cedulaEst = studentView.txtCedulaEstudianteMatricula.getText().trim();
+		String cedulaProf = studentView.txtCedulaProfesorMatricula.getText().trim();
+		String siglaCurso = studentView.txtSiglaCursoMatricula.getText().trim();
+		String grupo = studentView.txtGrupoMatricula.getText().trim();
+
+		// Validar campos vacíos
+		if (cedulaEst.isEmpty() || cedulaProf.isEmpty() || siglaCurso.isEmpty() || grupo.isEmpty()) {
+			JOptionPane.showMessageDialog(studentView.matriculaPanel, "Todos los campos deben estar llenos.", "Error",
+					JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+
+		// Validar existencia del estudiante
+		boolean estudianteExiste = false;
+		String escuelaEst = "";
+		for (int i = 0; i < studentView.tablaEstudiantes.getRowCount(); i++) {
+			if (studentView.tablaEstudiantes.getValueAt(i, 2).toString().equals(cedulaEst)) {
+				estudianteExiste = true;
+				escuelaEst = studentView.tablaEstudiantes.getValueAt(i, 0).toString(); // Asegurate que es columna 0
+				break;
+			}
+		}
+
+		if (!estudianteExiste) {
+			JOptionPane.showMessageDialog(studentView.matriculaPanel, "El estudiante no existe.", "Error",
+					JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+
+		// Validar existencia del profesor
+		boolean profesorExiste = false;
+		for (int i = 0; i < mainView.tablaProfesores.getRowCount(); i++) {
+			if (mainView.tablaProfesores.getValueAt(i, 3).toString().equals(cedulaProf)) {
+				profesorExiste = true;
+				break;
+			}
+		}
+
+		if (!profesorExiste) {
+			JOptionPane.showMessageDialog(studentView.matriculaPanel, "El profesor no existe.", "Error",
+					JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+
+		// Validar existencia del curso y obtener escuela del curso
+		boolean cursoExiste = false;
+		String escuelaCurso = "";
+		for (int i = 0; i < mainView.tablaCursos.getRowCount(); i++) {
+			if (mainView.tablaCursos.getValueAt(i, 1).toString().equalsIgnoreCase(siglaCurso)) {
+				cursoExiste = true;
+				escuelaCurso = mainView.tablaCursos.getValueAt(i, 0).toString(); // Columna 0 = escuela
+				break;
+			}
+		}
+
+		if (!cursoExiste) {
+			JOptionPane.showMessageDialog(studentView.matriculaPanel, "El curso no existe.", "Error",
+					JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+
+		// Validar si el estudiante ya está matriculado en otra escuela
+		for (int i = 0; i < studentView.tablaMatriculas.getRowCount(); i++) {
+			String cedulaMatriculada = studentView.tablaMatriculas.getValueAt(i, 1).toString();
+			String escuelaYaMatriculada = studentView.tablaMatriculas.getValueAt(i, 0).toString();
+			if (cedulaMatriculada.equals(cedulaEst) && !escuelaYaMatriculada.equals(escuelaCurso)) {
+				JOptionPane.showMessageDialog(studentView.matriculaPanel,
+						"Este estudiante ya está matriculado en otra escuela.", "Error", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+		}
+
+		// Validar grupo
+		boolean grupoExiste = false;
+		for (int i = 0; i < mainView.tablaAsignaciones.getRowCount(); i++) {
+			if (mainView.tablaAsignaciones.getValueAt(i, 3).toString().equalsIgnoreCase(grupo)) {
+				grupoExiste = true;
+				break;
+			}
+		}
+
+		if (!grupoExiste) {
+			JOptionPane.showMessageDialog(studentView.matriculaPanel, "El grupo no existe.", "Error",
+					JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+
+		// Validar que el profesor esté asignado a ese curso
+		boolean asignadoAlCurso = false;
+		for (int i = 0; i < mainView.tablaAsignaciones.getRowCount(); i++) {
+			String cedulaAsignada = mainView.tablaAsignaciones.getValueAt(i, 1).toString();
+			String siglaAsignada = mainView.tablaAsignaciones.getValueAt(i, 2).toString();
+			if (cedulaAsignada.equals(cedulaProf) && siglaAsignada.equalsIgnoreCase(siglaCurso)) {
+				asignadoAlCurso = true;
+				break;
+			}
+		}
+
+		if (!asignadoAlCurso) {
+			JOptionPane.showMessageDialog(studentView.matriculaPanel, "Ese profesor no está asignado a ese curso.",
+					"Error", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+
+		// Validar que no esté ya matriculado en ese curso
+		for (int i = 0; i < studentView.tablaMatriculas.getRowCount(); i++) {
+			String cedulaMatriculada = studentView.tablaMatriculas.getValueAt(i, 1).toString();
+			String siglaMatriculada = studentView.tablaMatriculas.getValueAt(i, 4).toString();
+			if (cedulaMatriculada.equals(cedulaEst) && siglaMatriculada.equalsIgnoreCase(siglaCurso)) {
+				JOptionPane.showMessageDialog(studentView.matriculaPanel,
+						"Este estudiante ya está matriculado en ese curso.", "Error", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+		}
+
+		// Asignar créditos aleatorios 3 o 4
+		int creditos = (Math.random() < 0.5) ? 3 : 4;
+
+		DefaultTableModel modelo = (DefaultTableModel) studentView.tablaMatriculas.getModel();
+		modelo.addRow(new Object[] { escuelaEst, cedulaEst, cedulaProf, grupo, siglaCurso, creditos });
+
+		JOptionPane.showMessageDialog(studentView.matriculaPanel, "¡Estudiante matriculado exitosamente!", "Éxito",
+				JOptionPane.INFORMATION_MESSAGE);
+
+		// Limpiar campos
+		studentView.txtCedulaEstudianteMatricula.setText("");
+		studentView.txtCedulaProfesorMatricula.setText("");
+		studentView.txtSiglaCursoMatricula.setText("");
+		studentView.txtGrupoMatricula.setText("");
+	}
+
+	// desmatricular estudiante action Listener
+	private void desmatricularEstudianteActionListener() {
+		studentView.btnDesmatricularEstudiante.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				desmatricularEstudiante();
+			}
+		});
+	}
+
+	public void desmatricularEstudiante() {
+		int filaSeleccionada = studentView.tablaMatriculas.getSelectedRow();
+
+		if (filaSeleccionada == -1) {
+			JOptionPane.showMessageDialog(studentView.matriculaPanel, "Debe seleccionar una matrícula para eliminar.",
+					"Advertencia", JOptionPane.WARNING_MESSAGE);
+			return;
+		}
+
+		int confirmacion = JOptionPane.showConfirmDialog(studentView.matriculaPanel,
+				"¿Está seguro que desea eliminar esta matrícula?", "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
+
+		if (confirmacion == JOptionPane.YES_OPTION) {
+			DefaultTableModel modelo = (DefaultTableModel) studentView.tablaMatriculas.getModel();
+			modelo.removeRow(filaSeleccionada);
+
+			JOptionPane.showMessageDialog(studentView.matriculaPanel, "¡Matrícula eliminada exitosamente!", "Éxito",
+					JOptionPane.INFORMATION_MESSAGE);
+
+			// Limpiar campos
+			studentView.txtCedulaEstudianteMatricula.setText("");
+			studentView.txtCedulaProfesorMatricula.setText("");
+			studentView.txtSiglaCursoMatricula.setText("");
+			studentView.txtGrupoMatricula.setText("");
+
+			// Reactivar campos y botones
+			studentView.txtCedulaEstudianteMatricula.setEnabled(true);
+			studentView.txtCedulaProfesorMatricula.setEnabled(true);
+			studentView.txtSiglaCursoMatricula.setEnabled(true);
+			studentView.txtGrupoMatricula.setEnabled(true);
+			studentView.btnMatricularEstudiante.setEnabled(true);
+			studentView.btnDesmatricularEstudiante.setEnabled(false);
+			studentView.btnDeseleccionarTablaMatricula.setEnabled(false);
+		}
+	}
+
+	private void setupTableMatriculaSelectionListener() {
+		studentView.tablaMatriculas.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				if (!e.getValueIsAdjusting()) {
+					llenarFormularioDesdeTablaMatricula();
+				}
+			}
+		});
+
+	}
+
+	private void llenarFormularioDesdeTablaMatricula() {
+		int fila = studentView.tablaMatriculas.getSelectedRow();
+
+		if (fila != -1) {
+			DefaultTableModel modelo = (DefaultTableModel) studentView.tablaMatriculas.getModel();
+
+			String cedulaEstudiante = (String) modelo.getValueAt(fila, 1);
+			String cedulaProfesor = (String) modelo.getValueAt(fila, 2);
+			String grupoCurso = (String) modelo.getValueAt(fila, 3);
+			String siglaCurso = (String) modelo.getValueAt(fila, 4);
+
+			studentView.txtCedulaEstudianteMatricula.setText(cedulaEstudiante);
+			studentView.txtCedulaProfesorMatricula.setText(cedulaProfesor);
+			studentView.txtSiglaCursoMatricula.setText(siglaCurso);
+			studentView.txtGrupoMatricula.setText(grupoCurso);
+
+			studentView.txtCedulaEstudianteMatricula.setEnabled(false);
+			studentView.txtCedulaProfesorMatricula.setEnabled(false);
+			studentView.txtSiglaCursoMatricula.setEnabled(false);
+			studentView.txtGrupoMatricula.setEnabled(false);
+
+			studentView.btnMatricularEstudiante.setEnabled(false);
+			studentView.btnDesmatricularEstudiante.setEnabled(true);
+			studentView.btnDeseleccionarTablaMatricula.setEnabled(true);
+		}
+	}
+
+	private void setupBtnDeseleccionarTablaMatriculaActionListener() {
+		studentView.btnDeseleccionarTablaMatricula.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				limpiarPanelMatricula();
+			}
+		});
+	}
+
+	private void limpiarPanelMatricula() {
+		studentView.txtCedulaEstudianteMatricula.setText("");
+		studentView.txtCedulaProfesorMatricula.setText("");
+		studentView.txtSiglaCursoMatricula.setText("");
+		studentView.txtGrupoMatricula.setText("");
+
+		studentView.tablaMatriculas.clearSelection();
+
+		studentView.btnMatricularEstudiante.setEnabled(true);
+
+		studentView.txtCedulaEstudianteMatricula.setEnabled(true);
+		studentView.txtCedulaProfesorMatricula.setEnabled(true);
+		studentView.txtSiglaCursoMatricula.setEnabled(true);
+		studentView.txtGrupoMatricula.setEnabled(true);
+
+		studentView.btnDesmatricularEstudiante.setEnabled(false);
+		studentView.btnDeseleccionarTablaMatricula.setEnabled(false);
+
+	}
 
 }
