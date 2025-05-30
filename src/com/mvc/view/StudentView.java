@@ -199,8 +199,8 @@ public class StudentView extends JFrame {
 	//========================= ATRIBUTOS PARA MatriculaEstudiantesPanel() =========================
 	// Panel de matr�cula de estudiantes
 	public JPanel matriculaPanel;
-	private JTextArea txtAreaEstudiantes;
-	private JTextArea txtAreaCursosDisponibles;
+	public JTextArea txtAreaEstudiantes;
+	public JTextArea txtAreaCursosDisponibles;
 	private JScrollPane scrollPaneEstudiantesArea;
 	private JScrollPane scrollPaneCursosArea;
 

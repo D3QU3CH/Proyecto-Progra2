@@ -9,11 +9,15 @@ public class MenuController {
     private MainView mainView;
     private StudentView studentView;
     
+    private StudentController studentController;
+
     public MenuController(MainView mainView, StudentView studentView) {
         this.mainView = mainView;
         this.studentView = studentView;
+        this.studentController = new StudentController(studentView, mainView); // ✅ Aquí ya están inicializados
         setupMenuListeners();
     }
+    
     
     private void setupMenuListeners() {
         mainView.setupMenuListeners(
@@ -108,6 +112,7 @@ public class MenuController {
         studentView.btnMatricular.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+            	studentController.mostrarEstudiadesEnPanelMatriculaCursosDisponibles();
             	studentView.showPanel("MATRICULA");
             }
         });
