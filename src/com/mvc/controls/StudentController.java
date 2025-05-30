@@ -3,6 +3,7 @@ package com.mvc.controls;
 import com.mvc.models.Student;
 import com.mvc.models.StudentNational;
 import com.mvc.models.StudentForeign;
+import com.mvc.view.MainView;
 import com.mvc.view.StudentView;
 
 import javax.swing.*;
@@ -16,12 +17,13 @@ import java.util.ArrayList;
 
 public class StudentController {
 
+	private MainView mainView;
 	private StudentView studentView;
 	private ArrayList<Student> estudiantesList = new ArrayList<>();
 
-	public StudentController(StudentView studentView) {
+	public StudentController(StudentView studentView,MainView pMainview) {
 		this.studentView = studentView;
-		
+		this.mainView=pMainview;
 		nacionalidadComboBoxActionListener();
 		limpiarFormularioEstudiante();
 		agregarEstudianteActionListener();
@@ -54,6 +56,7 @@ public class StudentController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				agregarEstudiante();
+				mostrarEstudiadesEnPanelMatricula();
 			}
 		});
 	}
@@ -67,19 +70,19 @@ public class StudentController {
 		String apellidos = studentView.txtApellidos.getText().trim();
 		String nacionalidad = (String) studentView.boxNacionalidad.getSelectedItem();
 		String porcentajeBecaTexto = studentView.txtPorcentajeBeca.getText().trim();
-
-		// Validaci�n: Solo n�meros en c�dula y carnet
-		if (!cedula.matches("\\d+")) {
-			JOptionPane.showMessageDialog(studentView.estudiantesPanel, "La c�dula debe contener solo números.",
+		
+		if (!cedula.trim().matches("\\d+")) {
+			JOptionPane.showMessageDialog(studentView.estudiantesPanel, "La cedula debe contener solo números.",
 					"Error", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 
-		if (!carnet.matches("\\d+")) {
+		if (!carnet.trim().matches("\\d+")) {
 			JOptionPane.showMessageDialog(studentView.estudiantesPanel, "El carnet debe contener solo números.",
 					"Error", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
+
 
 		// Validaci�n: Todos los campos obligatorios llenos
 		if (!cedula.isEmpty() && !carnet.isEmpty() && !nombre.isEmpty() && !apellidos.isEmpty()) {
@@ -88,7 +91,7 @@ public class StudentController {
 			for (Student s : estudiantesList) {
 				if (s.getVarId().equalsIgnoreCase(cedula)) {
 					JOptionPane.showMessageDialog(studentView.estudiantesPanel,
-							"Ya existe un estudiante con esa cédula.", "Error", JOptionPane.ERROR_MESSAGE);
+							"Ya existe un estudiante con esa cedula.", "Error", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 				if (s.getVarCarnet().equalsIgnoreCase(carnet)) {
@@ -347,5 +350,108 @@ public class StudentController {
 		studentView.txtPorcentajeBeca.setText("");
 		studentView.boxNacionalidad.setSelectedIndex(0);
 	}
+	
+	public void mostrarEstudiadesEnPanelMatricula() {
+		
+		
+		studentView.txtAreaEstudiantes.setText("");
+		DefaultTableModel modeloEstudiantes = (DefaultTableModel) studentView.tablaEstudiantes.getModel();
+		
+		for(int i =0;i<modeloEstudiantes.getRowCount();i++) {
+			
+			String nombre = (String) modeloEstudiantes.getValueAt(i, 0);
+			String apellidos = (String) modeloEstudiantes.getValueAt(i, 1);
+			String cedula = (String) modeloEstudiantes.getValueAt(i, 2);
+			String carnet = (String) modeloEstudiantes.getValueAt(i, 3);
+			String nacionalidad = (String) modeloEstudiantes.getValueAt(i, 4);
+			String porcentaje = (String) modeloEstudiantes.getValueAt(i, 5);
+			
+			
+			String toString = "Nombre: " + nombre +
+	                 " | Apellidos: " + apellidos +
+	                 " | Cedula: " + cedula +
+	                 " | Carnet: " + carnet +
+	                 " | Nacionalidad: " + nacionalidad +
+	                 " | Porcentaje: " + porcentaje + "\n";
+			
+			studentView.txtAreaEstudiantes.append(toString);
+			
+		}
+		
+	}
+	
+	public void mostrarEstudiadesEnPanelMatriculaCursosDisponibles() {
+		studentView.txtAreaCursosDisponibles.setText("");
+	    DefaultTableModel modeloProfesoresAsignados = (DefaultTableModel) mainView.tablaAsignaciones.getModel();
+	    DefaultTableModel modeloTablaCursos = (DefaultTableModel) mainView.tablaCursos.getModel();
+	    DefaultTableModel modeloTablaProfesores = (DefaultTableModel) mainView.tablaProfesores.getModel();
+
+	    String resultado = ""; // Variable String en vez de StringBuilder
+
+	    for (int i = 0; i < modeloProfesoresAsignados.getRowCount(); i++) {
+
+	        String getSiglasCurso = (String) modeloProfesoresAsignados.getValueAt(i, 2);
+	        String getCedulaProfesor = (String) modeloProfesoresAsignados.getValueAt(i, 1);
+
+	        // Validar siglas
+	        if (getSiglasCurso == null || getSiglasCurso.trim().isEmpty()) {
+	            System.out.println("Siglas vacías en fila " + i);
+	            continue;
+	        }
+
+	        // Buscar curso por siglas
+	        boolean cursoEncontrado = false;
+	        for (int j = 0; j < modeloTablaCursos.getRowCount(); j++) {
+	            String siglasEnCursos = (String) modeloTablaCursos.getValueAt(j, 1);
+	            if (siglasEnCursos != null && siglasEnCursos.equalsIgnoreCase(getSiglasCurso)) {
+	                String escuela = (String) modeloTablaCursos.getValueAt(j, 0);
+	                String nombreCurso = (String) modeloTablaCursos.getValueAt(j, 2);
+
+
+	                // Concatenamos al String
+	                resultado += "Curso: " + nombreCurso
+	                           + " | Escuela: " + escuela
+	                           + " | Siglas: " + siglasEnCursos + "\n";
+
+	                cursoEncontrado = true;
+	                break;
+	            }
+	        }
+
+	        if (!cursoEncontrado) {
+	            resultado += "Curso no encontrado para siglas: " + getSiglasCurso + "\n";
+	        }
+
+	        // Buscar profesor por cédula
+	        boolean profesorEncontrado = false;
+	        for (int k = 0; k < modeloTablaProfesores.getRowCount(); k++) {
+	        	
+	            String cedulaProfesor = (String) modeloTablaProfesores.getValueAt(k, 3);
+	            if (cedulaProfesor != null && cedulaProfesor.equalsIgnoreCase(getCedulaProfesor)) {
+	                String nombre = (String) modeloTablaProfesores.getValueAt(k, 0);
+	                String apellido1 = (String) modeloTablaProfesores.getValueAt(k, 1);
+	                String apellido2 = (String) modeloTablaProfesores.getValueAt(k, 2);
+
+	                resultado += "Profesor: " + nombre + " " + apellido1 + " " + apellido2
+	                           + " | Cédula: " + cedulaProfesor + "\n\n"; // Salto de línea al final
+
+	                profesorEncontrado = true;
+	                break;
+	            }
+	        }
+
+	        if (!profesorEncontrado) {
+	            resultado += "Profesor no encontrado para cedula: " + getCedulaProfesor + "\n\n";
+	        }
+	    }
+		studentView.txtAreaCursosDisponibles.append(resultado);
+	    // Mostrar el resultado final
+	    System.out.print(resultado); // o usar .println si prefieres línea nueva automática
+	}
+	
+	
+	
+	
+	
 
 }
