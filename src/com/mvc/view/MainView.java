@@ -28,6 +28,7 @@ public class MainView extends JFrame {
 	public ControllerPanelConsultas panelPorCurso;
 	public ControllerPanelConsultas panelPorCedula;
 	public ControllerPanelConsultas panelPorEscuela;
+	public ControllerPanelConsultas estudiantesPanelPorCedula;
 
 	public MainView() {
 		setTitle("Sistema de Gestión Universitaria");
@@ -286,6 +287,7 @@ public class MainView extends JFrame {
 		txtAreaEscuelas.setEditable(false);
 		txtAreaEscuelas.setFont(new Font("Arial", Font.BOLD, 20));
 		txtAreaEscuelas.setBorder(BorderFactory.createEtchedBorder());
+		txtAreaEscuelas.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
 		scrollPaneEscuelas = new JScrollPane(txtAreaEscuelas);
 		panelConsultaEscuelas.add(scrollPaneEscuelas, BorderLayout.CENTER);
@@ -447,6 +449,7 @@ public class MainView extends JFrame {
 		showTextArea = new JTextArea(10, 20);
 		showTextArea.setEditable(false);
 		showTextArea.setFont(new Font("Arial", Font.BOLD, 20));
+		showTextArea.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
 		JScrollPane scrollBusqueda = new JScrollPane(showTextArea);
 		panelBusquedaForm.add(scrollBusqueda, BorderLayout.CENTER);
@@ -639,6 +642,7 @@ public class MainView extends JFrame {
 		txtAreaProfesores = new JTextArea(10, 30);
 		txtAreaProfesores.setFont(new Font("Arial", Font.PLAIN, 12));
 		txtAreaProfesores.setEditable(false);
+		txtAreaProfesores.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		scrollPaneProfesoresArea = new JScrollPane(txtAreaProfesores);
 		panelProfesores.add(scrollPaneProfesoresArea, BorderLayout.CENTER);
 
@@ -649,6 +653,7 @@ public class MainView extends JFrame {
 		txtAreaCursos = new JTextArea(10, 30);
 		txtAreaCursos.setFont(new Font("Arial", Font.PLAIN, 12));
 		txtAreaCursos.setEditable(false);
+		txtAreaCursos.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		scrollPaneCursosArea = new JScrollPane(txtAreaCursos);
 		panelCursos.add(scrollPaneCursosArea, BorderLayout.CENTER);
 
@@ -822,6 +827,8 @@ public class MainView extends JFrame {
 		JTextArea areaMostrar = new JTextArea(10, 20);
 		areaMostrar.setEditable(false);
 		areaMostrar.setFont(new Font("Arial", Font.PLAIN, 20));
+		areaMostrar.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		
 
 		JScrollPane scrollResultado = new JScrollPane(areaMostrar);
 		varPanelFormulario.add(scrollResultado, BorderLayout.CENTER);
@@ -863,6 +870,7 @@ public class MainView extends JFrame {
 		txtAreaDirectores.setEditable(false);
 		txtAreaDirectores.setFont(new Font("Arial", Font.PLAIN, 20));
 		txtAreaDirectores.setBorder(BorderFactory.createEtchedBorder());
+		txtAreaDirectores.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
 		scrollPaneDirectores = new JScrollPane(txtAreaDirectores);
 		panelContenidoDirectores.add(scrollPaneDirectores, BorderLayout.CENTER);
@@ -901,6 +909,7 @@ public class MainView extends JFrame {
 		txtAreaConsultaEscuelas.setEditable(false);
 		txtAreaConsultaEscuelas.setFont(new Font("Arial", Font.PLAIN, 20));
 		txtAreaConsultaEscuelas.setBorder(BorderFactory.createEtchedBorder());
+		txtAreaConsultaEscuelas.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
 		scrollPanelConsultaEscuelas = new JScrollPane(txtAreaConsultaEscuelas);
 		panelContenido.add(scrollPanelConsultaEscuelas, BorderLayout.CENTER);

@@ -1,1 +1,34 @@
-[]
+[
+  {
+    "varName": "Andrés",
+    "varFirstSurname": "Salazar",
+    "varSecondSurname": "Vargas",
+    "varId": "104561234",
+    "varGroup": "Informática",
+    "varSiglasCourses": "INF101-G1"
+  },
+  {
+    "varName": "Laura",
+    "varFirstSurname": "Méndez",
+    "varSecondSurname": "Chacón",
+    "varId": "209345678",
+    "varGroup": "Matemática",
+    "varSiglasCourses": "MAT101-G1"
+  },
+  {
+    "varName": "Andrés",
+    "varFirstSurname": "Salazar",
+    "varSecondSurname": "Vargas",
+    "varId": "104561234",
+    "varGroup": "Informática",
+    "varSiglasCourses": "INF101-G2"
+  },
+  {
+    "varName": "María Fernanda",
+    "varFirstSurname": "Zúñiga",
+    "varSecondSurname": "Soto",
+    "varId": "308237766",
+    "varGroup": "Matemática",
+    "varSiglasCourses": "MAT101-G1"
+  }
+]

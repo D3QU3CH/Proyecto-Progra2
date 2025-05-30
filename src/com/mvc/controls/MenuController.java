@@ -119,5 +119,63 @@ public class MenuController {
             }
         });
         
+        studentView.btnBuscarEstudiante.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	studentView.showPanel("BUSQUEDA_ESTUDIANTE");
+            }
+        });
+        
+        studentView.btnRegresarBusquedaEstudiante.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	studentView.showPanel("ESTUDIANTES");
+            }
+        });
+        
+        studentView.btnEstudiantesMatriculados.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	studentView.showPanel("ESTUDIANTES_MATRICULADOS");
+            }
+        });
+        
+        studentView.btnRegresarEstudiantesMatriculados.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	studentView.showPanel("MATRICULA");
+            }
+        });
+        
+        studentView.btnConsultaCursosPorEstudiante.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	studentView.showPanel("BUSQUEDA_CURSOS");
+            }
+        });
+        
+        studentView.btnRegresarBusquedaCursos.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	studentView.showPanel("MATRICULA");
+            }
+        });
+        
+        studentView.btnPagoCreditos.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	studentView.showPanel("PAGO_CREDITOS");
+            }
+        });
+        
+        studentView.btnRegresarPagoCreditos.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	studentView.showPanel("MATRICULA");
+            }
+        });
+        
+        
+        
     }
 }

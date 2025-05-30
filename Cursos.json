@@ -1,1 +1,27 @@
-[{"varSiglas":"MATE11","varDescripcion":"MATESS","varNombreEscuela":"MATE"},{"varSiglas":"eif","varDescripcion":"Fundamentos de Info","varNombreEscuela":"A"},{"varSiglas":"eif202","varDescripcion":"progra5","varNombreEscuela":"A"},{"varSiglas":"MED","varDescripcion":"Medicina","varNombreEscuela":"A"}]
+[
+  {
+    "varSiglas": "INF101",
+    "varDescripcion": "Introducción a la Programación",
+    "varNombreEscuela": "Informática"
+  },
+  {
+    "varSiglas": "INF302",
+    "varDescripcion": "Inteligencia Artificial",
+    "varNombreEscuela": "Informática"
+  },
+  {
+    "varSiglas": "MAT101",
+    "varDescripcion": "Cálculo I",
+    "varNombreEscuela": "Matemática"
+  },
+  {
+    "varSiglas": "MAT102",
+    "varDescripcion": "Álgebra Lineal",
+    "varNombreEscuela": "Matemática"
+  },
+  {
+    "varSiglas": "ADM101",
+    "varDescripcion": "Fundamentos de Administración",
+    "varNombreEscuela": "Administración"
+  }
+]

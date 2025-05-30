@@ -12,40 +12,41 @@ public class StudentView extends JFrame {
     public StudentView() {
         setTitle("Gestion de Estudiantes");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(800, 600);
+        setSize(1100, 600);
         setLocationRelativeTo(null);
-        setResizable(false);
+        //setResizable(false);
         
         // Panel principal con CardLayout
         mainPanel = new JPanel(new CardLayout());
         
         EstudiantesPanel();
         MatriculaEstudiantesPanel();
+        BusquedaEstudiantePanel(); 
+        EstudiantesMatriculadosPanel();
+        BusquedaCursosPanel();
+        PagoCreditosPanel();
         
         // Agregar paneles al CardLayout
         mainPanel.add(estudiantesPanel, "ESTUDIANTES");
         mainPanel.add(matriculaPanel, "MATRICULA");
+        mainPanel.add(panelBusquedaEstudiante, "BUSQUEDA_ESTUDIANTE");
+        mainPanel.add(panelConsultaEstudiantesMatriculados, "ESTUDIANTES_MATRICULADOS");
+        mainPanel.add(panelBusquedaCursos, "BUSQUEDA_CURSOS");
+        mainPanel.add(panelConsultaPagoCreditos, "PAGO_CREDITOS");
         
         add(mainPanel);
         setVisible(false);
     }
 
-    // Panel principal con CardLayout
+ // Panel principal con CardLayout
     private JPanel mainPanel;
-    private CardLayout cardLayout;
 
+    // ========================= ATRIBUTOS PARA EstudiantesPanel() =========================
     // Panel de estudiantes original
     public JPanel estudiantesPanel;
     private JPanel panelRegistroEstudiantes;
     private JPanel panelConsultaEstudiantes;
     private JPanel panelOpcionesEstudiantes;
-
-    // Panel de matr�cula de estudiantes
-    public JPanel matriculaPanel;
-    private JTextArea txtAreaEstudiantes;
-    private JTextArea txtAreaCursosDisponibles;
-    private JScrollPane scrollPaneEstudiantesArea;
-    private JScrollPane scrollPaneCursosArea;
 
     // Campos del formulario de estudiantes
     private JLabel lblNombre;
@@ -62,11 +63,6 @@ public class StudentView extends JFrame {
     public JComboBox<String> boxNacionalidad;
     public JTextField txtPorcentajeBeca;
 
-    // Campos del formulario de matr�cula
-    public JTextField txtCedulaEstudianteMatricula;
-    public JTextField txtCedulaProfesorMatricula;
-    public JTextField txtSiglaCursoMatricula;
-
     // Botones de estudiantes
     public JButton btnModificarEstudiante;
     public JButton btnAgregarEstudiante;
@@ -76,24 +72,9 @@ public class StudentView extends JFrame {
     public JButton btnBuscarEstudiante;
     public JButton btnRegresarGestionUniversidad;
 
-    // Botones de matr�cula
-    public JButton btnMatricularEstudiante;
-    public JButton btnDesmatricularEstudiante;
-    public JButton btnDeseleccionarTablaMatricula;
-    public JButton btnRegresarMatricula;
-
-    // Botones de opciones de matr�cula
-    public JButton btnEstudiantesMatriculados;
-    public JButton btnConsultaCursosPorEstudiante;
-    public JButton btnPagoCreditos;
-
     // Tabla de estudiantes
     public JTable tablaEstudiantes;
     private JScrollPane scrollPaneEstudiantes;
-
-    // Tabla de matr�culas
-    public JTable tablaMatriculas;
-    private JScrollPane scrollPaneMatriculas;
 
     private void EstudiantesPanel() {
         estudiantesPanel = new JPanel(new BorderLayout(10, 10));
@@ -126,6 +107,8 @@ public class StudentView extends JFrame {
         lblNacionalidad = new JLabel("Nacionalidad:");
         lblNacionalidad.setFont(new Font("Arial", Font.BOLD, 14));
         boxNacionalidad = new JComboBox<>(new String[] { "Nacional", "Extranjero" });
+        
+        
         boxNacionalidad.setFont(new Font("Arial", Font.PLAIN, 14));
 
         lblPorcentajeBeca = new JLabel("Porcentaje de Beca:");
@@ -150,7 +133,7 @@ public class StudentView extends JFrame {
         panelConsultaEstudiantes = new JPanel(new BorderLayout(10, 10));
         panelConsultaEstudiantes.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        String[] columnasEstudiantes = { "Nombre", "Apellidos", "Cedula", "Carnet", "Nacionalidad", "Porcentaje Beca" };
+        String[] columnasEstudiantes = { "Nombre", "Apellidos", "Cédula", "Carnet", "Nacionalidad", "Porcentaje Beca" };
         DefaultTableModel modeloEstudiantes = new DefaultTableModel(columnasEstudiantes, 0);
         tablaEstudiantes = new JTable(modeloEstudiantes);
         tablaEstudiantes.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -175,7 +158,7 @@ public class StudentView extends JFrame {
         btnDeseleccionarTabla.setFont(new Font("Arial", Font.BOLD, 12));
         btnDeseleccionarTabla.setEnabled(false);
 
-        btnRegresarGestionUniversidad = new JButton("Regresar a GESTION DE UNIVERSIDAD");
+        btnRegresarGestionUniversidad = new JButton("Regresar a GESTIÓN DE UNIVERSIDAD");
         btnRegresarGestionUniversidad.setFont(new Font("Arial", Font.BOLD, 12));
         btnRegresarGestionUniversidad.setEnabled(true);
 
@@ -191,10 +174,10 @@ public class StudentView extends JFrame {
         JPanel buttonsPanelEst = new JPanel(new GridLayout(3, 1, 10, 10));
 
         btnModificarEstudiante = new JButton("Modificar Estudiante");
-        btnBuscarEstudiante = new JButton("Buscar Estudiante");
+        btnBuscarEstudiante  = new JButton("Buscar Estudiante");
         btnMatricular = new JButton("Matricular");
 
-        JButton[] botonesEstudiantes = { btnModificarEstudiante, btnBuscarEstudiante, btnMatricular };
+        JButton[] botonesEstudiantes = { btnModificarEstudiante, btnBuscarEstudiante , btnMatricular };
         for (JButton btn : botonesEstudiantes) {
             btn.setFont(new Font("Arial", Font.BOLD, 12));
             btn.setEnabled(true);
@@ -213,7 +196,35 @@ public class StudentView extends JFrame {
 
         estudiantesPanel.add(contentEstudiantes, BorderLayout.CENTER);
     }
+	//========================= ATRIBUTOS PARA MatriculaEstudiantesPanel() =========================
+	// Panel de matr�cula de estudiantes
+	public JPanel matriculaPanel;
+	private JTextArea txtAreaEstudiantes;
+	private JTextArea txtAreaCursosDisponibles;
+	private JScrollPane scrollPaneEstudiantesArea;
+	private JScrollPane scrollPaneCursosArea;
 
+	// Campos del formulario de matr�cula
+	public JTextField txtCedulaEstudianteMatricula;
+	public JTextField txtCedulaProfesorMatricula;
+	public JTextField txtSiglaCursoMatricula;
+	public JTextField txtGrupoMatricula; // Campo adicional para grupo
+
+	// Botones de matr�cula
+	public JButton btnMatricularEstudiante;
+	public JButton btnDesmatricularEstudiante;
+	public JButton btnDeseleccionarTablaMatricula;
+	public JButton btnRegresarMatricula;
+
+	// Botones de opciones de matr�cula
+	public JButton btnEstudiantesMatriculados;
+	public JButton btnConsultaCursosPorEstudiante;
+	public JButton btnPagoCreditos;
+
+	// Tabla de matr�culas
+	public JTable tablaMatriculas;
+	private JScrollPane scrollPaneMatriculas;
+	
     private void MatriculaEstudiantesPanel() {
         matriculaPanel = new JPanel(new BorderLayout(10, 10));
         matriculaPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
@@ -237,7 +248,7 @@ public class StudentView extends JFrame {
 
         // Panel de cursos disponibles
         JPanel panelCursosDisponibles = new JPanel(new BorderLayout(5, 5));
-        panelCursosDisponibles.setBorder(BorderFactory.createTitledBorder("Cursos Disponibles"));
+        panelCursosDisponibles.setBorder(BorderFactory.createTitledBorder("Información de Cursos Disponibles"));
 
         txtAreaCursosDisponibles = new JTextArea(10, 30);
         txtAreaCursosDisponibles.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -248,27 +259,33 @@ public class StudentView extends JFrame {
         panelTextAreas.add(panelEstudiantes);
         panelTextAreas.add(panelCursosDisponibles);
 
-        // Panel de campos de entrada en fila con etiquetas
-        JPanel panelCampos = new JPanel(new GridLayout(2, 3, 10, 5));
+        // Panel de campos de entrada en fila con etiquetas (cambiado a 2x4 para incluir Grupo)
+        JPanel panelCampos = new JPanel(new GridLayout(2, 4, 10, 5));
 
-        JLabel lblCedulaEstudianteMatricula = new JLabel("Cedula de estudiante:");
+        JLabel lblCedulaEstudianteMatricula = new JLabel("Cédula de Estudiante:");
         lblCedulaEstudianteMatricula.setFont(new Font("Arial", Font.BOLD, 12));
         txtCedulaEstudianteMatricula = new JTextField();
 
-        JLabel lblCedulaProfesorMatricula = new JLabel("Cedula Profesor:");
+        JLabel lblCedulaProfesorMatricula = new JLabel("Cédula Profesor:");
         lblCedulaProfesorMatricula.setFont(new Font("Arial", Font.BOLD, 12));
         txtCedulaProfesorMatricula = new JTextField();
 
-        JLabel lblSiglaCursoMatricula = new JLabel("Sigla del curso:");
+        JLabel lblGrupoMatricula = new JLabel("Grupo:");
+        lblGrupoMatricula.setFont(new Font("Arial", Font.BOLD, 12));
+        txtGrupoMatricula = new JTextField();
+
+        JLabel lblSiglaCursoMatricula = new JLabel("Sigla del Curso:");
         lblSiglaCursoMatricula.setFont(new Font("Arial", Font.BOLD, 12));
         txtSiglaCursoMatricula = new JTextField();
 
         panelCampos.add(lblCedulaEstudianteMatricula);
         panelCampos.add(lblCedulaProfesorMatricula);
+        panelCampos.add(lblGrupoMatricula);
         panelCampos.add(lblSiglaCursoMatricula);
 
         panelCampos.add(txtCedulaEstudianteMatricula);
         panelCampos.add(txtCedulaProfesorMatricula);
+        panelCampos.add(txtGrupoMatricula);
         panelCampos.add(txtSiglaCursoMatricula);
 
         JPanel panelSuperior = new JPanel(new BorderLayout(10, 10));
@@ -282,7 +299,7 @@ public class StudentView extends JFrame {
         JPanel panelTabla = new JPanel(new BorderLayout(5, 5));
         panelTabla.setBorder(BorderFactory.createTitledBorder("Matriculas Realizadas"));
 
-        String[] columnasMatriculas = { "Escuela", "Cedula Estudiante", "Cedula Profesor", "Siglas Curso", "Creditos" };
+        String[] columnasMatriculas = { "Escuela", "Cédula Estudiante", "Cédula Profesor", "Grupo", "Siglas Curso", "Créditos" };
         DefaultTableModel modeloMatriculas = new DefaultTableModel(columnasMatriculas, 0);
         tablaMatriculas = new JTable(modeloMatriculas);
         tablaMatriculas.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -298,9 +315,9 @@ public class StudentView extends JFrame {
 
         JPanel buttonsPanelMatricula = new JPanel(new GridLayout(3, 1, 10, 10));
 
-        btnEstudiantesMatriculados = new JButton("Estudiantes matriculados");
-        btnConsultaCursosPorEstudiante = new JButton("Consulta de cursos por estudiante");
-        btnPagoCreditos = new JButton("Pago de creditos");
+        btnEstudiantesMatriculados = new JButton("Estudiantes Matriculados");
+        btnConsultaCursosPorEstudiante = new JButton("Consulta de Cursos por Estudiante");
+        btnPagoCreditos = new JButton("Pago de Créditos");
 
         JButton[] botonesMatricula = { btnEstudiantesMatriculados, btnConsultaCursosPorEstudiante, btnPagoCreditos };
         for (JButton btn : botonesMatricula) {
@@ -342,13 +359,184 @@ public class StudentView extends JFrame {
         panelBotones.add(btnDeseleccionarTablaMatricula);
         panelBotones.add(btnRegresarMatricula);
 
-        // Ensamblaje del panel principal de matr�cula
+        // Ensamblaje del panel principal de matr�cula
         matriculaPanel.add(panelSuperior, BorderLayout.NORTH);
         matriculaPanel.add(panelCentral, BorderLayout.CENTER);
         matriculaPanel.add(panelBotones, BorderLayout.SOUTH);
     }
+    
+    // Panel de b�squeda de estudiantes
+    public JPanel panelBusquedaEstudiante;
+    public JTextField txtBuscarEstudiante;
+    public JTextArea showTextAreaEstudiante;
+    public JButton btnBuscarEstudiantePorCedula;
+    public JButton btnRegresarBusquedaEstudiante;
+    
+    private void BusquedaEstudiantePanel() {
+        panelBusquedaEstudiante = new JPanel(new BorderLayout(10, 10));
+        panelBusquedaEstudiante.setBorder(new EmptyBorder(10, 10, 10, 10));
+        
+        JLabel lblBusquedaEstudianteTitle = new JLabel("Buscar Estudiante Por Cédula", JLabel.CENTER);
+        lblBusquedaEstudianteTitle.setFont(new Font("Arial", Font.BOLD, 16));
+        panelBusquedaEstudiante.add(lblBusquedaEstudianteTitle, BorderLayout.NORTH);
+        
+        JPanel panelBusquedaEstudianteForm = new JPanel(new BorderLayout(5, 15));
+        panelBusquedaEstudianteForm.setBorder(BorderFactory.createTitledBorder("Consulta"));
+        
+        JPanel panelTxtYBotonEstudiante = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        
+        // Label instructivo antes del campo de texto
+        JLabel lblInstruccion = new JLabel("Debes ingresar la cédula del estudiante:");
+        lblInstruccion.setFont(new Font("Arial", Font.PLAIN, 14));
+        panelTxtYBotonEstudiante.add(lblInstruccion);
+        
+        txtBuscarEstudiante = new JTextField(60);
+        panelTxtYBotonEstudiante.add(txtBuscarEstudiante);
+        
+        btnBuscarEstudiantePorCedula = new JButton("Buscar");
+        btnBuscarEstudiantePorCedula.setFont(new Font("Arial", Font.BOLD, 14));
+        panelTxtYBotonEstudiante.add(btnBuscarEstudiantePorCedula);
+        
+        panelBusquedaEstudianteForm.add(panelTxtYBotonEstudiante, BorderLayout.NORTH);
+        
+        showTextAreaEstudiante = new JTextArea(10, 20);
+        showTextAreaEstudiante.setEditable(false);
+        showTextAreaEstudiante.setFont(new Font("Arial", Font.BOLD, 20));
+        showTextAreaEstudiante.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        JScrollPane scrollBusquedaEstudiante = new JScrollPane(showTextAreaEstudiante);
+        panelBusquedaEstudianteForm.add(scrollBusquedaEstudiante, BorderLayout.CENTER);
+        
+        // Agregar el bot�n "Regresar"
+        JPanel panelBotonRegresarEstudiante = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        btnRegresarBusquedaEstudiante = new JButton("Regresar");
+        btnRegresarBusquedaEstudiante.setFont(new Font("Arial", Font.BOLD, 14));
+        panelBotonRegresarEstudiante.add(btnRegresarBusquedaEstudiante);
+        
+        panelBusquedaEstudianteForm.add(panelBotonRegresarEstudiante, BorderLayout.SOUTH);
 
-    // M�todo para cambiar entre paneles usando CardLayout
+        panelBusquedaEstudiante.add(panelBusquedaEstudianteForm, BorderLayout.CENTER);
+    }
+    
+    // Panel de estudiantes matriculados
+    public JPanel panelConsultaEstudiantesMatriculados;
+    public JTextArea txtAreaEstudiantesMatriculados;
+    private JScrollPane scrollPaneEstudiantesMatriculados;
+    public JButton btnRegresarEstudiantesMatriculados;
+
+    private void EstudiantesMatriculadosPanel() {
+        panelConsultaEstudiantesMatriculados = new JPanel(new BorderLayout(10, 10));
+        panelConsultaEstudiantesMatriculados.setBorder(new EmptyBorder(10, 10, 10, 10));
+        
+        JLabel lblTitleEstudiantesMatriculados = new JLabel("Informaci�n de los Estudiantes Matriculados", JLabel.CENTER);
+        lblTitleEstudiantesMatriculados.setFont(new Font("Arial", Font.BOLD, 18));
+        panelConsultaEstudiantesMatriculados.add(lblTitleEstudiantesMatriculados, BorderLayout.NORTH);
+        
+        JPanel panelContenidoEstudiantesMatriculados = new JPanel(new BorderLayout(10, 10));
+        panelContenidoEstudiantesMatriculados.setBorder(BorderFactory.createTitledBorder(""));
+        
+        txtAreaEstudiantesMatriculados = new JTextArea();
+        txtAreaEstudiantesMatriculados.setEditable(false);
+        txtAreaEstudiantesMatriculados.setFont(new Font("Arial", Font.PLAIN, 20));
+        txtAreaEstudiantesMatriculados.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        
+        scrollPaneEstudiantesMatriculados = new JScrollPane(txtAreaEstudiantesMatriculados);
+        panelContenidoEstudiantesMatriculados.add(scrollPaneEstudiantesMatriculados, BorderLayout.CENTER);
+        
+        JPanel panelBotonRegresar = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        btnRegresarEstudiantesMatriculados = new JButton("Regresar");
+        btnRegresarEstudiantesMatriculados.setFont(new Font("Arial", Font.BOLD, 14));
+        panelBotonRegresar.add(btnRegresarEstudiantesMatriculados);
+        
+        panelContenidoEstudiantesMatriculados.add(panelBotonRegresar, BorderLayout.SOUTH);
+        panelConsultaEstudiantesMatriculados.add(panelContenidoEstudiantesMatriculados, BorderLayout.CENTER);
+    }
+    
+    // Panel de b�squeda de cursos por estudiante
+    public JPanel panelBusquedaCursos;
+    public JTextField txtBuscarCursos;
+    public JTextArea showTextAreaCursos;
+    public JButton btnBuscarCursosPorCedula;
+    public JButton btnRegresarBusquedaCursos;
+
+    private void BusquedaCursosPanel() {
+        panelBusquedaCursos = new JPanel(new BorderLayout(10, 10));
+        panelBusquedaCursos.setBorder(new EmptyBorder(10, 10, 10, 10));
+        
+        JLabel lblBusquedaCursosTitle = new JLabel("Buscar Cursos Por Cédula de Estudiante", JLabel.CENTER);
+        lblBusquedaCursosTitle.setFont(new Font("Arial", Font.BOLD, 16));
+        panelBusquedaCursos.add(lblBusquedaCursosTitle, BorderLayout.NORTH);
+        
+        JPanel panelBusquedaCursosForm = new JPanel(new BorderLayout(5, 15));
+        panelBusquedaCursosForm.setBorder(BorderFactory.createTitledBorder("Consulta"));
+        
+        JPanel panelTxtYBotonCursos = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        
+        // Label instructivo antes del campo de texto
+        JLabel lblInstruccion = new JLabel("Debes ingresar la cédula del estudiante:");
+        lblInstruccion.setFont(new Font("Arial", Font.PLAIN, 14));
+        panelTxtYBotonCursos.add(lblInstruccion);
+        
+        txtBuscarCursos = new JTextField(60);
+        panelTxtYBotonCursos.add(txtBuscarCursos);
+        
+        btnBuscarCursosPorCedula = new JButton("Buscar");
+        btnBuscarCursosPorCedula.setFont(new Font("Arial", Font.BOLD, 14));
+        panelTxtYBotonCursos.add(btnBuscarCursosPorCedula);
+        
+        panelBusquedaCursosForm.add(panelTxtYBotonCursos, BorderLayout.NORTH);
+        
+        showTextAreaCursos = new JTextArea(10, 20);
+        showTextAreaCursos.setEditable(false);
+        showTextAreaCursos.setFont(new Font("Arial", Font.BOLD, 20));
+        showTextAreaCursos.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        JScrollPane scrollBusquedaCursos = new JScrollPane(showTextAreaCursos);
+        panelBusquedaCursosForm.add(scrollBusquedaCursos, BorderLayout.CENTER);
+        
+        // Agregar el bot�n "Regresar"
+        JPanel panelBotonRegresarCursos = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        btnRegresarBusquedaCursos = new JButton("Regresar");
+        btnRegresarBusquedaCursos.setFont(new Font("Arial", Font.BOLD, 14));
+        panelBotonRegresarCursos.add(btnRegresarBusquedaCursos);
+        
+        panelBusquedaCursosForm.add(panelBotonRegresarCursos, BorderLayout.SOUTH);
+        panelBusquedaCursos.add(panelBusquedaCursosForm, BorderLayout.CENTER);
+    }
+    
+    // Panel de pago de cr�ditos
+    public JPanel panelConsultaPagoCreditos;
+    public JTextArea txtAreaPagoCreditos;
+    private JScrollPane scrollPanePagoCreditos;
+    public JButton btnRegresarPagoCreditos;
+
+    private void PagoCreditosPanel() {
+        panelConsultaPagoCreditos = new JPanel(new BorderLayout(10, 10));
+        panelConsultaPagoCreditos.setBorder(new EmptyBorder(10, 10, 10, 10));
+        
+        JLabel lblTitlePagoCreditos = new JLabel("Pago de Créditos Para Cada Estudiante", JLabel.CENTER);
+        lblTitlePagoCreditos.setFont(new Font("Arial", Font.BOLD, 18));
+        panelConsultaPagoCreditos.add(lblTitlePagoCreditos, BorderLayout.NORTH);
+        
+        JPanel panelContenidoPagoCreditos = new JPanel(new BorderLayout(10, 10));
+        panelContenidoPagoCreditos.setBorder(BorderFactory.createTitledBorder(""));
+        
+        txtAreaPagoCreditos = new JTextArea();
+        txtAreaPagoCreditos.setEditable(false);
+        txtAreaPagoCreditos.setFont(new Font("Arial", Font.PLAIN, 20));
+        txtAreaPagoCreditos.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        
+        scrollPanePagoCreditos = new JScrollPane(txtAreaPagoCreditos);
+        panelContenidoPagoCreditos.add(scrollPanePagoCreditos, BorderLayout.CENTER);
+        
+        JPanel panelBotonRegresar = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        btnRegresarPagoCreditos = new JButton("Regresar");
+        btnRegresarPagoCreditos.setFont(new Font("Arial", Font.BOLD, 14));
+        panelBotonRegresar.add(btnRegresarPagoCreditos);
+        
+        panelContenidoPagoCreditos.add(panelBotonRegresar, BorderLayout.SOUTH);
+        panelConsultaPagoCreditos.add(panelContenidoPagoCreditos, BorderLayout.CENTER);
+    }
+    
+    // M�todo para cambiar entre paneles usando CardLayout
     public void showPanel(String panelName) {
         CardLayout cl = (CardLayout) mainPanel.getLayout();
         cl.show(mainPanel, panelName);

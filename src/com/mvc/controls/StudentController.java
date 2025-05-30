@@ -21,7 +21,8 @@ public class StudentController {
 
 	public StudentController(StudentView studentView) {
 		this.studentView = studentView;
-
+		
+		nacionalidadComboBoxActionListener();
 		limpiarFormularioEstudiante();
 		agregarEstudianteActionListener();
 		buscarEstudianteActionListener();
@@ -31,7 +32,22 @@ public class StudentController {
 		setupTableEstudiantesgSelectionListener();
 		setupBtnDeseleccionarTablaActionListener();
 	}
-
+	
+	private void nacionalidadComboBoxActionListener() {
+	    studentView.boxNacionalidad.addActionListener(new ActionListener() {
+	        @Override
+	        public void actionPerformed(ActionEvent e) {
+	            String nacionalidadSeleccionada = (String) studentView.boxNacionalidad.getSelectedItem();
+	            if ("Extranjero".equals(nacionalidadSeleccionada)) {
+	                studentView.txtPorcentajeBeca.setEnabled(false);
+	                studentView.txtPorcentajeBeca.setText(""); 
+	            } else {
+	                studentView.txtPorcentajeBeca.setEnabled(true);
+	            }
+	        }
+	    });
+	}
+	
 	// agregar estudiante action Listener
 	private void agregarEstudianteActionListener() {
 		studentView.btnAgregarEstudiante.addActionListener(new ActionListener() {
@@ -41,7 +57,9 @@ public class StudentController {
 			}
 		});
 	}
-
+	
+	
+	
 	public void agregarEstudiante() {
 		String cedula = studentView.txtCedula.getText().trim();
 		String carnet = studentView.txtCarnet.getText().trim();
@@ -50,27 +68,27 @@ public class StudentController {
 		String nacionalidad = (String) studentView.boxNacionalidad.getSelectedItem();
 		String porcentajeBecaTexto = studentView.txtPorcentajeBeca.getText().trim();
 
-		// Validación: Solo números en cédula y carnet
+		// Validaciï¿½n: Solo nï¿½meros en cï¿½dula y carnet
 		if (!cedula.matches("\\d+")) {
-			JOptionPane.showMessageDialog(studentView.estudiantesPanel, "La cédula debe contener solo números.",
+			JOptionPane.showMessageDialog(studentView.estudiantesPanel, "La cï¿½dula debe contener solo nÃºmeros.",
 					"Error", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 
 		if (!carnet.matches("\\d+")) {
-			JOptionPane.showMessageDialog(studentView.estudiantesPanel, "El carnet debe contener solo números.",
+			JOptionPane.showMessageDialog(studentView.estudiantesPanel, "El carnet debe contener solo nÃºmeros.",
 					"Error", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 
-		// Validación: Todos los campos obligatorios llenos
+		// Validaciï¿½n: Todos los campos obligatorios llenos
 		if (!cedula.isEmpty() && !carnet.isEmpty() && !nombre.isEmpty() && !apellidos.isEmpty()) {
 
-			// Validación: No permitir cédula ni carnet repetido
+			// Validaciï¿½n: No permitir cï¿½dula ni carnet repetido
 			for (Student s : estudiantesList) {
 				if (s.getVarId().equalsIgnoreCase(cedula)) {
 					JOptionPane.showMessageDialog(studentView.estudiantesPanel,
-							"Ya existe un estudiante con esa cédula.", "Error", JOptionPane.ERROR_MESSAGE);
+							"Ya existe un estudiante con esa cÃ©dula.", "Error", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 				if (s.getVarCarnet().equalsIgnoreCase(carnet)) {
@@ -88,7 +106,7 @@ public class StudentController {
 					try {
 						porcentajeBeca = Double.parseDouble(porcentajeBecaTexto);
 					} catch (NumberFormatException e) {
-						JOptionPane.showMessageDialog(studentView.estudiantesPanel, "Porcentaje de beca inválido",
+						JOptionPane.showMessageDialog(studentView.estudiantesPanel, "Porcentaje de beca invï¿½lido",
 								"Error", JOptionPane.ERROR_MESSAGE);
 						return;
 					}
@@ -107,12 +125,12 @@ public class StudentController {
 							: "No aplica" });
 
 			estudiantesList.add(estudiante);
-			JOptionPane.showMessageDialog(studentView.estudiantesPanel, "¡Estudiante registrado exitosamente!", "Éxito",
+			JOptionPane.showMessageDialog(studentView.estudiantesPanel, "!Estudiante registrado exitosamente!", "!Ã‰xito",
 					JOptionPane.INFORMATION_MESSAGE);
 			limpiarFormularioEstudiante();
 		} else {
 			JOptionPane.showMessageDialog(studentView.estudiantesPanel,
-					"¡Todos los campos obligatorios deben estar llenos!", "Advertencia", JOptionPane.WARNING_MESSAGE);
+					"!Todos los campos obligatorios deben estar llenos!", "Advertencia", JOptionPane.WARNING_MESSAGE);
 		}
 	}
 
@@ -148,16 +166,16 @@ public class StudentController {
 						modelo.setValueAt(nacionalidad, fila, 4);
 
 						JOptionPane.showMessageDialog(studentView.estudiantesPanel,
-								"¡Estudiante modificado exitosamente!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+								"!Estudiante modificado exitosamente!", "Ã‰xito", JOptionPane.INFORMATION_MESSAGE);
 						return;
 					}
 				}
 			} else {
 				JOptionPane.showMessageDialog(studentView.estudiantesPanel,
-						"¡Nombre y apellidos no pueden estar vacíos!", "Advertencia", JOptionPane.WARNING_MESSAGE);
+						"!Nombre y apellidos no pueden estar vacï¿½os!", "Advertencia", JOptionPane.WARNING_MESSAGE);
 			}
 		} else {
-			JOptionPane.showMessageDialog(studentView.estudiantesPanel, "¡Seleccione un estudiante para modificar!",
+			JOptionPane.showMessageDialog(studentView.estudiantesPanel, "!Seleccione un estudiante para modificar!",
 					"Advertencia", JOptionPane.WARNING_MESSAGE);
 		}
 	}
@@ -186,14 +204,14 @@ public class StudentController {
 				// Eliminar de la lista interna
 				estudiantesList.removeIf(est -> est.getVarId().equalsIgnoreCase(cedulaEstudiante));
 
-				JOptionPane.showMessageDialog(studentView.estudiantesPanel, "¡Estudiante eliminado!", "Éxito",
+				JOptionPane.showMessageDialog(studentView.estudiantesPanel, "!Estudiante eliminado!", "ï¿½xito",
 						JOptionPane.INFORMATION_MESSAGE);
 				break;
 			}
 		}
 
 		if (!encontrado) {
-			JOptionPane.showMessageDialog(studentView.estudiantesPanel, "¡Estudiante no encontrado!", "Advertencia",
+			JOptionPane.showMessageDialog(studentView.estudiantesPanel, "!Estudiante no encontrado!", "Advertencia",
 					JOptionPane.WARNING_MESSAGE);
 		}
 
@@ -245,14 +263,14 @@ public class StudentController {
 			studentView.btnModificarEstudiante.setEnabled(true);
 			studentView.btnEliminarEstudiante.setEnabled(true);
 			studentView.btnDeseleccionarTabla.setEnabled(true);
-			studentView.btnBuscarEstudiante.setEnabled(true);
+			studentView.btnBuscarEstudiantePorCedula.setEnabled(true);
 
 		}
 	}
 
 	// buscar estudiante action Listener
 	private void buscarEstudianteActionListener() {
-		studentView.btnBuscarEstudiante.addActionListener(new ActionListener() {
+		studentView.btnBuscarEstudiantePorCedula.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				buscarEstudiante();
@@ -279,13 +297,13 @@ public class StudentController {
 					studentView.txtPorcentajeBeca.setText("");
 				}
 
-				JOptionPane.showMessageDialog(studentView.estudiantesPanel, "¡Estudiante encontrado!", "Éxito",
+				JOptionPane.showMessageDialog(studentView.estudiantesPanel, "!Estudiante encontrado!", "ï¿½xito",
 						JOptionPane.INFORMATION_MESSAGE);
 				return;
 			}
 		}
 
-		JOptionPane.showMessageDialog(studentView.estudiantesPanel, "¡Estudiante no encontrado!", "Error",
+		JOptionPane.showMessageDialog(studentView.estudiantesPanel, "!Estudiante no encontrado!", "Error",
 				JOptionPane.ERROR_MESSAGE);
 	}
 
@@ -306,7 +324,7 @@ public class StudentController {
 		studentView.txtPorcentajeBeca.setText("");
 		studentView.boxNacionalidad.setSelectedIndex(0);
 
-		studentView.tablaEstudiantes.clearSelection(); // Limpiar selección de tabla
+		studentView.tablaEstudiantes.clearSelection(); // Limpiar selecciï¿½n de tabla
 
 		// Restaurar botones y campos
 		studentView.btnAgregarEstudiante.setEnabled(true);
@@ -317,7 +335,7 @@ public class StudentController {
 		studentView.btnModificarEstudiante.setEnabled(false);
 		studentView.btnEliminarEstudiante.setEnabled(false);
 		studentView.btnDeseleccionarTabla.setEnabled(false);
-		studentView.btnBuscarEstudiante.setEnabled(false);
+		studentView.btnBuscarEstudiantePorCedula.setEnabled(false);
 
 	}
 
