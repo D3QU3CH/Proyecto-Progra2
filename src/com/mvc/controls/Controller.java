@@ -28,7 +28,7 @@ public class Controller {
 		escuelaController = new SchoolController(mainView, universidadController);
 		cursosController = new CoursesController(mainView, universidadController);
 		teacherController = new TeacherController(mainView, universidadController );
-		studentController = new StudentController(studentView,mainView);
+		studentController = new StudentController(studentView);
 		
 		
 		consultasController = new ConsultasController(mainView, universidadController);
