@@ -23,12 +23,14 @@ public class Controller {
 		this.studentView = studentView;
 		
 		// Inicializar los controladores espec�ficos
-		menuController = new MenuController(mainView, studentView);
+
+		studentController = new StudentController(studentView, mainView);
+		menuController = new MenuController(mainView, studentView, studentController);
 		universidadController = new UniversityController(mainView);
 		escuelaController = new SchoolController(mainView, universidadController);
 		cursosController = new CoursesController(mainView, universidadController);
 		teacherController = new TeacherController(mainView, universidadController,studentView );
-		studentController = new StudentController(studentView,mainView);
+		
 		
 		
 		consultasController = new ConsultasController(mainView, universidadController);

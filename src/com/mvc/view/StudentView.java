@@ -184,6 +184,7 @@ public class StudentView extends JFrame {
             buttonsPanelEst.add(btn);
             
         }
+        btnModificarEstudiante.setEnabled(false);
         
         panelOpcionesEstudiantes.add(buttonsPanelEst, BorderLayout.CENTER);
 
@@ -243,6 +244,7 @@ public class StudentView extends JFrame {
         txtAreaEstudiantes = new JTextArea(10, 30);
         txtAreaEstudiantes.setFont(new Font("Arial", Font.PLAIN, 12));
         txtAreaEstudiantes.setEditable(false);
+        txtAreaEstudiantes.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         scrollPaneEstudiantesArea = new JScrollPane(txtAreaEstudiantes);
         panelEstudiantes.add(scrollPaneEstudiantesArea, BorderLayout.CENTER);
 
@@ -253,6 +255,7 @@ public class StudentView extends JFrame {
         txtAreaCursosDisponibles = new JTextArea(10, 30);
         txtAreaCursosDisponibles.setFont(new Font("Arial", Font.PLAIN, 12));
         txtAreaCursosDisponibles.setEditable(false);
+        txtAreaCursosDisponibles.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         scrollPaneCursosArea = new JScrollPane(txtAreaCursosDisponibles);
         panelCursosDisponibles.add(scrollPaneCursosArea, BorderLayout.CENTER);
 
@@ -386,24 +389,27 @@ public class StudentView extends JFrame {
         JPanel panelTxtYBotonEstudiante = new JPanel(new FlowLayout(FlowLayout.LEFT));
         
         // Label instructivo antes del campo de texto
-        JLabel lblInstruccion = new JLabel("Debes ingresar la cédula del estudiante:");
+        JLabel lblInstruccion = new JLabel("Debes ingresar la cédula o el carnet del estudiante:");
         lblInstruccion.setFont(new Font("Arial", Font.PLAIN, 14));
         panelTxtYBotonEstudiante.add(lblInstruccion);
         
-        txtBuscarEstudiante = new JTextField(60);
+        txtBuscarEstudiante = new JTextField(55);
         panelTxtYBotonEstudiante.add(txtBuscarEstudiante);
         
         btnBuscarEstudiantePorCedula = new JButton("Buscar");
         btnBuscarEstudiantePorCedula.setFont(new Font("Arial", Font.BOLD, 14));
+        btnBuscarEstudiantePorCedula.setEnabled(true);
         panelTxtYBotonEstudiante.add(btnBuscarEstudiantePorCedula);
         
         panelBusquedaEstudianteForm.add(panelTxtYBotonEstudiante, BorderLayout.NORTH);
         
-        showTextAreaEstudiante = new JTextArea(10, 20);
+        showTextAreaEstudiante = new JTextArea(4, 40);
         showTextAreaEstudiante.setEditable(false);
         showTextAreaEstudiante.setFont(new Font("Arial", Font.BOLD, 20));
         showTextAreaEstudiante.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        
         JScrollPane scrollBusquedaEstudiante = new JScrollPane(showTextAreaEstudiante);
+        scrollBusquedaEstudiante.setPreferredSize(new Dimension(500, 100));
         panelBusquedaEstudianteForm.add(scrollBusquedaEstudiante, BorderLayout.CENTER);
         
         // Agregar el bot�n "Regresar"

@@ -74,9 +74,9 @@ public class StudentController {
 		String apellidos = studentView.txtApellidos.getText().trim();
 		String nacionalidad = (String) studentView.boxNacionalidad.getSelectedItem();
 		String porcentajeBecaTexto = studentView.txtPorcentajeBeca.getText().trim();
-
-		boolean esExtranjero = "Extranjero".equalsIgnoreCase(nacionalidad);
-
+		
+		
+		boolean esExtranjero = nacionalidad.equalsIgnoreCase("Extranjero");
 		// Validación de campos obligatorios
 		if (cedula.isEmpty() || carnet.isEmpty() || nombre.isEmpty() || apellidos.isEmpty()
 				|| (!esExtranjero && porcentajeBecaTexto.isEmpty())) {
@@ -84,20 +84,17 @@ public class StudentController {
 					"¡Todos los campos obligatorios deben estar llenos!", "Advertencia", JOptionPane.WARNING_MESSAGE);
 			return;
 		}
-
-		// Validación: Solo números para cédula y carnet
-		if (!cedula.matches("\\d+")) {
+		// Validación: Solo números para cédula (excepto extranjeros) y carnet
+		if (!esExtranjero && !cedula.matches("\\d+")) {
 			JOptionPane.showMessageDialog(studentView.estudiantesPanel, "La cédula debe contener solo números.",
 					"Error", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
-
 		if (!carnet.matches("\\d+")) {
 			JOptionPane.showMessageDialog(studentView.estudiantesPanel, "El carnet debe contener solo números.",
 					"Error", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
-
 		// Validación: No permitir cédula ni carnet repetido
 		for (Student s : estudiantesList) {
 			if (s.getVarId().equalsIgnoreCase(cedula)) {
@@ -111,7 +108,6 @@ public class StudentController {
 				return;
 			}
 		}
-
 		// Validación: No permitir que la cédula coincida con un profesor
 		DefaultTableModel modeloProfesores = (DefaultTableModel) mainView.tablaProfesores.getModel();
 		for (int i = 0; i < modeloProfesores.getRowCount(); i++) {
@@ -122,7 +118,6 @@ public class StudentController {
 				return;
 			}
 		}
-
 		// Crear estudiante
 		Student estudiante;
 		if (esExtranjero) {
@@ -138,19 +133,23 @@ public class StudentController {
 			}
 			estudiante = new StudentNational(cedula, carnet, nombre, apellidos, nacionalidad, porcentajeBeca);
 		}
-
 		// Agregar a tabla y lista
 		DefaultTableModel modelo = (DefaultTableModel) studentView.tablaEstudiantes.getModel();
-		modelo.addRow(new Object[] { estudiante.getVarName(), estudiante.getVarLastnames(), estudiante.getVarId(),
-				estudiante.getVarCarnet(), estudiante.getVarNationality(),
+		modelo.addRow(new Object[] { 
+				estudiante.getVarName(), 
+				estudiante.getVarLastnames(), 
+				estudiante.getVarId(),
+				estudiante.getVarCarnet(), 
+				estudiante.getVarNationality(),
 				(estudiante instanceof StudentNational)
 						? ((StudentNational) estudiante).getVarScholarshipPercentage() + "%"
 						: "No aplica" });
 		estudiantesList.add(estudiante);
-
 		JOptionPane.showMessageDialog(studentView.estudiantesPanel, "¡Estudiante registrado exitosamente!", "Éxito",
 				JOptionPane.INFORMATION_MESSAGE);
+		
 		limpiarFormularioEstudiante();
+		limpiarPanelEstudiante();
 	}
 
 	// modificar estudiante action Listener
@@ -170,7 +169,7 @@ public class StudentController {
 			String apellidos = studentView.txtApellidos.getText().trim();
 			String nacionalidad = (String) studentView.boxNacionalidad.getSelectedItem();
 			String porcentajeBecaTexto = studentView.txtPorcentajeBeca.getText().trim();
-			boolean esExtranjero = "Extranjero".equalsIgnoreCase(nacionalidad);
+			boolean esExtranjero = nacionalidad.equalsIgnoreCase("Extranjero");
 
 			if (!nombre.isEmpty() && !apellidos.isEmpty()) {
 				String cedula = (String) studentView.tablaEstudiantes.getValueAt(fila, 2);
@@ -187,8 +186,6 @@ public class StudentController {
 							estudiante = new StudentForeign(estudiante.getVarId(), estudiante.getVarCarnet(), nombre,
 									apellidos, nacionalidad);
 							estudiantesList.set(i, estudiante);
-							studentView.txtPorcentajeBeca.setText("No aplica");
-							studentView.txtPorcentajeBeca.setEditable(false);
 
 						} else if (!esExtranjero && estudiante instanceof StudentForeign) {
 							// Convertir de extranjero a nacional con beca
@@ -204,7 +201,6 @@ public class StudentController {
 							estudiante = new StudentNational(estudiante.getVarId(), estudiante.getVarCarnet(), nombre,
 									apellidos, nacionalidad, porcentaje);
 							estudiantesList.set(i, estudiante);
-							studentView.txtPorcentajeBeca.setEditable(true);
 						} else if (estudiante instanceof StudentNational) {
 							// Si sigue siendo nacional, solo actualizar porcentaje
 							try {
@@ -225,10 +221,13 @@ public class StudentController {
 						modelo.setValueAt(estudiante instanceof StudentNational
 								? ((StudentNational) estudiante).getVarScholarshipPercentage() + "%"
 								: "No aplica", fila, 5);
-
+						
 						JOptionPane.showMessageDialog(studentView.estudiantesPanel,
 								"¡Estudiante modificado exitosamente!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+						limpiarPanelEstudiante();
 						return;
+						
+						
 					}
 				}
 			} else {
@@ -321,11 +320,9 @@ public class StudentController {
 			studentView.btnAgregarEstudiante.setEnabled(false);
 			studentView.txtCarnet.setEnabled(false);
 			studentView.txtCedula.setEnabled(false);
-			studentView.txtPorcentajeBeca.setEnabled(false);
 			studentView.btnModificarEstudiante.setEnabled(true);
 			studentView.btnEliminarEstudiante.setEnabled(true);
 			studentView.btnDeseleccionarTabla.setEnabled(true);
-			studentView.btnBuscarEstudiantePorCedula.setEnabled(true);
 
 		}
 	}
@@ -341,16 +338,16 @@ public class StudentController {
 	}
 
 	public void buscarEstudiante() {
-		String cedula = studentView.txtBuscarEstudiante.getText().trim();
+		String cedulaOCarnet = studentView.txtBuscarEstudiante.getText().trim();
 
-		if (cedula.isEmpty()) {
+		if (cedulaOCarnet.isEmpty()) {
 			JOptionPane.showMessageDialog(studentView.panelBusquedaEstudiante, "Debe ingresar una cédula.", "Error",
 					JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 
 		for (Student estudiante : estudiantesList) {
-			if (estudiante.getVarId().equalsIgnoreCase(cedula)) {
+			if (estudiante.getVarId().equalsIgnoreCase(cedulaOCarnet) || estudiante.getVarCarnet().equalsIgnoreCase(cedulaOCarnet)) {
 				StringBuilder datos = new StringBuilder();
 				datos.append("Nombre: ").append(estudiante.getVarName()).append(" ")
 						.append(estudiante.getVarLastnames()).append("\n");
@@ -365,6 +362,7 @@ public class StudentController {
 					datos.append("Porcentaje de beca: No aplica\n");
 				}
 
+				datos.append("----------------------------------------\n");
 				studentView.showTextAreaEstudiante.setText(datos.toString());
 
 				JOptionPane.showMessageDialog(studentView.panelBusquedaEstudiante, "¡Estudiante encontrado!", "Éxito",
@@ -393,8 +391,8 @@ public class StudentController {
 		studentView.txtApellidos.setText("");
 		studentView.txtCedula.setText("");
 		studentView.txtCarnet.setText("");
-		studentView.txtPorcentajeBeca.setText("");
 		studentView.boxNacionalidad.setSelectedIndex(0);
+		studentView.txtPorcentajeBeca.setText("");
 
 		studentView.tablaEstudiantes.clearSelection();
 
@@ -402,12 +400,10 @@ public class StudentController {
 		studentView.btnAgregarEstudiante.setEnabled(true);
 		studentView.txtCedula.setEnabled(true);
 		studentView.txtCarnet.setEnabled(true);
-		studentView.txtPorcentajeBeca.setEnabled(true);
 
 		studentView.btnModificarEstudiante.setEnabled(false);
 		studentView.btnEliminarEstudiante.setEnabled(false);
 		studentView.btnDeseleccionarTabla.setEnabled(false);
-		studentView.btnBuscarEstudiantePorCedula.setEnabled(false);
 
 	}
 
@@ -416,8 +412,8 @@ public class StudentController {
 		studentView.txtApellidos.setText("");
 		studentView.txtCedula.setText("");
 		studentView.txtCarnet.setText("");
-		studentView.txtPorcentajeBeca.setText("");
 		studentView.boxNacionalidad.setSelectedIndex(0);
+		studentView.txtPorcentajeBeca.setText("");
 	}
 
 	public void mostrarEstudiadesEnPanelMatricula() {
@@ -434,9 +430,10 @@ public class StudentController {
 			String nacionalidad = (String) modeloEstudiantes.getValueAt(i, 4);
 			String porcentaje = (String) modeloEstudiantes.getValueAt(i, 5);
 
-			String toString = "Nombre: " + nombre + " | Apellidos: " + apellidos + " | Cedula: " + cedula
-					+ " | Carnet: " + carnet + " | Nacionalidad: " + nacionalidad + " | Porcentaje: " + porcentaje
-					+ "\n";
+			String toString = "Nombre: " + nombre + " | Apellidos: " + apellidos + " | Cedula: " + cedula + " | Carnet: " + carnet  
+							+ "\nNacionalidad: " + nacionalidad + " | Porcentaje: " + porcentaje + "\n" 
+							+ "------------------------------------------------------------------------------------------------------------------------\n";
+					
 
 			studentView.txtAreaEstudiantes.append(toString);
 
@@ -445,70 +442,49 @@ public class StudentController {
 	}
 
 	public void mostrarEstudiadesEnPanelMatriculaCursosDisponibles() {
-		studentView.txtAreaCursosDisponibles.setText("");
-		DefaultTableModel modeloProfesoresAsignados = (DefaultTableModel) mainView.tablaAsignaciones.getModel();
-		DefaultTableModel modeloTablaCursos = (DefaultTableModel) mainView.tablaCursos.getModel();
-		DefaultTableModel modeloTablaProfesores = (DefaultTableModel) mainView.tablaProfesores.getModel();
-
-		String resultado = ""; // Variable String en vez de StringBuilder
-
-		for (int i = 0; i < modeloProfesoresAsignados.getRowCount(); i++) {
-
-			String getSiglasCurso = (String) modeloProfesoresAsignados.getValueAt(i, 2);
-			String getCedulaProfesor = (String) modeloProfesoresAsignados.getValueAt(i, 1);
-
-			// Validar siglas
-			if (getSiglasCurso == null || getSiglasCurso.trim().isEmpty()) {
-				System.out.println("Siglas vacías en fila " + i);
-				continue;
-			}
-
-			// Buscar curso por siglas
-			boolean cursoEncontrado = false;
-			for (int j = 0; j < modeloTablaCursos.getRowCount(); j++) {
-				String siglasEnCursos = (String) modeloTablaCursos.getValueAt(j, 1);
-				if (siglasEnCursos != null && siglasEnCursos.equalsIgnoreCase(getSiglasCurso)) {
-					String escuela = (String) modeloTablaCursos.getValueAt(j, 0);
-					String nombreCurso = (String) modeloTablaCursos.getValueAt(j, 2);
-
-					// Concatenamos al String
-					resultado += "Curso: " + nombreCurso + " | Escuela: " + escuela + " | Siglas: " + siglasEnCursos
-							+ "\n";
-
-					cursoEncontrado = true;
-					break;
-				}
-			}
-
-			if (!cursoEncontrado) {
-				resultado += "Curso no encontrado para siglas: " + getSiglasCurso + "\n";
-			}
-
-			// Buscar profesor por cédula
-			boolean profesorEncontrado = false;
-			for (int k = 0; k < modeloTablaProfesores.getRowCount(); k++) {
-
-				String cedulaProfesor = (String) modeloTablaProfesores.getValueAt(k, 3);
-				if (cedulaProfesor != null && cedulaProfesor.equalsIgnoreCase(getCedulaProfesor)) {
-					String nombre = (String) modeloTablaProfesores.getValueAt(k, 0);
-					String apellido1 = (String) modeloTablaProfesores.getValueAt(k, 1);
-					String apellido2 = (String) modeloTablaProfesores.getValueAt(k, 2);
-
-					resultado += "Profesor: " + nombre + " " + apellido1 + " " + apellido2 + " | Cédula: "
-							+ cedulaProfesor + "\n\n"; // Salto de línea al final
-
-					profesorEncontrado = true;
-					break;
-				}
-			}
-
-			if (!profesorEncontrado) {
-				resultado += "Profesor no encontrado para cedula: " + getCedulaProfesor + "\n\n";
-			}
-		}
-		studentView.txtAreaCursosDisponibles.append(resultado);
-		// Mostrar el resultado final
-		System.out.print(resultado); // o usar .println si prefieres línea nueva automática
+	    studentView.txtAreaCursosDisponibles.setText("");
+	    DefaultTableModel modeloProfesoresAsignados = (DefaultTableModel) mainView.tablaAsignaciones.getModel();
+	    DefaultTableModel modeloTablaCursos = (DefaultTableModel) mainView.tablaCursos.getModel();
+	    DefaultTableModel modeloTablaProfesores = (DefaultTableModel) mainView.tablaProfesores.getModel();
+	    
+	    String resultado = ""; 
+	    
+	    for (int i = 0; i < modeloProfesoresAsignados.getRowCount(); i++) {
+	        String getCedulaProfesor = (String) modeloProfesoresAsignados.getValueAt(i, 1);
+	        String getSiglasCurso = (String) modeloProfesoresAsignados.getValueAt(i, 2);
+	        String getGrupo = (String) modeloProfesoresAsignados.getValueAt(i, 3);
+	        
+	        String escuela = "";
+	        String nombreCurso = "";
+	        for (int j = 0; j < modeloTablaCursos.getRowCount(); j++) {
+	            String siglasEnCursos = (String) modeloTablaCursos.getValueAt(j, 1);
+	            if (siglasEnCursos != null && siglasEnCursos.equalsIgnoreCase(getSiglasCurso)) {
+	                escuela = (String) modeloTablaCursos.getValueAt(j, 0);
+	                nombreCurso = (String) modeloTablaCursos.getValueAt(j, 2);
+	                break;
+	            }
+	        }
+	        
+	        String nombreCompleto = "";
+	        for (int k = 0; k < modeloTablaProfesores.getRowCount(); k++) {
+	            String cedulaProfesor = (String) modeloTablaProfesores.getValueAt(k, 3);
+	            if (cedulaProfesor != null && cedulaProfesor.equalsIgnoreCase(getCedulaProfesor)) {
+	                String nombre = (String) modeloTablaProfesores.getValueAt(k, 0);
+	                String apellido1 = (String) modeloTablaProfesores.getValueAt(k, 1);
+	                String apellido2 = (String) modeloTablaProfesores.getValueAt(k, 2);
+	                nombreCompleto = nombre + " " + apellido1 + " " + apellido2;
+	                break;
+	            }
+	        }
+	        
+	        // Concatenar la información completa del curso y profesor
+	        resultado += "Curso: " + nombreCurso + " | Siglas: " + getSiglasCurso + " | Escuela: " + escuela + "\n" +
+	        			 "Profesor: " + nombreCompleto + " | Cédula: " + getCedulaProfesor + " | Grupo: " + getGrupo + "\n"+
+	        			 "------------------------------------------------------------------------------------------------------------------------\n";
+	    }
+	    
+	    studentView.txtAreaCursosDisponibles.append(resultado);
+	    System.out.print(resultado);
 	}
 
 	// metodos de matricula de estudiante
@@ -537,11 +513,10 @@ public class StudentController {
 
 		// Validar existencia del estudiante
 		boolean estudianteExiste = false;
-		String escuelaEst = "";
 		for (int i = 0; i < studentView.tablaEstudiantes.getRowCount(); i++) {
-			if (studentView.tablaEstudiantes.getValueAt(i, 2).toString().equals(cedulaEst)) {
+			String cedulaRegistrada = studentView.tablaEstudiantes.getValueAt(i, 2).toString();
+			if (cedulaRegistrada.equals(cedulaEst)) {
 				estudianteExiste = true;
-				escuelaEst = studentView.tablaEstudiantes.getValueAt(i, 0).toString(); // Asegurate que es columna 0
 				break;
 			}
 		}
@@ -552,34 +527,36 @@ public class StudentController {
 			return;
 		}
 
-		// Validar existencia del profesor
-		boolean profesorExiste = false;
-		for (int i = 0; i < mainView.tablaProfesores.getRowCount(); i++) {
-			if (mainView.tablaProfesores.getValueAt(i, 3).toString().equals(cedulaProf)) {
-				profesorExiste = true;
+		boolean profesorAsignado = false;
+		String escuelaEst = "";
+		for (int i = 0; i < mainView.tablaAsignaciones.getRowCount(); i++) {
+			String cedulaProfAsig = mainView.tablaAsignaciones.getValueAt(i, 1).toString();
+			if (cedulaProfAsig.equals(cedulaProf)) {
+				escuelaEst = mainView.tablaAsignaciones.getValueAt(i, 0).toString();
+				profesorAsignado = true;
 				break;
 			}
 		}
 
-		if (!profesorExiste) {
-			JOptionPane.showMessageDialog(studentView.matriculaPanel, "El profesor no existe.", "Error",
+		if (!profesorAsignado) {
+			JOptionPane.showMessageDialog(studentView.matriculaPanel, "El profesor no existe o no esta asignado.", "Error",
 					JOptionPane.ERROR_MESSAGE);
 			return;
 		}
-
-		// Validar existencia del curso y obtener escuela del curso
+		
 		boolean cursoExiste = false;
 		String escuelaCurso = "";
-		for (int i = 0; i < mainView.tablaCursos.getRowCount(); i++) {
-			if (mainView.tablaCursos.getValueAt(i, 1).toString().equalsIgnoreCase(siglaCurso)) {
+		for (int i = 0; i < mainView.tablaAsignaciones.getRowCount(); i++) {
+			String siglasCursoAsig = mainView.tablaAsignaciones.getValueAt(i, 2).toString();
+			if (siglasCursoAsig.equalsIgnoreCase(siglaCurso)) {
 				cursoExiste = true;
-				escuelaCurso = mainView.tablaCursos.getValueAt(i, 0).toString(); // Columna 0 = escuela
+				escuelaCurso = mainView.tablaAsignaciones.getValueAt(i, 0).toString(); 
 				break;
 			}
 		}
 
 		if (!cursoExiste) {
-			JOptionPane.showMessageDialog(studentView.matriculaPanel, "El curso no existe.", "Error",
+			JOptionPane.showMessageDialog(studentView.matriculaPanel, "El curso no existe o no tiene profesores asignados.", "Error",
 					JOptionPane.ERROR_MESSAGE);
 			return;
 		}
@@ -595,37 +572,50 @@ public class StudentController {
 			}
 		}
 
-		// Validar grupo
-		boolean grupoExiste = false;
+		boolean profesorAsignadoAlCurso = false;
+		boolean grupoYaAsignado = false;
+
+		// Primero verificar si el profesor está asignado al curso
 		for (int i = 0; i < mainView.tablaAsignaciones.getRowCount(); i++) {
-			if (mainView.tablaAsignaciones.getValueAt(i, 3).toString().equalsIgnoreCase(grupo)) {
-				grupoExiste = true;
-				break;
-			}
+		    String cedulaAsignada = mainView.tablaAsignaciones.getValueAt(i, 1).toString();
+		    String siglaAsignada = mainView.tablaAsignaciones.getValueAt(i, 2).toString();
+		    
+		    if (cedulaAsignada.equals(cedulaProf) && siglaAsignada.equalsIgnoreCase(siglaCurso)) {
+		        profesorAsignadoAlCurso = true;
+		        break;
+		    }
 		}
-
-		if (!grupoExiste) {
-			JOptionPane.showMessageDialog(studentView.matriculaPanel, "El grupo no existe.", "Error",
-					JOptionPane.ERROR_MESSAGE);
-			return;
-		}
-
-		// Validar que el profesor esté asignado a ese curso
-		boolean asignadoAlCurso = false;
-		for (int i = 0; i < mainView.tablaAsignaciones.getRowCount(); i++) {
-			String cedulaAsignada = mainView.tablaAsignaciones.getValueAt(i, 1).toString();
-			String siglaAsignada = mainView.tablaAsignaciones.getValueAt(i, 2).toString();
-			if (cedulaAsignada.equals(cedulaProf) && siglaAsignada.equalsIgnoreCase(siglaCurso)) {
-				asignadoAlCurso = true;
-				break;
-			}
-		}
-
-		if (!asignadoAlCurso) {
+		
+		if (!profesorAsignadoAlCurso) {
 			JOptionPane.showMessageDialog(studentView.matriculaPanel, "Ese profesor no está asignado a ese curso.",
 					"Error", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
+
+		// Luego verificar si el grupo específico ya está asignado a ese profesor en ese curso
+		
+		String grupoAsignado = "";
+		String siglaAsignadas = "";
+		for (int i = 0; i < mainView.tablaAsignaciones.getRowCount(); i++) {
+		    String cedulaAsignada = mainView.tablaAsignaciones.getValueAt(i, 1).toString();
+		    siglaAsignadas = mainView.tablaAsignaciones.getValueAt(i, 2).toString();
+		    grupoAsignado = mainView.tablaAsignaciones.getValueAt(i, 3).toString();
+		    
+		    if (cedulaAsignada.equals(cedulaProf) && 
+		        siglaAsignadas.equalsIgnoreCase(siglaCurso) && 
+		        grupoAsignado.equalsIgnoreCase(grupo)) {
+		        grupoYaAsignado = true;
+		        break;
+		    }
+		}
+		
+		if (!grupoYaAsignado) {
+			JOptionPane.showMessageDialog(studentView.matriculaPanel, "El grupo no existe o no esta asignado al profesor.", "Error",
+					JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		
+		
 
 		// Validar que no esté ya matriculado en ese curso
 		for (int i = 0; i < studentView.tablaMatriculas.getRowCount(); i++) {
@@ -642,12 +632,12 @@ public class StudentController {
 		int creditos = (Math.random() < 0.5) ? 3 : 4;
 
 		DefaultTableModel modelo = (DefaultTableModel) studentView.tablaMatriculas.getModel();
-		modelo.addRow(new Object[] { escuelaEst, cedulaEst, cedulaProf, grupo, siglaCurso, creditos });
+		modelo.addRow(new Object[] { escuelaEst, cedulaEst, cedulaProf, grupoAsignado, siglaAsignadas, creditos });
 
 		JOptionPane.showMessageDialog(studentView.matriculaPanel, "¡Estudiante matriculado exitosamente!", "Éxito",
 				JOptionPane.INFORMATION_MESSAGE);
 
-		// Limpiar campos
+		// Limpiar campos de matricula
 		studentView.txtCedulaEstudianteMatricula.setText("");
 		studentView.txtCedulaProfesorMatricula.setText("");
 		studentView.txtSiglaCursoMatricula.setText("");
@@ -679,10 +669,7 @@ public class StudentController {
 		if (confirmacion == JOptionPane.YES_OPTION) {
 			DefaultTableModel modelo = (DefaultTableModel) studentView.tablaMatriculas.getModel();
 			modelo.removeRow(filaSeleccionada);
-
-			JOptionPane.showMessageDialog(studentView.matriculaPanel, "¡Matrícula eliminada exitosamente!", "Éxito",
-					JOptionPane.INFORMATION_MESSAGE);
-
+			
 			// Limpiar campos
 			studentView.txtCedulaEstudianteMatricula.setText("");
 			studentView.txtCedulaProfesorMatricula.setText("");

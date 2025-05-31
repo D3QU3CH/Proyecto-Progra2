@@ -144,6 +144,7 @@ public class CoursesController {
 			modeloTabla.addRow(fila);
 		}
 	}
+	
 
 	// ELIMINAR CURSO
 	private void eliminarCursoActionListener() {
