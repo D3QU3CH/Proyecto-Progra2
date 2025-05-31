@@ -562,7 +562,7 @@ public class TeacherController {
                     modelo.getValueAt(i, 0).toString(),
                     modelo.getValueAt(i, 1).toString(),
                     modelo.getValueAt(i, 2).toString(),
-                    modelo.getValueAt(i, 3).toString(), "", ""));
+                    modelo.getValueAt(i, 3).toString(),"", "", ""));
         }
         try {
             Gson gson = new Gson();
@@ -619,7 +619,7 @@ public class TeacherController {
                     break;
                 }
             }
-            lista.add(new Teacher(nombre, apellido1, apellido2, cedula, escuela, siglas + "-" + grupo));
+            lista.add(new Teacher(nombre, apellido1, apellido2, cedula, escuela,"", siglas + "-" + grupo));
         }
 
         try {

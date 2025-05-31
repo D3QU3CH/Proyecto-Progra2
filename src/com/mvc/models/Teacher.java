@@ -7,14 +7,15 @@ public class Teacher {
 	String varId;
 	String varGroup;
 	String varSiglasCourses;
-	
-	public Teacher(String varName, String varFirstSurname, String varSecondSurname, String varId, String varGroup,
+	String varScuela;
+	public Teacher(String varName, String varFirstSurname, String varSecondSurname, String varId, String varScuela,String varGroup,
 			String varSiglasCourses) {
 		super();
 		this.varName = varName;
 		this.varFirstSurname = varFirstSurname;
 		this.varSecondSurname = varSecondSurname;
 		this.varId = varId;
+		this.varScuela=varScuela;
 		this.varGroup = varGroup;
 		this.varSiglasCourses = varSiglasCourses;
 	}

@@ -171,6 +171,7 @@ public class MenuController {
             @Override
             public void actionPerformed(ActionEvent e) {
             	studentView.showPanel("PAGO_CREDITOS");
+            	studentController.pagoDeCreditos();
             }
         });
         

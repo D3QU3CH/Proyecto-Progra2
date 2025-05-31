@@ -754,5 +754,68 @@ public class StudentController {
 		studentView.btnDeseleccionarTablaMatricula.setEnabled(false);
 
 	}
+	
+	public void pagoDeCreditos() {
+	    studentView.txtAreaPagoCreditos.setText(""); 
+
+	    DefaultTableModel modeloMatricula = (DefaultTableModel) studentView.tablaMatriculas.getModel();
+	    DefaultTableModel modeloEstudiantes = (DefaultTableModel) studentView.tablaEstudiantes.getModel();
+	    DefaultTableModel modeloCursos = (DefaultTableModel) mainView.tablaCursos.getModel();
+
+	    StringBuilder resultado = new StringBuilder();
+
+	    for (int i = 0; i < modeloMatricula.getRowCount(); i++) {
+	        String cedulaEstudiante = (String) modeloMatricula.getValueAt(i, 1);
+	        String siglasCurso = (String) modeloMatricula.getValueAt(i, 4);
+	        int creditos = (int) modeloMatricula.getValueAt(i, 5); 
+	        String creditosStr = String.valueOf(creditos);
+
+	        String nombreEstudiante = "";
+	        String nacionalidad = "";
+	        String nombreCurso = "";
+
+
+	        for (int f = 0; f < modeloEstudiantes.getRowCount(); f++) {
+	            String cedulaTablaEstudiantes = (String) modeloEstudiantes.getValueAt(f, 2);
+	            if (cedulaEstudiante.equalsIgnoreCase(cedulaTablaEstudiantes)) {
+	                nombreEstudiante = (String) modeloEstudiantes.getValueAt(f, 0);
+	                nacionalidad = (String) modeloEstudiantes.getValueAt(f, 4);
+	                break;
+	            }
+	        }
+
+	        for (int j = 0; j < modeloCursos.getRowCount(); j++) {
+	            String siglasTablaCursos = (String) modeloCursos.getValueAt(j, 1);
+	            if (siglasCurso.equalsIgnoreCase(siglasTablaCursos)) {
+	                nombreCurso = (String) modeloCursos.getValueAt(j, 2);
+	                break;
+	            }
+	        }
+
+	        // Cálculo de aranceles
+	        double creditosDouble = Double.parseDouble(creditosStr); 
+	        double costoPorCreditos = creditosDouble * 10000;
+	        double subtotal = costoPorCreditos + 15000;
+	        boolean esExtranjero = nacionalidad.equalsIgnoreCase("Extranjero");
+	        double total = esExtranjero ? subtotal * 1.4 : subtotal;
+
+	        
+	        resultado.append("──────────────────────────────\n");
+	        resultado.append("Estudiante: ").append(nombreEstudiante).append(" (").append(nacionalidad).append(")\n");
+	        resultado.append("Curso: ").append(nombreCurso).append(" (").append(siglasCurso).append(")\n");
+	        resultado.append("Créditos: ").append(creditos).append("\n");
+	        resultado.append("Costo por créditos: ¢").append((int) costoPorCreditos).append("\n");
+	        resultado.append("Cargos administrativos: ¢15,000\n");
+
+	        if (esExtranjero) {
+	            resultado.append("Recargo extranjero (40%): ¢").append((int)(subtotal * 0.4)).append("\n");
+	        }
+
+	        resultado.append("Total a pagar: ¢").append((int) total).append("\n");
+	        resultado.append("──────────────────────────────\n\n");
+	    }
+
+	    studentView.txtAreaPagoCreditos.setText(resultado.toString());
+	}
 
 }
