@@ -39,6 +39,9 @@ public class StudentController {
 		setupBtnDeseleccionarTablaMatriculaActionListener();
 		setupTableMatriculaSelectionListener();
 		desmatricularEstudianteActionListener();
+		
+		buscarEstudiantesMatriculadosPorSiglaActionListener();
+		buscarCursosPorEstudianteActionListener();
 	}
 
 	private void nacionalidadComboBoxActionListener() {
@@ -864,5 +867,127 @@ public class StudentController {
 	    
 	    studentView.txtAreaPagoCreditos.setText(resultado.toString());
 	}
+	
+	
+
+	private void buscarCursosPorEstudianteActionListener() {
+		studentView.btnBuscarCursosPorCedula.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				buscarCursosPorEstudiante();
+			}
+		});
+	}
+
+	public void buscarCursosPorEstudiante() {
+		String cedula = studentView.txtBuscarCursos.getText().trim();
+
+		if (cedula.isEmpty()) {
+			JOptionPane.showMessageDialog(studentView.panelBusquedaCursos, "Debe ingresar la cédula del estudiante.",
+					"Error", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+
+		DefaultTableModel modeloMatriculas = (DefaultTableModel) studentView.tablaMatriculas.getModel();
+		DefaultTableModel modeloCursos = (DefaultTableModel) mainView.tablaCursos.getModel();
+
+		StringBuilder resultado = new StringBuilder();
+		boolean encontrados = false;
+
+		for (int i = 0; i < modeloMatriculas.getRowCount(); i++) {
+			String cedulaMatriculada = modeloMatriculas.getValueAt(i, 1).toString();
+
+			if (cedula.equals(cedulaMatriculada)) {
+				String grupo = modeloMatriculas.getValueAt(i, 3).toString();
+				String sigla = modeloMatriculas.getValueAt(i, 4).toString();
+
+				String nombreCurso = "Desconocido";
+				String escuela = "Desconocida";
+
+				for (int j = 0; j < modeloCursos.getRowCount(); j++) {
+					if (modeloCursos.getValueAt(j, 1).toString().equalsIgnoreCase(sigla)) {
+						escuela = modeloCursos.getValueAt(j, 0).toString();
+						nombreCurso = modeloCursos.getValueAt(j, 2).toString();
+						break;
+					}
+				}
+
+				resultado.append("Curso: ").append(nombreCurso).append(" | Sigla: ").append(sigla).append(" | Grupo: ")
+						.append(grupo).append(" | Escuela: ").append(escuela)
+						.append("\n----------------------------------------\n");
+				encontrados = true;
+			}
+		}
+
+		if (encontrados) {
+			JOptionPane.showMessageDialog(studentView.panelBusquedaCursos, "Cursos encontrados.", "Éxito",
+					JOptionPane.INFORMATION_MESSAGE);
+		} else {
+			resultado.append("Este estudiante no está matriculado en ningún curso.\n");
+			JOptionPane.showMessageDialog(studentView.panelBusquedaCursos, "No se encontraron cursos para esta cédula.",
+					"Error", JOptionPane.ERROR_MESSAGE);
+		}
+
+		studentView.showTextAreaCursos.setText(resultado.toString());
+	}
+
+	private void buscarEstudiantesMatriculadosPorSiglaActionListener() {
+		studentView.btnBuscarEstudiantesMatriculados.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				buscarEstudiantesMatriculadosPorSigla();
+			}
+		});
+
+	}
+
+	public void buscarEstudiantesMatriculadosPorSigla() {
+		String siglaCurso = studentView.txtBuscarEstudiantesMatriculados.getText().trim();
+
+		if (siglaCurso.isEmpty()) {
+			JOptionPane.showMessageDialog(studentView.panelConsultaEstudiantesMatriculados,
+					"Debe ingresar la sigla del curso.", "Error", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+
+		DefaultTableModel modeloMatriculas = (DefaultTableModel) studentView.tablaMatriculas.getModel();
+		DefaultTableModel modeloEstudiantes = (DefaultTableModel) studentView.tablaEstudiantes.getModel();
+
+		StringBuilder resultado = new StringBuilder();
+		boolean encontrados = false;
+
+		for (int i = 0; i < modeloMatriculas.getRowCount(); i++) {
+			String siglaMatriculada = modeloMatriculas.getValueAt(i, 4).toString();
+
+			if (siglaMatriculada.equalsIgnoreCase(siglaCurso)) {
+				String cedula = modeloMatriculas.getValueAt(i, 1).toString();
+
+				for (int j = 0; j < modeloEstudiantes.getRowCount(); j++) {
+					String cedulaEst = modeloEstudiantes.getValueAt(j, 2).toString();
+					if (cedulaEst.equals(cedula)) {
+						String nombre = modeloEstudiantes.getValueAt(j, 0).toString();
+						String apellidos = modeloEstudiantes.getValueAt(j, 1).toString();
+
+						resultado.append("Nombre: ").append(nombre).append(" ").append(apellidos).append(" | Cédula: ")
+								.append(cedula).append("\n").append("----------------------------------------\n");
+						encontrados = true;
+						break;
+					}
+				}
+			}
+		}
+
+		if (encontrados) {
+			JOptionPane.showMessageDialog(studentView.panelConsultaEstudiantesMatriculados, "Estudiantes encontrados.",
+					"Éxito", JOptionPane.INFORMATION_MESSAGE);
+		} else {
+			resultado.append("No hay estudiantes matriculados en ese curso.\n");
+			JOptionPane.showMessageDialog(studentView.panelConsultaEstudiantesMatriculados,
+					"No se encontraron estudiantes.", "Error", JOptionPane.ERROR_MESSAGE);
+		}
+
+		studentView.txtAreaEstudiantesMatriculados.setText(resultado.toString());
+	}
+
 
 }
