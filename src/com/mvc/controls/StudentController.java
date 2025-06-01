@@ -744,20 +744,7 @@ public class StudentController {
 			guardarMatriculasEnJSON();
 			
 			
-			// Limpiar campos
-			studentView.txtCedulaEstudianteMatricula.setText("");
-			studentView.txtCedulaProfesorMatricula.setText("");
-			studentView.txtSiglaCursoMatricula.setText("");
-			studentView.txtGrupoMatricula.setText("");
-
-			// Reactivar campos y botones
-			studentView.txtCedulaEstudianteMatricula.setEnabled(true);
-//			studentView.txtCedulaProfesorMatricula.setEnabled(true);
-			studentView.txtSiglaCursoMatricula.setEnabled(true);
-			studentView.txtGrupoMatricula.setEnabled(true);
-			studentView.btnMatricularEstudiante.setEnabled(true);
-			studentView.btnDesmatricularEstudiante.setEnabled(false);
-			studentView.btnDeseleccionarTablaMatricula.setEnabled(false);
+			limpiarPanelMatricula();
 		}
 	}
 
@@ -1196,7 +1183,7 @@ public class StudentController {
 
 	    // Guardar en archivo
 	    try {
-	        Files.write(Paths.get("matriculas.json"), json.getBytes());
+	        Files.write(Paths.get("Matriculas.json"), json.getBytes());
 	        System.out.println("Archivo JSON guardado correctamente.");
 	    } catch (IOException e) {
 	        System.err.println("Error al guardar el archivo JSON:");
@@ -1205,7 +1192,7 @@ public class StudentController {
 	}
 	
 	public void cargarDatosMatriculados() {
-	    String rutaArchivo = "matriculas.json";
+	    String rutaArchivo = "Matriculas.json";
 
 	    try {
 	        // Leer el archivo JSON
@@ -1228,14 +1215,14 @@ public class StudentController {
 
 	        // Agregar las filas al modelo de la tabla
 	        for (Map<String, Object> fila : datosJSON) {
-	            Object[] filaTabla = new Object[] {
-	                fila.get("varNombreEscuela"),
-	                fila.get("varCedulaEstudiante"),
-	                fila.get("varCedulaProfesor"),
-	                fila.get("varGrupo"),
-	                fila.get("varSiglasCurso"),
-	                fila.get("varCreditos")
-	            };
+	        	Object[] filaTabla = new Object[] {
+        		    fila.get("varNombreEscuela"),
+        		    fila.get("varCedulaEstudiante"),
+        		    fila.get("varCedulaProfesor"),
+        		    fila.get("varGrupo"),
+        		    fila.get("varSiglasCurso"), 
+        		    ((Number) fila.get("varCreditos")).intValue()  // Subirlo a la tabla como entero
+        		};;
 	            modelo.addRow(filaTabla);
 	        }
 

@@ -31,8 +31,8 @@ public class Controller {
 		menuController = new MenuController(mainView, studentView, studentController);
 		universidadController = new UniversityController(mainView);
 		escuelaController = new SchoolController(mainView, universidadController);
-		cursosController = new CoursesController(mainView, universidadController);
 		teacherController = new TeacherController(mainView, universidadController,studentView );
+		cursosController = new CoursesController(mainView, studentView ,universidadController, teacherController, studentController);
 		
 		
 		

@@ -24,16 +24,25 @@ import com.mvc.models.Courses;
 import com.mvc.models.School;
 import com.mvc.models.University;
 import com.mvc.view.MainView;
+import com.mvc.view.StudentView;
+
 import java.lang.reflect.Type;
 public class CoursesController {
 
 	private MainView mainView;
+	private StudentView studentView;
 	private Courses varCursosRegistrar;
 	private UniversityController universidadController;
+	private TeacherController teacherController;
+	private StudentController studentController;
 
-	public CoursesController(MainView mainView, UniversityController universidadController) {
+	public CoursesController(MainView mainView, StudentView studentView, UniversityController universidadController,
+			TeacherController teacherController, StudentController studentController) {
+		this.studentView = studentView;
 		this.mainView = mainView;
 		this.universidadController = universidadController;
+		this.teacherController = teacherController;
+		this.studentController = studentController;
 		agregarCursosActionListener();
 		setupBtnDeseleccionarTablaActionListener();
 		eliminarCursoActionListener();
@@ -157,30 +166,54 @@ public class CoursesController {
 	}
 
 	public void eliminarCurso() {
-		String varSiglasCurso = mainView.varTxtSigla.getText().trim();
-		DefaultTableModel modeloTabla = (DefaultTableModel) mainView.tablaCursos.getModel();
-		boolean seleccionado = false;
-
-		for (int i = 0; i < modeloTabla.getRowCount(); i++) {
-			Object valorCelda = modeloTabla.getValueAt(i, 1);
-			if (valorCelda != null && valorCelda.toString().equalsIgnoreCase(varSiglasCurso)) {
-				modeloTabla.removeRow(i);
-				EscribirDataCursos();
-				JOptionPane.showMessageDialog(mainView, "¡Se eliminó el curso!", "¡Éxito!",
-						JOptionPane.INFORMATION_MESSAGE);
-				seleccionado = true;
-				
-				break;
-			}
-		}
-
-		if (!seleccionado) {
-			JOptionPane.showMessageDialog(mainView, "¡No se seleccionó el curso!", "¡Advertencia!",
-					JOptionPane.WARNING_MESSAGE);
-		}
-
-		limpiarPanelCurso(); 
-		mostrarCursosEnTextArea();
+	    String varSiglasCurso = mainView.varTxtSigla.getText().trim();
+	    DefaultTableModel modeloTablaCursos = (DefaultTableModel) mainView.tablaCursos.getModel();
+	    DefaultTableModel modeloTablaAsig = (DefaultTableModel) mainView.tablaAsignaciones.getModel();
+	    boolean seleccionado = false;
+	    
+	    // Eliminar de la tabla de cursos
+	    for (int i = 0; i < modeloTablaCursos.getRowCount(); i++) {
+	        Object valorCelda = modeloTablaCursos.getValueAt(i, 1);
+	        if (valorCelda != null && valorCelda.toString().equalsIgnoreCase(varSiglasCurso)) {
+	            modeloTablaCursos.removeRow(i);
+	            seleccionado = true;
+	            break;
+	        }
+	    }
+	    
+	    // Eliminar todas las asignaciones y matrículas asociadas al curso
+	    if (seleccionado) {
+	        // Eliminar de tabla de asignaciones
+	        for (int j = modeloTablaAsig.getRowCount() - 1; j >= 0; j--) {
+	            String siglasAsig = (String) modeloTablaAsig.getValueAt(j, 2); // Asumiendo que las siglas están en columna 2
+	            if (siglasAsig.equalsIgnoreCase(varSiglasCurso)) {
+	                modeloTablaAsig.removeRow(j);
+	            }
+	        }
+	        
+	        // Eliminar de tabla de matrículas
+	        DefaultTableModel modeloTablaMatriculas = (DefaultTableModel) studentView.tablaMatriculas.getModel();
+	        for (int k = modeloTablaMatriculas.getRowCount() - 1; k >= 0; k--) {
+	            String siglasMatricula = (String) modeloTablaMatriculas.getValueAt(k, 4); // Asumiendo que las siglas están en columna 4
+	            if (siglasMatricula.equalsIgnoreCase(varSiglasCurso)) {
+	                modeloTablaMatriculas.removeRow(k);
+	            }
+	        }
+	        
+	        // Guardar cambios en JSON
+	        EscribirDataCursos();
+	        teacherController.escribirDataProfesoresAsignados(); // Guardar también las asignaciones actualizadas
+	        studentController.guardarMatriculasEnJSON(); // Guardar también las matrículas actualizadas
+	        
+	        JOptionPane.showMessageDialog(mainView, "¡Curso, sus asignaciones y matrículas eliminados exitosamente!", "¡Éxito!",
+	                JOptionPane.INFORMATION_MESSAGE);
+	    } else {
+	        JOptionPane.showMessageDialog(mainView, "¡No se seleccionó el curso!", "¡Advertencia!",
+	                JOptionPane.WARNING_MESSAGE);
+	    }
+	    
+	    limpiarPanelCurso(); 
+	    mostrarCursosEnTextArea();
 	}
 
 	// SELECCIONAR CURSO
