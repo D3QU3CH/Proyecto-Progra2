@@ -43,7 +43,4 @@ public class Courses {
 		this.varNombreEscuela = pNombreEscuela;
 	}
 	
-	
-	
-	
 }
