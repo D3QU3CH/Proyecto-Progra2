@@ -1,0 +1,18 @@
+[
+    {
+        "varSiglasCurso": "INF101",
+        "varNombreEscuela": "Informática",
+        "varCedulaEstudiante": "12345678",
+        "varCedulaProfesor": "104561234",
+        "varCreditos": 3.0,
+        "varGrupo": "G1"
+    },
+    {
+        "varSiglasCurso": "MAT101",
+        "varNombreEscuela": "Matemática",
+        "varCedulaEstudiante": "87654321",
+        "varCedulaProfesor": "308237766",
+        "varCreditos": "3",
+        "varGrupo": "G1"
+    }
+]

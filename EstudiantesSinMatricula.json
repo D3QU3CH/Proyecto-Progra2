@@ -1,0 +1,18 @@
+[
+  {
+    "varName": "Juan",
+    "varLastnames": "Pérez",
+    "varId": "12345678",
+    "varCarnet": "20210001",
+    "varNationality": "Nacional",
+    "varScholarshipPercentage": "75.0%"
+  },
+  {
+    "varName": "Lucía",
+    "varLastnames": "Gómez",
+    "varId": "87654321",
+    "varCarnet": "20210002",
+    "varNationality": "Extranjero",
+    "varScholarshipPercentage": "No aplica"
+  }
+]

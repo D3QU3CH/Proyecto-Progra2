@@ -4,9 +4,9 @@ public class StudentNational extends Student {
 
 	private double varScholarshipPercentage;
 
-	public StudentNational(String pId, String pCarnet, String pName, String pLastnames, String pNationality,
+	public StudentNational(String pName, String pLastnames, String pId, String pCarnet, String pNationality,
 			double pScholarshipPercentage) {
-		super(pId, pCarnet, pName, pLastnames, pNationality);
+		super(pName, pLastnames,pId, pCarnet,  pNationality);
 		this.varScholarshipPercentage = pScholarshipPercentage;
 	}
 

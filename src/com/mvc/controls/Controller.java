@@ -48,6 +48,7 @@ public class Controller {
         		if (confirmacion == JOptionPane.YES_OPTION) {
                 	mainView.setVisible(false);
                 	studentView.setVisible(true);
+                	studentController.cargarEstudiantesDesdeJson();
         		}
             	
             }

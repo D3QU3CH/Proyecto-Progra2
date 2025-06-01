@@ -1,7 +1,11 @@
 package com.mvc.controls;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.mvc.models.Student;
 import com.mvc.models.StudentNational;
+import com.mvc.models.Teacher;
 import com.mvc.models.StudentForeign;
 import com.mvc.view.MainView;
 import com.mvc.view.StudentView;
@@ -13,14 +17,26 @@ import javax.swing.table.DefaultTableModel;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+///
+import java.nio.file.Path; // Para TypeToken
+import java.lang.reflect.Type;           // Para Type
 
 public class StudentController {
 
 	private MainView mainView;
 	private StudentView studentView;
 	private ArrayList<Student> estudiantesList = new ArrayList<>();
-
+	//private StudentNational studentNational;
+	//private StudentForeign studentFregin;
 	public StudentController(StudentView studentView, MainView pMainview) {
 		this.studentView = studentView;
 		this.mainView = pMainview;
@@ -42,6 +58,7 @@ public class StudentController {
 		
 		buscarEstudiantesMatriculadosPorSiglaActionListener();
 		buscarCursosPorEstudianteActionListener();
+		
 	}
 
 	private void nacionalidadComboBoxActionListener() {
@@ -137,7 +154,7 @@ public class StudentController {
 		// Crear estudiante
 		Student estudiante;
 		if (esExtranjero) {
-			estudiante = new StudentForeign(cedula, carnet, nombre, apellidos, nacionalidad);
+			estudiante = new StudentForeign(nombre, apellidos,cedula, carnet,  nacionalidad);
 		} else {
 			double porcentajeBeca;
 			try {
@@ -147,7 +164,7 @@ public class StudentController {
 						JOptionPane.ERROR_MESSAGE);
 				return;
 			}
-			estudiante = new StudentNational(cedula, carnet, nombre, apellidos, nacionalidad, porcentajeBeca);
+			estudiante = new StudentNational(nombre, apellidos,cedula, carnet,  nacionalidad, porcentajeBeca);
 		}
 		// Agregar a tabla y lista
 		DefaultTableModel modelo = (DefaultTableModel) studentView.tablaEstudiantes.getModel();
@@ -161,6 +178,7 @@ public class StudentController {
 						? ((StudentNational) estudiante).getVarScholarshipPercentage() + "%"
 						: "No aplica" });
 		estudiantesList.add(estudiante);
+		escribirDataEstudiantesSinMatricular();
 		JOptionPane.showMessageDialog(studentView.estudiantesPanel, "¡Estudiante registrado exitosamente!", "Éxito",
 				JOptionPane.INFORMATION_MESSAGE);
 		
@@ -199,8 +217,8 @@ public class StudentController {
 
 						// Si antes era nacional y ahora es extranjero, convertirlo
 						if (esExtranjero && estudiante instanceof StudentNational) {
-							estudiante = new StudentForeign(estudiante.getVarId(), estudiante.getVarCarnet(), nombre,
-									apellidos, nacionalidad);
+							estudiante = new StudentForeign( nombre,
+									apellidos,estudiante.getVarId(), estudiante.getVarCarnet(), nacionalidad);
 							estudiantesList.set(i, estudiante);
 
 						} else if (!esExtranjero && estudiante instanceof StudentForeign) {
@@ -220,8 +238,8 @@ public class StudentController {
 								return;
 							}
 
-							estudiante = new StudentNational(estudiante.getVarId(), estudiante.getVarCarnet(), nombre,
-									apellidos, nacionalidad, porcentaje);
+							estudiante = new StudentNational(nombre,
+									apellidos,estudiante.getVarId(), estudiante.getVarCarnet(),  nacionalidad, porcentaje);
 							estudiantesList.set(i, estudiante);
 						} else if (estudiante instanceof StudentNational) {
 							// Si sigue siendo nacional, solo actualizar porcentaje
@@ -249,7 +267,7 @@ public class StudentController {
 						modelo.setValueAt(estudiante instanceof StudentNational
 								? ((StudentNational) estudiante).getVarScholarshipPercentage() + "%"
 								: "No aplica", fila, 5);
-						
+						escribirDataEstudiantesSinMatricular();
 						JOptionPane.showMessageDialog(studentView.estudiantesPanel,
 								"¡Estudiante modificado exitosamente!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
 						limpiarPanelEstudiante();
@@ -279,32 +297,54 @@ public class StudentController {
 	}
 
 	public void eliminarEstudiante() {
-		String cedulaEstudiante = studentView.txtCedula.getText().trim();
-		DefaultTableModel modeloTabla = (DefaultTableModel) studentView.tablaEstudiantes.getModel();
-		boolean encontrado = false;
+	    String cedulaEstudiante = studentView.txtCedula.getText().trim();
+	    DefaultTableModel modeloTabla = (DefaultTableModel) studentView.tablaEstudiantes.getModel();
+	    boolean encontrado = false;
 
-		for (int i = 0; i < modeloTabla.getRowCount(); i++) {
-			String cedulaFila = (String) modeloTabla.getValueAt(i, 2);
-			if (cedulaFila != null && cedulaFila.equalsIgnoreCase(cedulaEstudiante)) {
-				modeloTabla.removeRow(i);
-				encontrado = true;
+	    for (int i = 0; i < modeloTabla.getRowCount(); i++) {
+	        String cedulaFila = (String) modeloTabla.getValueAt(i, 2);
+	        if (cedulaFila != null && cedulaFila.equalsIgnoreCase(cedulaEstudiante)) {
+	            modeloTabla.removeRow(i);
+	            encontrado = true;
 
-				// Eliminar de la lista interna
-				estudiantesList.removeIf(est -> est.getVarId().equalsIgnoreCase(cedulaEstudiante));
+	            // Eliminar de la lista interna
+	            estudiantesList.removeIf(est -> est.getVarId().equalsIgnoreCase(cedulaEstudiante));
+	            escribirDataEstudiantesSinMatricular();
+	            eliminarMatriculaPorCedula(cedulaEstudiante);
 
-				JOptionPane.showMessageDialog(studentView.estudiantesPanel, "!Estudiante eliminado!", "�xito",
-						JOptionPane.INFORMATION_MESSAGE);
-				break;
-			}
-		}
+	            JOptionPane.showMessageDialog(studentView.estudiantesPanel, "¡Estudiante eliminado!", "Éxito",
+	                    JOptionPane.INFORMATION_MESSAGE);
+	            break;
+	        }
+	    }
 
-		if (!encontrado) {
-			JOptionPane.showMessageDialog(studentView.estudiantesPanel, "!Estudiante no encontrado!", "Advertencia",
-					JOptionPane.WARNING_MESSAGE);
-		}
+	    if (!encontrado) {
+	        JOptionPane.showMessageDialog(studentView.estudiantesPanel, "¡Estudiante no encontrado!", "Advertencia",
+	                JOptionPane.WARNING_MESSAGE);
+	    }
 
-		limpiarFormularioEstudiante();
-		limpiarPanelEstudiante();
+	    limpiarFormularioEstudiante();
+	    limpiarPanelEstudiante();
+	}
+	private void eliminarMatriculaPorCedula(String cedula) {
+	    DefaultTableModel modeloMatricula = (DefaultTableModel) studentView.tablaMatriculas.getModel();
+	    List<Integer> filasAEliminar = new ArrayList<>();
+
+	 
+	    for (int i = 0; i < modeloMatricula.getRowCount(); i++) {
+	        String cedulaEnTabla = (String) modeloMatricula.getValueAt(i, 1);
+	        if (cedulaEnTabla != null && cedulaEnTabla.equalsIgnoreCase(cedula)) {
+	            filasAEliminar.add(i);
+	        }
+	    }
+
+	  
+	    for (int i = filasAEliminar.size() - 1; i >= 0; i--) {
+	        modeloMatricula.removeRow(filasAEliminar.get(i));
+	    }
+
+	    // Guardar cambios en el JSON
+	    guardarMatriculasEnJSON();
 	}
 
 	private void setupTableEstudiantesgSelectionListener() {
@@ -522,6 +562,7 @@ public class StudentController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				matricularEstudiante();
+				guardarMatriculasEnJSON();
 			}
 		});
 	}
@@ -698,7 +739,10 @@ public class StudentController {
 
 		if (confirmacion == JOptionPane.YES_OPTION) {
 			DefaultTableModel modelo = (DefaultTableModel) studentView.tablaMatriculas.getModel();
+			
 			modelo.removeRow(filaSeleccionada);
+			guardarMatriculasEnJSON();
+			
 			
 			// Limpiar campos
 			studentView.txtCedulaEstudianteMatricula.setText("");
@@ -832,7 +876,20 @@ public class StudentController {
 	                estudiantesProcesados[j] = true; 
 	                
 	                String siglasCurso = (String) modeloMatricula.getValueAt(j, 4);
-	                int creditos = (int) modeloMatricula.getValueAt(j, 5);
+	                Object valorCelda = modeloMatricula.getValueAt(j, 5);
+	                int creditos;
+	                ///hubo cambiossss
+	                if (valorCelda instanceof Number) {
+	                    creditos = ((Number) valorCelda).intValue();
+	                } else if (valorCelda != null) {
+	                    try {
+	                        creditos = Integer.parseInt(valorCelda.toString().split("\\.")[0]);
+	                    } catch (NumberFormatException e) {
+	                        creditos = 0;
+	                    }
+	                } else {
+	                    creditos = 0;
+	                }
 	                
 	                String nombreCurso = "";
 	                for (int k = 0; k < modeloCursos.getRowCount(); k++) {
@@ -1013,6 +1070,186 @@ public class StudentController {
 
 		studentView.txtAreaEstudiantesMatriculados.setText(resultado.toString());
 	}
+	///METODOS JSON
+	
+	public void escribirDataEstudiantesSinMatricular() {
+	    DefaultTableModel modelo = (DefaultTableModel) studentView.tablaEstudiantes.getModel();
+	    List<Map<String, Object>> estudiantes = new ArrayList<>();
+
+	    for (int i = 0; i < modelo.getRowCount(); i++) {
+	        try {
+	            String nombre = modelo.getValueAt(i, 0).toString();
+	            String apellidos = modelo.getValueAt(i, 1).toString();
+	            String id = modelo.getValueAt(i, 2).toString(); // Cédula
+	            String carnet = modelo.getValueAt(i, 3).toString();
+	            String nacionalidad = modelo.getValueAt(i, 4).toString();
+	            String porcentajeRaw = modelo.getValueAt(i, 5).toString();
+
+	            Map<String, Object> estudiante = new LinkedHashMap<>();
+	            estudiante.put("varName", nombre);
+	            estudiante.put("varLastnames", apellidos);
+	            estudiante.put("varId", id);
+	            estudiante.put("varCarnet", carnet);
+	            estudiante.put("varNationality", nacionalidad);
+
+	            if (nacionalidad.equalsIgnoreCase("Nacional")) {
+	                double porcentaje = Double.parseDouble(porcentajeRaw.replace("%", "").trim());
+	                estudiante.put("varScholarshipPercentage", porcentaje + "%");
+	            } else {
+	                estudiante.put("varScholarshipPercentage", "No aplica");
+	            }
+
+	            estudiantes.add(estudiante);
+
+	        } catch (Exception e) {
+	            System.err.println("Error procesando fila " + i + ": " + e.getMessage());
+	        }
+	    }
+
+	    Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
+	    try {
+	        String json = gson.toJson(estudiantes);
+	        Files.write(Paths.get("EstudiantesSinMatricula.json"), json.getBytes(StandardCharsets.UTF_8));
+	        System.out.println("Datos guardados correctamente en EstudiantesSinMatricula.json");
+	    } catch (IOException e) {
+	        System.err.println("Error al guardar el archivo JSON:");
+	        e.printStackTrace();
+	    }
+	}
+	
+
+	public void cargarEstudiantesDesdeJson() {
+	    try {
+	        Path path = Paths.get("EstudiantesSinMatricula.json");
+	        if (!Files.exists(path)) return;
+
+	        String contenido = new String(Files.readAllBytes(path), StandardCharsets.UTF_8);
+	        Gson gson = new Gson();
+
+	        // Crear lista genérica con Map<String, String> para evitar usar clases DTO
+	        Type tipoLista = new TypeToken<List<Map<String, String>>>() {}.getType();
+	        List<Map<String, String>> lista = gson.fromJson(contenido, tipoLista);
+
+	        DefaultTableModel modelo = (DefaultTableModel) studentView.tablaEstudiantes.getModel();
+	        modelo.setRowCount(0);
+	        estudiantesList.clear();
+
+	        for (Map<String, String> mapa : lista) {
+	            String nombre = mapa.get("varName");
+	            String apellidos = mapa.get("varLastnames");
+	            String cedula = mapa.get("varId");
+	            String carnet = mapa.get("varCarnet");
+	            String nacionalidad = mapa.get("varNationality");
+	            String porcentajeBeca = mapa.get("varScholarshipPercentage");
+
+	            if (nacionalidad.equalsIgnoreCase("Nacional")) {
+	                double porcentaje = Double.parseDouble(porcentajeBeca.replace("%", "").trim());
+	                StudentNational estudiante = new StudentNational(nombre, apellidos, cedula, carnet, nacionalidad, porcentaje);
+	                estudiantesList.add(estudiante);
+	                modelo.addRow(new Object[]{nombre, apellidos, cedula, carnet, nacionalidad, porcentaje + "%"});
+	            } else {
+	                StudentForeign estudiante = new StudentForeign(nombre, apellidos, cedula, carnet, nacionalidad);
+	                estudiantesList.add(estudiante);
+	                modelo.addRow(new Object[]{nombre, apellidos, cedula, carnet, nacionalidad, "No aplica"});
+	            }
+	        }
+
+	        // Activar botones como si hubieras agregado estudiantes manualmente
+	        studentView.btnModificarEstudiante.setEnabled(true);
+	        studentView.btnEliminarEstudiante.setEnabled(true);
+	        studentView.btnDeseleccionarTabla.setEnabled(true);
+
+	        JOptionPane.showMessageDialog(studentView.estudiantesPanel, "Estudiantes cargados correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+
+	    } catch (IOException | NumberFormatException e) {
+	        e.printStackTrace();
+	        JOptionPane.showMessageDialog(studentView.estudiantesPanel, "Error al cargar estudiantes: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+	    }
+	}
+
+	
+	public void guardarMatriculasEnJSON() {
+	    // Obtener el modelo de la tabla
+	    DefaultTableModel modelo = (DefaultTableModel) studentView.tablaMatriculas.getModel();
+	    
+	    // Lista donde guardaremos los datos como mapas
+	    List<Map<String, Object>> estudiantesMatriculados = new ArrayList<>();
+
+	    // Recorrer filas de la tabla
+	    for (int i = 0; i < modelo.getRowCount(); i++) {
+	        Map<String, Object> fila = new HashMap<>();
+	        
+	        fila.put("varNombreEscuela", modelo.getValueAt(i, 0));
+	        fila.put("varCedulaEstudiante", modelo.getValueAt(i, 1));
+	        fila.put("varCedulaProfesor", modelo.getValueAt(i, 2));
+	        fila.put("varGrupo", modelo.getValueAt(i, 3));
+	        fila.put("varSiglasCurso", modelo.getValueAt(i, 4));
+	        fila.put("varCreditos", modelo.getValueAt(i, 5));
+
+	        estudiantesMatriculados.add(fila);
+	    }
+
+	    // Convertir a JSON
+	    Gson gson = new Gson();
+	    String json = gson.toJson(estudiantesMatriculados);
+
+	    // Guardar en archivo
+	    try {
+	        Files.write(Paths.get("matriculas.json"), json.getBytes());
+	        System.out.println("Archivo JSON guardado correctamente.");
+	    } catch (IOException e) {
+	        System.err.println("Error al guardar el archivo JSON:");
+	        e.printStackTrace();
+	    }
+	}
+	
+	public void cargarDatosMatriculados() {
+	    String rutaArchivo = "matriculas.json";
+
+	    try {
+	        // Leer el archivo JSON
+	        String json = new String(Files.readAllBytes(Paths.get(rutaArchivo)));
+
+	        // Usamos Gson para convertir el JSON a una lista de mapas
+	        Gson gson = new Gson();
+	        List<Map<String, Object>> datosJSON = gson.fromJson(json, new TypeToken<List<Map<String, Object>>>(){}.getType());
+
+	        if (datosJSON == null) {
+	            System.err.println("El archivo JSON está vacío o con formato incorrecto.");
+	            return;
+	        }
+
+	        // Obtener el modelo de la tabla
+	        DefaultTableModel modelo = (DefaultTableModel) studentView.tablaMatriculas.getModel();
+
+	        // Limpiar filas existentes (opcional)
+	        modelo.setRowCount(0);
+
+	        // Agregar las filas al modelo de la tabla
+	        for (Map<String, Object> fila : datosJSON) {
+	            Object[] filaTabla = new Object[] {
+	                fila.get("varNombreEscuela"),
+	                fila.get("varCedulaEstudiante"),
+	                fila.get("varCedulaProfesor"),
+	                fila.get("varGrupo"),
+	                fila.get("varSiglasCurso"),
+	                fila.get("varCreditos")
+	            };
+	            modelo.addRow(filaTabla);
+	        }
+
+	        System.out.println("Datos cargados correctamente desde " + rutaArchivo);
+
+	    } catch (IOException e) {
+	        System.err.println("Error al leer el archivo JSON:");
+	        e.printStackTrace();
+	    } catch (Exception e) {
+	        System.err.println("Error al procesar el archivo JSON:");
+	        e.printStackTrace();
+	    }
+	}
+	
 
 
 }

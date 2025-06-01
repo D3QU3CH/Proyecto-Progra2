@@ -114,6 +114,7 @@ public class MenuController {
             public void actionPerformed(ActionEvent e) {
             	studentController.mostrarEstudiadesEnPanelMatriculaCursosDisponibles();
             	studentController.mostrarEstudiadesEnPanelMatricula();
+            	studentController.cargarDatosMatriculados();
             	studentView.showPanel("MATRICULA");
             }
         });
