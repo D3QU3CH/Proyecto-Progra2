@@ -88,10 +88,22 @@ public class StudentController {
 			return;
 		}
 		// Validación: Solo números para cédula (excepto extranjeros) y carnet
-		if (!esExtranjero && !cedula.matches("\\d+")) {
-			JOptionPane.showMessageDialog(studentView.estudiantesPanel, "La cédula debe contener solo números.",
-					"Error", JOptionPane.ERROR_MESSAGE);
-			return;
+		// Validación: Porcentaje de beca debe estar entre 0 y 100
+		if (!esExtranjero) {
+		    try {
+		        double porcentajeBeca = Double.parseDouble(porcentajeBecaTexto);
+		        if (porcentajeBeca < 0 || porcentajeBeca > 100) {
+		            JOptionPane.showMessageDialog(studentView.estudiantesPanel, 
+		                "El porcentaje de beca debe estar entre 0 y 100.", 
+		                "Error", JOptionPane.ERROR_MESSAGE);
+		            return;
+		        }
+		    } catch (NumberFormatException e) {
+		        JOptionPane.showMessageDialog(studentView.estudiantesPanel, 
+		            "El porcentaje de beca debe ser un número válido.", 
+		            "Error", JOptionPane.ERROR_MESSAGE);
+		        return;
+		    }
 		}
 		if (!carnet.matches("\\d+")) {
 			JOptionPane.showMessageDialog(studentView.estudiantesPanel, "El carnet debe contener solo números.",
@@ -111,6 +123,7 @@ public class StudentController {
 				return;
 			}
 		}
+
 		// Validación: No permitir que la cédula coincida con un profesor
 		DefaultTableModel modeloProfesores = (DefaultTableModel) mainView.tablaProfesores.getModel();
 		for (int i = 0; i < modeloProfesores.getRowCount(); i++) {
@@ -195,6 +208,12 @@ public class StudentController {
 							double porcentaje;
 							try {
 								porcentaje = Double.parseDouble(porcentajeBecaTexto);
+								if (porcentaje < 0 || porcentaje > 100) {
+						            JOptionPane.showMessageDialog(studentView.estudiantesPanel, 
+						                "El porcentaje de beca debe estar entre 0 y 100.", 
+						                "Error", JOptionPane.ERROR_MESSAGE);
+						            return;
+						        }	
 							} catch (NumberFormatException e) {
 								JOptionPane.showMessageDialog(studentView.estudiantesPanel,
 										"Porcentaje de beca inválido.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -209,6 +228,12 @@ public class StudentController {
 							try {
 								double porcentaje = Double.parseDouble(porcentajeBecaTexto);
 								((StudentNational) estudiante).setVarScholarshipPercentage(porcentaje);
+								if (porcentaje < 0 || porcentaje > 100) {
+						            JOptionPane.showMessageDialog(studentView.estudiantesPanel, 
+						                "El porcentaje de beca debe estar entre 0 y 100.", 
+						                "Error", JOptionPane.ERROR_MESSAGE);
+						            return;
+						        }	
 							} catch (NumberFormatException e) {
 								JOptionPane.showMessageDialog(studentView.estudiantesPanel,
 										"Porcentaje de beca inválido.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -914,7 +939,7 @@ public class StudentController {
 
 				resultado.append("Curso: ").append(nombreCurso).append(" | Sigla: ").append(sigla).append(" | Grupo: ")
 						.append(grupo).append(" | Escuela: ").append(escuela)
-						.append("\n----------------------------------------\n");
+						.append("\n------------------------------------------------------------------------------------------------------------------------------\n");
 				encontrados = true;
 			}
 		}
@@ -939,7 +964,7 @@ public class StudentController {
 			}
 		});
 
-	}
+	} 
 
 	public void buscarEstudiantesMatriculadosPorSigla() {
 		String siglaCurso = studentView.txtBuscarEstudiantesMatriculados.getText().trim();
@@ -969,7 +994,7 @@ public class StudentController {
 						String apellidos = modeloEstudiantes.getValueAt(j, 1).toString();
 
 						resultado.append("Nombre: ").append(nombre).append(" ").append(apellidos).append(" | Cédula: ")
-								.append(cedula).append("\n").append("----------------------------------------\n");
+								.append(cedula).append("\n").append("--------------------------------------------------------------------------------\n");
 						encontrados = true;
 						break;
 					}
