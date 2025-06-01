@@ -105,6 +105,13 @@ public class UniversityController {
             String nuevoTelefono = mainView.txtNewPhone.getText().trim();
 
             if (!nuevaDireccion.isEmpty() && !nuevoTelefono.isEmpty()) {
+            	
+            	if (!nuevoTelefono.matches("\\d+")) {
+                    JOptionPane.showMessageDialog(mainView, "El número de teléfono solo debe contener números.", "¡Error!",
+                            JOptionPane.ERROR_MESSAGE);
+                    return; // No continuar si no es válido
+                }
+            	
                 varUniversidadRegistrada.actualizarDatos(nuevaDireccion, nuevoTelefono);
                 // Guarda el objeto actualizado
                 escribirDataEnJson();

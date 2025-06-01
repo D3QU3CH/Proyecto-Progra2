@@ -513,9 +513,10 @@ public class StudentController {
 
 		// Validar existencia del estudiante
 		boolean estudianteExiste = false;
+		String cedulaRegistrada = "";
 		for (int i = 0; i < studentView.tablaEstudiantes.getRowCount(); i++) {
-			String cedulaRegistrada = studentView.tablaEstudiantes.getValueAt(i, 2).toString();
-			if (cedulaRegistrada.equals(cedulaEst)) {
+			cedulaRegistrada = studentView.tablaEstudiantes.getValueAt(i, 2).toString();
+			if (cedulaRegistrada.equalsIgnoreCase(cedulaEst)) {
 				estudianteExiste = true;
 				break;
 			}
@@ -531,7 +532,7 @@ public class StudentController {
 		String escuelaEst = "";
 		for (int i = 0; i < mainView.tablaAsignaciones.getRowCount(); i++) {
 			String cedulaProfAsig = mainView.tablaAsignaciones.getValueAt(i, 1).toString();
-			if (cedulaProfAsig.equals(cedulaProf)) {
+			if (cedulaProfAsig.equalsIgnoreCase(cedulaProf)) {
 				escuelaEst = mainView.tablaAsignaciones.getValueAt(i, 0).toString();
 				profesorAsignado = true;
 				break;
@@ -565,7 +566,7 @@ public class StudentController {
 		for (int i = 0; i < studentView.tablaMatriculas.getRowCount(); i++) {
 			String cedulaMatriculada = studentView.tablaMatriculas.getValueAt(i, 1).toString();
 			String escuelaYaMatriculada = studentView.tablaMatriculas.getValueAt(i, 0).toString();
-			if (cedulaMatriculada.equals(cedulaEst) && !escuelaYaMatriculada.equals(escuelaCurso)) {
+			if (cedulaMatriculada.equalsIgnoreCase(cedulaEst) && !escuelaYaMatriculada.equalsIgnoreCase(escuelaCurso)) {
 				JOptionPane.showMessageDialog(studentView.matriculaPanel,
 						"Este estudiante ya está matriculado en otra escuela.", "Error", JOptionPane.ERROR_MESSAGE);
 				return;
@@ -580,7 +581,7 @@ public class StudentController {
 		    String cedulaAsignada = mainView.tablaAsignaciones.getValueAt(i, 1).toString();
 		    String siglaAsignada = mainView.tablaAsignaciones.getValueAt(i, 2).toString();
 		    
-		    if (cedulaAsignada.equals(cedulaProf) && siglaAsignada.equalsIgnoreCase(siglaCurso)) {
+		    if (cedulaAsignada.equalsIgnoreCase(cedulaProf) && siglaAsignada.equalsIgnoreCase(siglaCurso)) {
 		        profesorAsignadoAlCurso = true;
 		        break;
 		    }
@@ -618,8 +619,9 @@ public class StudentController {
 		
 
 		// Validar que no esté ya matriculado en ese curso
+		String cedulaMatriculada = "";
 		for (int i = 0; i < studentView.tablaMatriculas.getRowCount(); i++) {
-			String cedulaMatriculada = studentView.tablaMatriculas.getValueAt(i, 1).toString();
+			cedulaMatriculada = studentView.tablaMatriculas.getValueAt(i, 1).toString();
 			String siglaMatriculada = studentView.tablaMatriculas.getValueAt(i, 4).toString();
 			if (cedulaMatriculada.equals(cedulaEst) && siglaMatriculada.equalsIgnoreCase(siglaCurso)) {
 				JOptionPane.showMessageDialog(studentView.matriculaPanel,
@@ -632,7 +634,7 @@ public class StudentController {
 		int creditos = (Math.random() < 0.5) ? 3 : 4;
 
 		DefaultTableModel modelo = (DefaultTableModel) studentView.tablaMatriculas.getModel();
-		modelo.addRow(new Object[] { escuelaEst, cedulaEst, cedulaProf, grupoAsignado, siglaAsignadas, creditos });
+		modelo.addRow(new Object[] { escuelaEst, cedulaRegistrada, cedulaProf, grupoAsignado, siglaAsignadas, creditos });
 
 		JOptionPane.showMessageDialog(studentView.matriculaPanel, "¡Estudiante matriculado exitosamente!", "Éxito",
 				JOptionPane.INFORMATION_MESSAGE);
@@ -678,7 +680,7 @@ public class StudentController {
 
 			// Reactivar campos y botones
 			studentView.txtCedulaEstudianteMatricula.setEnabled(true);
-			studentView.txtCedulaProfesorMatricula.setEnabled(true);
+//			studentView.txtCedulaProfesorMatricula.setEnabled(true);
 			studentView.txtSiglaCursoMatricula.setEnabled(true);
 			studentView.txtGrupoMatricula.setEnabled(true);
 			studentView.btnMatricularEstudiante.setEnabled(true);
@@ -756,65 +758,110 @@ public class StudentController {
 	}
 	
 	public void pagoDeCreditos() {
-	    studentView.txtAreaPagoCreditos.setText(""); 
-
+	    studentView.txtAreaPagoCreditos.setText("");
 	    DefaultTableModel modeloMatricula = (DefaultTableModel) studentView.tablaMatriculas.getModel();
 	    DefaultTableModel modeloEstudiantes = (DefaultTableModel) studentView.tablaEstudiantes.getModel();
 	    DefaultTableModel modeloCursos = (DefaultTableModel) mainView.tablaCursos.getModel();
-
 	    StringBuilder resultado = new StringBuilder();
-
+	    
+	    boolean[] estudiantesProcesados = new boolean[modeloMatricula.getRowCount()];
+	    
 	    for (int i = 0; i < modeloMatricula.getRowCount(); i++) {
+	        if (estudiantesProcesados[i]) {
+	            continue; // Ya procesamos este estudiante
+	        }
+	        
 	        String cedulaEstudiante = (String) modeloMatricula.getValueAt(i, 1);
-	        String siglasCurso = (String) modeloMatricula.getValueAt(i, 4);
-	        int creditos = (int) modeloMatricula.getValueAt(i, 5); 
-	        String creditosStr = String.valueOf(creditos);
-
+	        
+	        // Buscar información del estudiante
 	        String nombreEstudiante = "";
 	        String nacionalidad = "";
-	        String nombreCurso = "";
-
-
+	        String porcentajeBeca = "";
 	        for (int f = 0; f < modeloEstudiantes.getRowCount(); f++) {
 	            String cedulaTablaEstudiantes = (String) modeloEstudiantes.getValueAt(f, 2);
 	            if (cedulaEstudiante.equalsIgnoreCase(cedulaTablaEstudiantes)) {
 	                nombreEstudiante = (String) modeloEstudiantes.getValueAt(f, 0);
 	                nacionalidad = (String) modeloEstudiantes.getValueAt(f, 4);
+	                porcentajeBeca = (String) modeloEstudiantes.getValueAt(f, 5);
 	                break;
 	            }
 	        }
-
-	        for (int j = 0; j < modeloCursos.getRowCount(); j++) {
-	            String siglasTablaCursos = (String) modeloCursos.getValueAt(j, 1);
-	            if (siglasCurso.equalsIgnoreCase(siglasTablaCursos)) {
-	                nombreCurso = (String) modeloCursos.getValueAt(j, 2);
-	                break;
-	            }
-	        }
-
-	        // Cálculo de aranceles
-	        double creditosDouble = Double.parseDouble(creditosStr); 
-	        double costoPorCreditos = creditosDouble * 10000;
-	        double subtotal = costoPorCreditos + 15000;
-	        boolean esExtranjero = nacionalidad.equalsIgnoreCase("Extranjero");
-	        double total = esExtranjero ? subtotal * 1.4 : subtotal;
-
 	        
+	        boolean esExtranjero = nacionalidad.equalsIgnoreCase("Extranjero");
+	        
+	        resultado.append("ESTUDIANTE: ").append(nombreEstudiante).append(" (").append(nacionalidad).append(")\n");
+	        resultado.append("Cédula: ").append(cedulaEstudiante).append("\n");
 	        resultado.append("──────────────────────────────\n");
-	        resultado.append("Estudiante: ").append(nombreEstudiante).append(" (").append(nacionalidad).append(")\n");
-	        resultado.append("Curso: ").append(nombreCurso).append(" (").append(siglasCurso).append(")\n");
-	        resultado.append("Créditos: ").append(creditos).append("\n");
-	        resultado.append("Costo por créditos: ¢").append((int) costoPorCreditos).append("\n");
-	        resultado.append("Cargos administrativos: ¢15,000\n");
-
-	        if (esExtranjero) {
-	            resultado.append("Recargo extranjero (40%): ¢").append((int)(subtotal * 0.4)).append("\n");
+	        resultado.append("CURSOS MATRICULADOS:\n\n");
+	        
+	        int totalCreditos = 0;
+	        double costoTotalCreditos = 0;
+	        
+	        for (int j = 0; j < modeloMatricula.getRowCount(); j++) {
+	            String cedulaComparar = (String) modeloMatricula.getValueAt(j, 1);
+	            
+	            if (cedulaEstudiante.equalsIgnoreCase(cedulaComparar)) {
+	                estudiantesProcesados[j] = true; 
+	                
+	                String siglasCurso = (String) modeloMatricula.getValueAt(j, 4);
+	                int creditos = (int) modeloMatricula.getValueAt(j, 5);
+	                
+	                String nombreCurso = "";
+	                for (int k = 0; k < modeloCursos.getRowCount(); k++) {
+	                    String siglasTablaCursos = (String) modeloCursos.getValueAt(k, 1);
+	                    if (siglasCurso.equalsIgnoreCase(siglasTablaCursos)) {
+	                        nombreCurso = (String) modeloCursos.getValueAt(k, 2);
+	                        break;
+	                    }
+	                }
+	                
+	                double costoCurso = creditos * 10000;
+	                totalCreditos += creditos;
+	                costoTotalCreditos += costoCurso;
+	                
+	                resultado.append("• Curso: ").append(nombreCurso).append(" (").append(siglasCurso).append(")\n");
+	                resultado.append("  Créditos: ").append(creditos).append("\n");
+	                resultado.append("  Costo por créditos: ¢").append((int)costoCurso).append("\n\n");
+	            }
 	        }
-
-	        resultado.append("Total a pagar: ¢").append((int) total).append("\n");
-	        resultado.append("──────────────────────────────\n\n");
+	        
+	        // Cálculos finales
+	        double subtotal = costoTotalCreditos + 15000;
+	        double totalConRecargo = esExtranjero ? subtotal * 1.4 : subtotal;
+	        
+	        // Aplicar porcentaje de beca solo a estudiantes nacionales
+	        double descuentoBeca = 0;
+	        double totalFinal = totalConRecargo;
+	        
+	        if (!esExtranjero) {
+	            try {
+	                String porcentajeLimpio = porcentajeBeca.replace("%", "");
+	                double porcentaje = Double.parseDouble(porcentajeLimpio) / 100.0;
+	                descuentoBeca = totalConRecargo * porcentaje;
+	                totalFinal = totalConRecargo - descuentoBeca;
+	            } catch (NumberFormatException e) {
+	                // Si no se puede convertir, no aplicar descuento
+	            }
+	        }
+	        
+	        resultado.append("RESUMEN DE PAGO:\n");
+	        resultado.append("Total de créditos: ").append(totalCreditos).append("\n");
+	        resultado.append("Costo total por créditos: ¢").append((int)costoTotalCreditos).append("\n");
+	        resultado.append("Cargos administrativos: ¢15,000\n");
+	        
+	        if (esExtranjero) {
+	            resultado.append("Recargo extranjero (40%): ¢").append((double)(subtotal * 0.4)).append("\n");
+	            resultado.append("Porcentaje de beca: No aplica\n");
+	            resultado.append("TOTAL A PAGAR: ¢").append((double)totalFinal).append("\n");
+	        } else {
+	        	resultado.append("Porcentaje de beca: ").append(porcentajeBeca).append("\n");
+                resultado.append("Descuento por beca: ¢").append((double)descuentoBeca).append("\n");
+                resultado.append("TOTAL A PAGAR: ¢").append((double)totalFinal).append("\n");
+	        }
+	        
+	        resultado.append("══════════════════════════════\n\n");
 	    }
-
+	    
 	    studentView.txtAreaPagoCreditos.setText(resultado.toString());
 	}
 

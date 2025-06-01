@@ -1,0 +1,27 @@
+[
+  {
+    "varSiglas": "INF101",
+    "varDescripcion": "Introducción a la Programación",
+    "varNombreEscuela": "Informática"
+  },
+  {
+    "varSiglas": "INF302",
+    "varDescripcion": "Inteligencia Artificial",
+    "varNombreEscuela": "Informática"
+  },
+  {
+    "varSiglas": "MAT101",
+    "varDescripcion": "Cálculo I",
+    "varNombreEscuela": "Matemática"
+  },
+  {
+    "varSiglas": "MAT102",
+    "varDescripcion": "Álgebra Lineal",
+    "varNombreEscuela": "Matemática"
+  },
+  {
+    "varSiglas": "ADM101",
+    "varDescripcion": "Fundamentos de Administración",
+    "varNombreEscuela": "Administración"
+  }
+]

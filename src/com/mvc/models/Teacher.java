@@ -7,15 +7,17 @@ public class Teacher {
 	String varId;
 	String varGroup;
 	String varSiglasCourses;
-	String varScuela;
-	public Teacher(String varName, String varFirstSurname, String varSecondSurname, String varId, String varScuela,String varGroup,
+	String varEscuela;
+	
+
+	public Teacher(String varName, String varFirstSurname, String varSecondSurname, String varId, String varEscuela,String varGroup,
 			String varSiglasCourses) {
 		super();
 		this.varName = varName;
 		this.varFirstSurname = varFirstSurname;
 		this.varSecondSurname = varSecondSurname;
 		this.varId = varId;
-		this.varScuela=varScuela;
+		this.varEscuela=varEscuela;
 		this.varGroup = varGroup;
 		this.varSiglasCourses = varSiglasCourses;
 	}
@@ -66,6 +68,14 @@ public class Teacher {
 
 	public void setVarFirstSurname(String varFirstSurname) {
 		this.varFirstSurname = varFirstSurname;
+	}
+	
+	public String getVarEscuela() {
+		return varEscuela;
+	}
+
+	public void setVarEscuela(String varScuela) {
+		this.varEscuela = varScuela;
 	}
 
 	@Override

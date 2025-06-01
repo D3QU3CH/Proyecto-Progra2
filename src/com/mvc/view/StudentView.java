@@ -318,7 +318,7 @@ public class StudentView extends JFrame {
 
         JPanel buttonsPanelMatricula = new JPanel(new GridLayout(3, 1, 10, 10));
 
-        btnEstudiantesMatriculados = new JButton("Estudiantes Matriculados");
+        btnEstudiantesMatriculados = new JButton("Consulta Estudiantes Matriculados");
         btnConsultaCursosPorEstudiante = new JButton("Consulta de Cursos por Estudiante");
         btnPagoCreditos = new JButton("Pago de Créditos");
 
@@ -425,6 +425,8 @@ public class StudentView extends JFrame {
     
     // Panel de estudiantes matriculados
     public JPanel panelConsultaEstudiantesMatriculados;
+    public JTextField txtBuscarEstudiantesMatriculados;
+    public JButton btnBuscarEstudiantesMatriculados;
     public JTextArea txtAreaEstudiantesMatriculados;
     private JScrollPane scrollPaneEstudiantesMatriculados;
     public JButton btnRegresarEstudiantesMatriculados;
@@ -433,16 +435,32 @@ public class StudentView extends JFrame {
         panelConsultaEstudiantesMatriculados = new JPanel(new BorderLayout(10, 10));
         panelConsultaEstudiantesMatriculados.setBorder(new EmptyBorder(10, 10, 10, 10));
         
-        JLabel lblTitleEstudiantesMatriculados = new JLabel("Informaci�n de los Estudiantes Matriculados", JLabel.CENTER);
-        lblTitleEstudiantesMatriculados.setFont(new Font("Arial", Font.BOLD, 18));
+        JLabel lblTitleEstudiantesMatriculados = new JLabel("Buscar Estudiantes Matriculados Por siglas de Curso", JLabel.CENTER);
+        lblTitleEstudiantesMatriculados.setFont(new Font("Arial", Font.BOLD, 16));
         panelConsultaEstudiantesMatriculados.add(lblTitleEstudiantesMatriculados, BorderLayout.NORTH);
         
-        JPanel panelContenidoEstudiantesMatriculados = new JPanel(new BorderLayout(10, 10));
-        panelContenidoEstudiantesMatriculados.setBorder(BorderFactory.createTitledBorder(""));
+        JPanel panelContenidoEstudiantesMatriculados = new JPanel(new BorderLayout(5, 15));
+        panelContenidoEstudiantesMatriculados.setBorder(BorderFactory.createTitledBorder("Consulta"));
         
-        txtAreaEstudiantesMatriculados = new JTextArea();
+        JPanel panelTxtYBotonEstudiantesMatriculados = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        
+        // Label instructivo antes del campo de texto
+        JLabel lblInstruccion = new JLabel("Ingrese las siglas del curso:");
+        lblInstruccion.setFont(new Font("Arial", Font.PLAIN, 14));
+        panelTxtYBotonEstudiantesMatriculados.add(lblInstruccion);
+        
+        txtBuscarEstudiantesMatriculados = new JTextField(60);
+        panelTxtYBotonEstudiantesMatriculados.add(txtBuscarEstudiantesMatriculados);
+        
+        btnBuscarEstudiantesMatriculados = new JButton("Buscar");
+        btnBuscarEstudiantesMatriculados.setFont(new Font("Arial", Font.BOLD, 14));
+        panelTxtYBotonEstudiantesMatriculados.add(btnBuscarEstudiantesMatriculados);
+        
+        panelContenidoEstudiantesMatriculados.add(panelTxtYBotonEstudiantesMatriculados, BorderLayout.NORTH);
+        
+        txtAreaEstudiantesMatriculados = new JTextArea(10, 20);
         txtAreaEstudiantesMatriculados.setEditable(false);
-        txtAreaEstudiantesMatriculados.setFont(new Font("Arial", Font.PLAIN, 20));
+        txtAreaEstudiantesMatriculados.setFont(new Font("Arial", Font.BOLD, 20));
         txtAreaEstudiantesMatriculados.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         
         scrollPaneEstudiantesMatriculados = new JScrollPane(txtAreaEstudiantesMatriculados);

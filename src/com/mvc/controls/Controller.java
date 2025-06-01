@@ -3,6 +3,9 @@ package com.mvc.controls;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 import com.mvc.view.MainView;
 import com.mvc.view.StudentView;
 
@@ -38,16 +41,29 @@ public class Controller {
 		mainView.btnEstudiantes.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            	mainView.setVisible(false);
-            	studentView.setVisible(true);
+            	
+            	int confirmacion = JOptionPane.showConfirmDialog(studentView.matriculaPanel,
+        				"¿Está seguro que desea acceder a la ventana de Gestion de ESTUDIANTES?", "Confirmar", JOptionPane.YES_NO_OPTION);
+
+        		if (confirmacion == JOptionPane.YES_OPTION) {
+                	mainView.setVisible(false);
+                	studentView.setVisible(true);
+        		}
+            	
             }
         });
 		
 		studentView.btnRegresarGestionUniversidad.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            	mainView.setVisible(true);
-            	studentView.setVisible(false);
+            	int confirmacion = JOptionPane.showConfirmDialog(studentView.matriculaPanel,
+        				"¿Está seguro que desea regresar a la ventana de Gestion de UNIVERSIDAD?", "Confirmar", JOptionPane.YES_NO_OPTION);
+
+        		if (confirmacion == JOptionPane.YES_OPTION) {
+        			mainView.setVisible(true);
+                	studentView.setVisible(false);
+        		}
+            	
             }
         });
         

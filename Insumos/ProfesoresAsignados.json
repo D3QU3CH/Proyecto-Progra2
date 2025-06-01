@@ -1,0 +1,56 @@
+[
+  {
+    "varName": "Andrés",
+    "varFirstSurname": "Salazar",
+    "varSecondSurname": "Vargas",
+    "varId": "104561234",
+    "varGroup": "G1",
+    "varSiglasCourses": "INF101",
+    "varEscuela": "Informática"
+  },
+  {
+    "varName": "Andrés",
+    "varFirstSurname": "Salazar",
+    "varSecondSurname": "Vargas",
+    "varId": "104561234",
+    "varGroup": "G2",
+    "varSiglasCourses": "INF302",
+    "varEscuela": "Informática"
+  },
+  {
+    "varName": "Laura",
+    "varFirstSurname": "Méndez",
+    "varSecondSurname": "Chacón",
+    "varId": "209345678",
+    "varGroup": "G1",
+    "varSiglasCourses": "INF302",
+    "varEscuela": "Informática"
+  },
+  {
+    "varName": "María Fernanda",
+    "varFirstSurname": "Zúñiga",
+    "varSecondSurname": "Soto",
+    "varId": "308237766",
+    "varGroup": "G1",
+    "varSiglasCourses": "MAT101",
+    "varEscuela": "Matemática"
+  },
+  {
+    "varName": "Diana",
+    "varFirstSurname": "González",
+    "varSecondSurname": "Mora",
+    "varId": "408883456",
+    "varGroup": "G1",
+    "varSiglasCourses": "MAT102",
+    "varEscuela": "Matemática"
+  },
+  {
+    "varName": "Carlos",
+    "varFirstSurname": "Esquivel",
+    "varSecondSurname": "Rodríguez",
+    "varId": "103992345",
+    "varGroup": "G3",
+    "varSiglasCourses": "ADM101",
+    "varEscuela": "Administración"
+  }
+]

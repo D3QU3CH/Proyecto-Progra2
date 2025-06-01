@@ -280,6 +280,7 @@ public class TeacherController {
             mainView.btnAsignarProfesorAsig.setEnabled(false);
             mainView.btnDesasignarProfesorAsig.setEnabled(true);
             mainView.btnAsignarDirectorAsig.setEnabled(true);
+            mainView.btnDeseleccionarTablaAsig.setEnabled(true);
         }
     }
 
@@ -370,6 +371,7 @@ public class TeacherController {
                 JOptionPane.INFORMATION_MESSAGE);
         limpiarCamposAsignacion();
         escribirDataProfesoresAsignados();
+        limpiarPanelAsignacion();
     }
 
 
@@ -504,6 +506,7 @@ public class TeacherController {
                        
                         // Agregar al textarea el nuevo contenido
                         mainView.txtAreaDirectores.append(filaTexto);
+                        limpiarPanelAsignacion();
                     }
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(mainView, "¡Error al asignar el director!", "¡Error!",
@@ -540,6 +543,11 @@ public class TeacherController {
         mainView.btnAsignarProfesorAsig.setEnabled(true);
         mainView.btnDesasignarProfesorAsig.setEnabled(false);
         mainView.btnAsignarDirectorAsig.setEnabled(false);
+        mainView.btnDeseleccionarTablaAsig.setEnabled(false);
+        
+		mainView.txtCedulaAsignar.setEnabled(true);
+		mainView.txtSiglasAsignar.setEnabled(true);
+		mainView.txtGrupoAsignar.setEnabled(true);
     }
 
     public void mostrarProfesoresEnTextArea() {
@@ -619,7 +627,7 @@ public class TeacherController {
                     break;
                 }
             }
-            lista.add(new Teacher(nombre, apellido1, apellido2, cedula, escuela,"", siglas + "-" + grupo));
+            lista.add(new Teacher(nombre, apellido1, apellido2, cedula, escuela,grupo, siglas));
         }
 
         try {
@@ -642,19 +650,18 @@ public class TeacherController {
             modelo.setRowCount(0);
             if (array != null) {
                 for (Teacher t : array) {
-                    String[] partes = t.getVarSiglasCourses().split("-");
                     modelo.addRow(new Object[]{
-                            t.getVarGroup(),
+                            t.getVarEscuela(),
                             t.getVarId(),
-                            partes[0],
-                            partes.length > 1 ? partes[1] : ""
+                            t.getVarSiglasCourses(),
+                            t.getVarGroup()
                     });
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
+   }
 
 }
 
